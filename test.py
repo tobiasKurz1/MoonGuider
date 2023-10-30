@@ -41,9 +41,9 @@ def left(duration=1, pins=relay_pins):
 
 def right(duration=1, pins=relay_pins):
     pin = pins[3]
-    GPIO.output(pin, GPIO.LOW)
-    time.sleep(duration)
     GPIO.output(pin, GPIO.HIGH)
+    time.sleep(duration)
+    GPIO.output(pin, GPIO.LOW)
     return()
 
 pulse = int(input("Anzahl Pulse\n"))
