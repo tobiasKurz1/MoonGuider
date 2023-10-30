@@ -48,7 +48,7 @@ def right(duration=1, pins=relay_pins):
     return()
 
 pulse = int(input("Anzahl Pulse\n"))
-t = int(input("Sekundenbruchteil? (1/x Sekunden)\n"))
+t = 1/int(input("Sekundenbruchteil? (1/x Sekunden)\n"))
 
 for i in range(0,pulse):
     print(i)
