@@ -47,15 +47,11 @@ def right(duration=1, pins=relay_pins):
     GPIO.output(pin, GPIO.HIGH)
     return()
 
-pulse = int(input("Anzahl Pulse\n"))
-t = 1/int(input("Sekundenbruchteil? (1/x Sekunden)\n"))
 
-for i in range(0,pulse):
-    print(i)
-    up(t)
-    left(t)
-    right(t)
-    down(t)
+up()
+left()
+down()
+right()
 
 
 GPIO.cleanup()
