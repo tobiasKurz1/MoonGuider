@@ -46,11 +46,12 @@ def right(duration=1, pins=relay_pins):
     GPIO.output(pin, GPIO.LOW)
     return()
 
-
-left(0.1)
-right(0.1)
-up(0.1)
-down(0.1)
+for i in range(1,10):
+    print(f"{i}s test!")
+    left(1/i)
+    right(1/i)
+    up(1/i)
+    down(1/i)
 
 
 GPIO.cleanup()
