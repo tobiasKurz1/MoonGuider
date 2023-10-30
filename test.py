@@ -48,3 +48,5 @@ try:
         time.sleep(1)
 except:
     pass
+
+GPIO.cleanup()
