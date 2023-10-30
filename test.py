@@ -50,17 +50,13 @@ def right(duration=1, pins=relay_pins):
 try:
     on = input().split(",")
     
-    if int(on[0]) == 1:
-        right()
-        
-    if int(on[1]) == 1:
-        down()
-        
-    if int(on[2]) == 1:
-        up()
-        
-    if int(on[3]) == 1:
-        left()          
+    for i in range(len(on)):
+        if int(on[i]) == 1:
+            GPIO.output(relay_pins[i], GPIO.LOW)   
+    time.sleep(1)
+    for i in range(len(on)):
+        if int(on[i]) == 1:
+            GPIO.output(relay_pins[i], GPIO.HIGH)       
     
 except:
     pass
