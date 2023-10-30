@@ -47,14 +47,23 @@ def right(duration=1, pins=relay_pins):
     GPIO.output(pin, GPIO.HIGH)
     return()
 
-
-up()
-time.sleep(2)
-left()
-time.sleep(2)
-down()
-time.sleep(2)
-right()
+try:
+    on = input().split(",")
+    
+    if int(on[0]) == 1:
+        right()
+        
+    if int(on[1]) == 1:
+        down()
+        
+    if int(on[2]) == 1:
+        up()
+        
+    if int(on[3]) == 1:
+        left()          
+    
+except:
+    pass
 
 
 GPIO.cleanup()
