@@ -20,9 +20,9 @@ for pin in relay_pins:
 
 def up(duration=1, pins=relay_pins):
     pin = pins[1]
-    GPIO.output(pin, GPIO.LOW)
+    GPIO.output(pin, GPIO.HIGH)
     time.sleep(duration)
-    GPIO.output(pin, GPIO.HIGH) 
+    GPIO.output(pin, GPIO.LOW) 
     return()
 
 def down(duration=1, pins=relay_pins):
