@@ -21,30 +21,30 @@ for pin in relay_pins:
 
 def up(duration=1, pins=relay_pins):
     pin = pins[1]
-    GPIO.output(pin, GPIO.HIGH)
+    GPIO.output(pin, GPIO.LOW)
     time.sleep(duration)
-    GPIO.output(pin, GPIO.LOW) 
+    GPIO.output(pin, GPIO.HIGH) 
     return()
 
 def down(duration=1, pins=relay_pins):
     pin = pins[2]
-    GPIO.output(pin, GPIO.HIGH)
+    GPIO.output(pin, GPIO.LOW)
     time.sleep(duration)
-    GPIO.output(pin, GPIO.LOW) 
+    GPIO.output(pin, GPIO.HIGH) 
     return()
 
 def left(duration=1, pins=relay_pins):
     pin = pins[0]
-    GPIO.output(pin, GPIO.HIGH)
-    time.sleep(duration)
     GPIO.output(pin, GPIO.LOW)
+    time.sleep(duration)
+    GPIO.output(pin, GPIO.HIGH)
     return()
 
 def right(duration=1, pins=relay_pins):
     pin = pins[3]
-    GPIO.output(pin, GPIO.HIGH)
-    time.sleep(duration)
     GPIO.output(pin, GPIO.LOW)
+    time.sleep(duration)
+    GPIO.output(pin, GPIO.HIGH)
     return()
 
 pulse = int(input("Anzahl Pulse\n"))
