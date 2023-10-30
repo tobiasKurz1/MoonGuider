@@ -11,6 +11,9 @@ import time
 # Define the GPIO pins for each relay
 relay_pins = [17, 18, 22, 27]
 
+# Set the GPIO mode
+GPIO.setmode(GPIO.BCM)
+
 # Set the relay pins as output
 for pin in relay_pins:
     GPIO.setup(pin, GPIO.OUT)
@@ -49,8 +52,7 @@ def right(duration=1, pins=relay_pins):
 
 
 
-# Set the GPIO mode
-GPIO.setmode(GPIO.BCM)
+
 
 left()
 right()
