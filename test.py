@@ -49,11 +49,11 @@ def right(duration=1, pins=relay_pins):
 
 
 up()
-time.sleep(1)
+time.sleep(2)
 left()
-time.sleep(1)
+time.sleep(2)
 down()
-time.sleep(1)
+time.sleep(2)
 right()
 
 
