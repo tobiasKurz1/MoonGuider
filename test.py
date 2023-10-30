@@ -61,9 +61,9 @@ for test in alles:
         for i in range(len(on)):
             if int(on[i]) == 1:
                 GPIO.output(relay_pins[i], GPIO.HIGH)       
-    
+        time.sleep(1)
     except:
-        pass
+        break
 
 
 GPIO.cleanup()
