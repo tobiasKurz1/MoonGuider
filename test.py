@@ -47,10 +47,10 @@ def right(duration=1, pins=relay_pins):
     return()
 
 
-left()
-right()
-up()
-down()
+left(0.1)
+right(0.1)
+up(0.1)
+down(0.1)
 
 
 GPIO.cleanup()
