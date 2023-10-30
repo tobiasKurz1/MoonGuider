@@ -51,9 +51,6 @@ def right(duration=1, pins=relay_pins):
     return()
 
 
-
-
-
 left()
 right()
 up()
