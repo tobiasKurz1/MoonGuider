@@ -23,7 +23,6 @@ def up(duration=1, pins=relay_pins):
     GPIO.output(pin, GPIO.HIGH)
     time.sleep(duration)
     GPIO.output(pin, GPIO.LOW) 
-    GPIO.cleanup()
     return()
 
 def down(duration=1, pins=relay_pins):
@@ -31,7 +30,6 @@ def down(duration=1, pins=relay_pins):
     GPIO.output(pin, GPIO.HIGH)
     time.sleep(duration)
     GPIO.output(pin, GPIO.LOW) 
-    GPIO.cleanup()
     return()
 
 def left(duration=1, pins=relay_pins):
@@ -39,7 +37,6 @@ def left(duration=1, pins=relay_pins):
     GPIO.output(pin, GPIO.HIGH)
     time.sleep(duration)
     GPIO.output(pin, GPIO.LOW)
-    GPIO.cleanup()
     return()
 
 def right(duration=1, pins=relay_pins):
@@ -47,7 +44,6 @@ def right(duration=1, pins=relay_pins):
     GPIO.output(pin, GPIO.HIGH)
     time.sleep(duration)
     GPIO.output(pin, GPIO.LOW)
-    GPIO.cleanup()
     return()
 
 
@@ -55,6 +51,9 @@ left()
 right()
 up()
 down()
+
+
+GPIO.cleanup()
 
 
 
