@@ -16,7 +16,7 @@ GPIO.setmode(GPIO.BCM)
 
 # Set the relay pins as output
 for pin in relay_pins:
-    GPIO.setup(pin, GPIO.OUT)
+    GPIO.setup(pin, GPIO.IN)
 
 def up(duration=1, pins=relay_pins):
     pin = pins[1]
