@@ -53,12 +53,11 @@ for test in alles:
     print(test)
     on = [char for char in test]
     try:
-        on = input().split(",")
-        
+               
         for i in range(len(on)):
             if int(on[i]) == 1:
                 GPIO.output(relay_pins[i], GPIO.LOW)   
-        time.sleep(0.1)
+        time.sleep(1)
         for i in range(len(on)):
             if int(on[i]) == 1:
                 GPIO.output(relay_pins[i], GPIO.HIGH)       
