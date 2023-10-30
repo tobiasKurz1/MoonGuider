@@ -47,19 +47,24 @@ def right(duration=1, pins=relay_pins):
     GPIO.output(pin, GPIO.HIGH)
     return()
 
-try:
-    on = input().split(",")
+alles = ['0000', '0001', '0010', '0011', '0100', '0101', '0110', '0111', '1000', '1001', '1010', '1011', '1100', '1101', '1110', '1111']
+
+for test in alles:
+    print(test)
+    on = [char for char in test]
+    try:
+        on = input().split(",")
+        
+        for i in range(len(on)):
+            if int(on[i]) == 1:
+                GPIO.output(relay_pins[i], GPIO.LOW)   
+        time.sleep(0.1)
+        for i in range(len(on)):
+            if int(on[i]) == 1:
+                GPIO.output(relay_pins[i], GPIO.HIGH)       
     
-    for i in range(len(on)):
-        if int(on[i]) == 1:
-            GPIO.output(relay_pins[i], GPIO.LOW)   
-    time.sleep(1)
-    for i in range(len(on)):
-        if int(on[i]) == 1:
-            GPIO.output(relay_pins[i], GPIO.HIGH)       
-    
-except:
-    pass
+    except:
+        pass
 
 
 GPIO.cleanup()
