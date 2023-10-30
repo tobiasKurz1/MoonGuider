@@ -57,11 +57,11 @@ for test in alles:
         for i in range(len(on)):
             if int(on[i]) == 1:
                 GPIO.output(relay_pins[i], GPIO.LOW)   
-        time.sleep(1)
+        input()
         for i in range(len(on)):
             if int(on[i]) == 1:
                 GPIO.output(relay_pins[i], GPIO.HIGH)       
-        time.sleep(1)
+        input()
     except:
         break
 
