@@ -47,12 +47,12 @@ def right(duration=1, pins=relay_pins):
     return()
 
 
-for i in range(10,200):
+for i in range(10,100):
     print(f"1/{i}s test!")
     left(1/i)
-    right(1/i)
     up(1/i)
     down(1/i)
+    right(1/i)
 
 
 GPIO.cleanup()
