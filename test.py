@@ -50,7 +50,10 @@ pulse = int(input("Anzahl Pulse\n"))
 
 for i in range(0,pulse):
     print(i)
-    up(1)
+    up()
+    left()
+    right()
+    down()
 
 
 GPIO.cleanup()
