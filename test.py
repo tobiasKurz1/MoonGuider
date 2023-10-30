@@ -32,7 +32,11 @@ import time
 GPIO.setmode(GPIO.BCM)
 
 # Define the GPIO pins for each relay
-relay_pins = [17, 18, 27, 22]  # Example GPIO pins, adjust as per your wiring
+relay_pins = [17, 18, 22, 27]  # Example GPIO pins, adjust as per your wiring
+
+
+
+
 
 # Set the relay pins as output
 for pin in relay_pins:
@@ -49,4 +53,3 @@ try:
 except:
     pass
 
-GPIO.cleanup()
