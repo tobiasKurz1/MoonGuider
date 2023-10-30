@@ -48,7 +48,7 @@ def right(duration=1, pins=relay_pins):
     return()
 
 alles = ['0000', '0001', '0010', '0011', '0100', '0101', '0110', '0111', '1000', '1001', '1010', '1011', '1100', '1101', '1110', '1111']
-
+print("LUDR")
 for test in alles:
     print(test)
     on = [char for char in test]
