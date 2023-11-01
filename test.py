@@ -47,6 +47,27 @@ def right(duration=1, pins=relay_pins):
     GPIO.output(pin, GPIO.HIGH)
     return()
 
+
+
+
+iterations = int(input("Iterations "))
+fz = 1/int(input("Frequency in Hz "))
+mode = str(input("Mode LUDR "))
+
+on = [char for char in mode]
+
+for i in range(iterations):
+    for i in range(len(on)):
+        if int(on[i]) == 1:
+            GPIO.output(relay_pins[i], GPIO.LOW)   
+    time.sleep(fz)
+    for i in range(len(on)):
+        if int(on[i]) == 1:
+            GPIO.output(relay_pins[i], GPIO.HIGH)  
+    time.sleep(fz)
+    
+
+"""
 alles = ['0000', '0001', '0010', '0011', '0100', '0101', '0110', '0111', '1000', '1001', '1010', '1011', '1100', '1101', '1110', '1111']
 print("LUDR")
 for test in alles:
@@ -64,7 +85,7 @@ for test in alles:
         input()
     except:
         break
-
+"""
 
 GPIO.cleanup()
 
