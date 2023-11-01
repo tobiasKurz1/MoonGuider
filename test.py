@@ -51,7 +51,7 @@ def right(duration=1, pins=relay_pins):
 
 
 iterations = int(input("Iterations "))
-fz = 1/int(input("Frequency in Hz "))
+fz = 1/float(input("Frequency in Hz "))
 mode = str(input("Mode LUDR "))
 
 on = [char for char in mode]
