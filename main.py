@@ -122,7 +122,7 @@ cam.setup(picam)
 
 
 cv.namedWindow('Camera Output', cv.WINDOW_NORMAL)
-cv.resizeWindow('Camera Output', shape[0], shape[1])
+#cv.resizeWindow('Camera Output', shape[0], shape[1])
 
 # MAIN CAPTURE LOOP:
     
