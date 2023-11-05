@@ -114,7 +114,13 @@ def get_deviation(center, target):
     return dev
     
 
-picam = cam.initialize()
+picam = Picamera2()
+
+#config = picam.create_still_configuration()
+#picam.configure(config)
+
+picam.start()
+    
 
 testimg = picam.capture_array()
 shape = testimg.shape
