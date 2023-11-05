@@ -27,6 +27,7 @@ for nummer in range(frames):
     
     img = picam2.capture_array()
     
+    cv.putText(img,nummer)
     
     cv.imshow('Camera Output',img)
     
