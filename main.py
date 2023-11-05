@@ -20,13 +20,13 @@ def preprocessing(img):
     img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     
     # Define Threshold value for brightest object
-    th = 0.7 * np.max(img)
+    th = 2 * np.min(img)
         
     # Remove unwanted stars or craters with threshold
-   # _, img = cv.threshold(img, int(th), 255, 0)    
+    _, img = cv.threshold(img, int(th), 255, 0)    
         
     # Blur to remove noise
-    img = cv.blur(img,(6,6))
+    img = cv.blur(img,(3,3))
     
     return(img)
 
@@ -38,10 +38,10 @@ def targetmarkers(target, img, shape):
         center_x,  center_y, radius = target
         
         
-        line_color = (0, 0, 255)  # Red in BGR format
+        line_color = (0, 0, 0)  # Red in BGR format
         
         # Define the thickness of the lines
-        line_thickness = 2
+        line_thickness = 5
         
         # Draw deviation Arrow
         cv.arrowedLine(img, (width //2, height //2), (center_x, center_y), (0, 255, 0), line_thickness, tipLength=0.2)
