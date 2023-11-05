@@ -13,6 +13,7 @@ framerate = float(input("Framerate: "))
 frames = int(input("Anzahl Frames: "))
 
 picam2 = Picamera2()
+picam2.resolution = (3280, 2464)
 picam2.start()
 
 time.sleep(1)
