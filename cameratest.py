@@ -9,6 +9,18 @@ from picamera2 import Picamera2, Preview
 import cv2 as cv
 import time
 
+anz = int(input("Anzahl der Bilder: "))
+
+delay = int(input("Abstand zw. Aufnahmen (s): "))
+
+
+picam2 = Picamera2()
+
+
+picam2.start_and_capture_files("test{:d}.jpg", initial_delay=0, delay=delay, num_files=anz)
+
+
+"""
 framerate = float(input("Framerate: "))
 frames = int(input("Anzahl Frames: "))
 
@@ -56,4 +68,4 @@ print(f'Shape: {shape}')
 
 print(f"Time elapsed: {duration:.2f} seconds\nThis is a effective framerate of {frames/duration:.2f} fps")
     
-cv.destroyAllWindows()
+cv.destroyAllWindows()"""
