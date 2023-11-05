@@ -18,6 +18,22 @@ config = picam2.create_still_configuration()
 picam2.configure(config)
 
 
+cv.namedWindow('Camera Feed', cv.WINDOW_NORMAL)
+
+
+while True:
+    img = picam2.capture_array()
+    
+    cv.imshow('Camera Output',img)
+    
+    key = cv.waitKey(1)
+    
+    if key != -1:
+        cv.destroyWindow('Camera Feed')
+                    
+        break
+        
+print("Aufnahme beginnt!")
 
 
 picam2.start_and_capture_files("test{:d}.jpg", initial_delay=1, delay=delay, num_files=anz)
