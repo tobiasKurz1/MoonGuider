@@ -137,9 +137,9 @@ while True:
     
     image = picam.capture_array()
     
-    processed = preprocessing(image)
+    #image = preprocessing(image)
     
-    target = moonposition(processed)
+    target = moonposition(image)
     
     deviation = get_deviation(image_center, target)
     print(f"Deviation: {deviation}")

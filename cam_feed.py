@@ -11,8 +11,8 @@ import time
 
 def initialize():
     picam = Picamera2()
-    config = picam.create_still_configuration()
-    picam.configure(config)
+    #config = picam.create_still_configuration()
+    #picam.configure(config)
     
     picam.start()
     
