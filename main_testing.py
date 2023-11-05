@@ -10,13 +10,7 @@ import numpy as np
 import dataloader as dl
 import cam_feed as cam
 from picamera2 import Picamera2
-import time
-import threading
 
-def display_image(image, window_name):
-    cv.imshow(window_name, image)
-    cv.waitKey(0)
-    cv.destroyWindow(window_name)
 
 
 def preprocessing(img):
@@ -119,30 +113,20 @@ def get_deviation(center, target):
     return dev
     
 
-picam = cam.initialize()
+folder = r"D:\Dropbox\_UNI\3. Semester\Semesterarbeit\Mondbilder\testset"
 
-testimg = picam.capture_array()
-shape = testimg.shape
+image = cv.imread(os.path.join(folder, "01.jpg")) # Lade Bild aus dem Datensatz als Platzhalter
 
-image_center = (shape[0]//2, shape[1]//2) #Center Point of the Image in (X,Y) Coordinates
-
+image_center = (image.shape[0]//2, image.shape[1]//2) #Center Point of the Image in (X,Y) Coordinates
 
 
-framerate = input("Framerate: ")
+image_files = [f for f in os.listdir(folder) if f.endswith(('.jpg', '.png'))]
 
-framerate_buffer = 3
-
-window = "Camera Output"
-
-cv.namedWindow(window, cv.WINDOW_NORMAL)
-cv.resizeWindow(window, shape[0], shape[1])
-
-# MAIN CAPTURE LOOP:
+for filename in image_files:
     
-while True:
-    start_frame = time.time()
+    print(f"\n### {filename} ###")
     
-    image = picam.capture_array()
+    image = cv.imread(os.path.join(folder, filename)) #get image file into python
     
     processed = preprocessing(image)
     
@@ -152,14 +136,17 @@ while True:
     print(f"Deviation: {deviation}")
     
     final = targetmarkers(target, image)
+    #cv.imshow(f'Final Target with center at {target[0]}',final)
+    dl.save_image(final, 'Final', 'Output')
     
-    thread = threading.Thread(target=display_image, args=(final, window))
-    thread.start()
-    
-    
-    
-    
-
+        
+                
+        
+    try:
+        dl.output_images_in_grid('Output', 0.5)
+        
+    except:
+        break
         
 # cv.waitKey(0)
 # cv.destroyAllWindows()
