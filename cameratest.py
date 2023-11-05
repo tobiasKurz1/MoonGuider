@@ -9,8 +9,8 @@ from picamera2 import Picamera2, Preview
 import cv2 as cv
 import time
 
-framerate = input("Framerate: ")
-frames = input("Anzahl Frames: ")
+framerate = float(input("Framerate: "))
+frames = int(input("Anzahl Frames: "))
 
 picam2 = Picamera2()
 picam2.start()
