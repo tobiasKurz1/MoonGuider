@@ -7,6 +7,7 @@ Created on Sun Nov  5 22:51:37 2023
 
 from picamera2 import Picamera2
 import time
+import cv2 as cv
 
 
 def initialize():
@@ -20,5 +21,31 @@ def initialize():
     
     return(picam)
 
+def setup(picam2):
+    print("Set camera in right Position and press any key when ready")
+    
+    
+    testimg = picam2.capture_array()
+    shape = testimg.shape
 
+
+    cv.namedWindow('Camera Feed', cv.WINDOW_NORMAL)
+    cv.resizeWindow('Camera Feed', shape[0], shape[1])
+    
+    
+    while True:
+        img = picam2.capture_array()
+        
+        cv.imshow('Camera Output',img)
+        
+        key = cv.waitKey(1)
+        
+        if key != -1:
+            break
+        
+    cv.destroyWindow('Camera Feed')
+    
+    return()
+        
+        
     

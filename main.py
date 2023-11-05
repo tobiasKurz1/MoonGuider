@@ -121,6 +121,10 @@ image_center = (shape[0]//2, shape[1]//2) #Center Point of the Image in (X,Y) Co
 
 
 
+cam.setup(picam)
+
+
+
 cv.namedWindow('Camera Output', cv.WINDOW_NORMAL)
 cv.resizeWindow('Camera Output', shape[0], shape[1])
 
