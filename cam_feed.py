@@ -27,6 +27,8 @@ def setup(picam2):
     
     testimg = picam2.capture_array()
     shape = testimg.shape
+    
+    print(f'Shape: {shape}')
 
 
     cv.namedWindow('Camera Feed', cv.WINDOW_NORMAL)
