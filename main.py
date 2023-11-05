@@ -26,7 +26,7 @@ def preprocessing(img):
     print(f"Avg Brightness: {np.mean(img)}")
         
     # Remove unwanted stars or craters with threshold
-    #_, img = cv.threshold(img, int(th), 255, 0)    
+    _, img = cv.threshold(img, int(th), 255, 0)    
         
     # Blur to remove noise
     img = cv.blur(img,(8,8))
