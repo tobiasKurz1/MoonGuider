@@ -102,7 +102,8 @@ def get_deviation(center, target):
     
     if target is not None:
         dev = (target[0] - center[0], target[1] - center[1])
-
+    else:
+        dev = None
     return dev
     
 
