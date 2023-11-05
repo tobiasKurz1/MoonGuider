@@ -45,6 +45,8 @@ def setup(picam2):
         
     cv.destroyWindow('Camera Feed')
     
+    input("Press Enter to start")
+    
     return()
         
         
