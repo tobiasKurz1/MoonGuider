@@ -26,10 +26,10 @@ shape = testimg.shape
 cv.namedWindow('Camera Output', cv.WINDOW_NORMAL)
 cv.resizeWindow('Camera Output', shape[0], shape[1])
 
-
+start = time.time()
 
 for nummer in range(frames):
-    start = time.time()
+
     
     img = picam2.capture_array()
     
@@ -41,7 +41,7 @@ for nummer in range(frames):
     
     cv.imshow('Camera Output',img)
     
-    key = cv.waitKey(1)
+    key = cv.waitKey(0)
     
     if key != -1:
         break
