@@ -21,15 +21,12 @@ def preprocessing(img):
     
     # Define Threshold value for brightest object
     th = 0.7 * np.max(img)
-    print(f"Th: {th}")
-    print(f"Min: {np.min(img)}, Max: {np.max(img)}")
-    print(f"Avg Brightness: {np.mean(img)}")
         
     # Remove unwanted stars or craters with threshold
-    _, img = cv.threshold(img, int(th), 255, 0)    
+   # _, img = cv.threshold(img, int(th), 255, 0)    
         
     # Blur to remove noise
-    img = cv.blur(img,(8,8))
+    img = cv.blur(img,(6,6))
     
     return(img)
 
