@@ -41,7 +41,7 @@ for nummer in range(frames):
     
     cv.imshow('Camera Output',img)
     
-    key = cv.waitKey(0)
+    key = cv.waitKey(1)
     
     if key != -1:
         break
