@@ -18,16 +18,17 @@ picam2.start()
 time.sleep(1)
 
 testimg = picam2.capture_array()
+shape = testimg.shape
 
 
 cv.namedWindow('Camera Output', cv.WINDOW_NORMAL)
-cv.resizeWindow('Camera Output', testimg.shape[0], testimg.shape[1])
+cv.resizeWindow('Camera Output', shape[0], shape[1])
 
 for nummer in range(frames):
     
     img = picam2.capture_array()
     
-    cv.putText(img,nummer)
+    cv.putText(img,nummer, (shape[0]-20, shape[1]-40), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv.LINE_AA)
     
     cv.imshow('Camera Output',img)
     
