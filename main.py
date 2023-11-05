@@ -34,13 +34,11 @@ def preprocessing(img):
     return(img)
 
 def targetmarkers(target, img, shape):
-    
+    (width, height) = (shape[0], shape[1])
     if target is not None:
         
         print(f"Target at {target[0:2]}")
         center_x,  center_y, radius = target
-        
-        (width, height) = (shape[0], shape[1])
         
         
         line_color = (0, 0, 255)  # Red in BGR format
@@ -62,7 +60,7 @@ def targetmarkers(target, img, shape):
         
     else:
         print("Target not found")
-        width, height, _ = img.shape
+        
         center_x = width // 2
         center_y = height // 2
         
