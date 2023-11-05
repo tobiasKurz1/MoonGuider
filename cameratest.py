@@ -24,9 +24,13 @@ shape = testimg.shape
 cv.namedWindow('Camera Output', cv.WINDOW_NORMAL)
 cv.resizeWindow('Camera Output', shape[0], shape[1])
 
+start = time.time()
+
 for nummer in range(frames):
     
     img = picam2.capture_array()
+    
+    end = time.time()
     
     cv.putText(img, f'{nummer+1}', (shape[0]//2, shape[1]//2), cv.FONT_HERSHEY_SIMPLEX, 3, (0, 0, 255), 2, cv.LINE_AA)
     
@@ -39,6 +43,8 @@ for nummer in range(frames):
     
     time.sleep(1/framerate)
 
+duration = end - start
 
+print(f"Time elapsed: {duration:.2f} seconds\ This is a effective framerate of {frames/duration:.2f} fps")
     
 cv.destroyAllWindows()
