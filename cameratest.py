@@ -37,16 +37,18 @@ for nummer in range(frames):
     
     cv.putText(img, f'{nummer+1}', (shape[0]//2, shape[1]//2), cv.FONT_HERSHEY_SIMPLEX, 3, (0, 0, 255), 2, cv.LINE_AA)
     
-    end = time.time()
+    time.sleep(1/framerate)
     
     cv.imshow('Camera Output',img)
+    
+    end = time.time()
     
     key = cv.waitKey(1)
     
     if key != -1:
         break
     
-    time.sleep(1/framerate)
+
 
 duration = end - start
 
