@@ -28,7 +28,7 @@ for nummer in range(frames):
     
     img = picam2.capture_array()
     
-    cv.putText(img, f'{nummer}', (shape[0]-20, shape[1]-40), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv.LINE_AA)
+    cv.putText(img, f'{nummer}', (shape[0]//2, shape[1]//2), cv.FONT_HERSHEY_SIMPLEX, 3, (0, 0, 255), 2, cv.LINE_AA)
     
     cv.imshow('Camera Output',img)
     
