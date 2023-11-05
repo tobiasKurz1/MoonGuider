@@ -45,6 +45,8 @@ for nummer in range(frames):
 
 duration = end - start
 
+print(f'Shape: {shape}')
+
 print(f"Time elapsed: {duration:.2f} seconds\nThis is a effective framerate of {frames/duration:.2f} fps")
     
 cv.destroyAllWindows()
