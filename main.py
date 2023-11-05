@@ -26,7 +26,7 @@ def preprocessing(img):
     print(f"Avg Brightness: {np.mean(img)}")
         
     # Remove unwanted stars or craters with threshold
-    _, img = cv.threshold(img, int(th), 255, 0)    
+    #_, img = cv.threshold(img, int(th), 255, 0)    
         
     # Blur to remove noise
     img = cv.blur(img,(8,8))
@@ -99,9 +99,10 @@ def moonposition(processed_img):
         return(None)  
 
 def get_deviation(center, target):
-
-    dev = (target[0] - center[0], target[1] - center[1])
     
+    if target is not None:
+        dev = (target[0] - center[0], target[1] - center[1])
+
     return dev
     
 
@@ -119,10 +120,6 @@ shape = testimg.shape
 image_center = (shape[0]//2, shape[1]//2) #Center Point of the Image in (X,Y) Coordinates
 
 
-
-framerate = float(input("Framerate: "))
-
-delay = 1 / framerate
 
 cv.namedWindow('Camera Output', cv.WINDOW_NORMAL)
 cv.resizeWindow('Camera Output', shape[0], shape[1])
@@ -145,13 +142,11 @@ while True:
     
     cv.imshow('Camera Output',final)
     
-    time.sleep(delay)
-    
     end_frame = time.time()
     
     duration = end_frame - start_frame
     
-    print(f"Time elapsed: {duration:.2f} seconds\nThis is a effective framerate of {1/duration:.2f} fps")
+    print(f"Effective framerate of {1/duration:.2f} fps")
     
     key = cv.waitKey(1)
     
