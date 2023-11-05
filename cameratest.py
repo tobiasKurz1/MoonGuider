@@ -30,7 +30,7 @@ for nummer in range(frames):
     
     cv.imshow('Camera Output',img)
     
-    key = cv.waitKey(1000/framerate)
+    key = cv.waitKey(int(1000/framerate))
     
     if key != -1:
         break
