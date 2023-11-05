@@ -13,11 +13,14 @@ anz = int(input("Anzahl der Bilder: "))
 
 delay = int(input("Abstand zw. Aufnahmen (s): "))
 
-
 picam2 = Picamera2()
+config = picam2.create_still_configuration()
+picam2.configure(config)
 
 
-picam2.start_and_capture_files("test{:d}.jpg", initial_delay=0, delay=delay, num_files=anz)
+
+
+picam2.start_and_capture_files("test{:d}.jpg", initial_delay=1, delay=delay, num_files=anz)
 
 
 """
