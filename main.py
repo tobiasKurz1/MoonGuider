@@ -11,12 +11,7 @@ import dataloader as dl
 import cam_feed as cam
 from picamera2 import Picamera2
 import time
-import threading
 
-def display_image(image, window_name):
-    cv.imshow(window_name, image)
-    cv.waitKey(0)
-    cv.destroyWindow(window_name)
 
 
 def preprocessing(img):
@@ -128,14 +123,12 @@ image_center = (shape[0]//2, shape[1]//2) #Center Point of the Image in (X,Y) Co
 
 
 
-framerate = input("Framerate: ")
+framerate = float(input("Framerate: "))
 
-framerate_buffer = 3
+delay = 1 / framerate
 
-window = "Camera Output"
-
-cv.namedWindow(window, cv.WINDOW_NORMAL)
-cv.resizeWindow(window, shape[0], shape[1])
+cv.namedWindow('Camera Output', cv.WINDOW_NORMAL)
+cv.resizeWindow('Camera Output', shape[0], shape[1])
 
 # MAIN CAPTURE LOOP:
     
@@ -153,10 +146,20 @@ while True:
     
     final = targetmarkers(target, image)
     
-    thread = threading.Thread(target=display_image, args=(final, window))
-    thread.start()
+    cv.imshow('Camera Output',final)
     
+    time.sleep(delay)
     
+    end_frame = time.time()
+    
+    duration = end_frame - start_frame
+    
+    print(f"Time elapsed: {duration:.2f} seconds\nThis is a effective framerate of {1/duration:.2f} fps")
+    
+    key = cv.waitKey(1)
+    
+    if key != -1:
+        break
     
     
 
