@@ -41,13 +41,11 @@ def setup(picam2):
         key = cv.waitKey(1)
         
         if key != -1:
-            break
+            cv.destroyWindow('Camera Feed')
+                        
+            return()
         
-    cv.destroyWindow('Camera Feed')
-    
-    input("Press Enter to start")
-    
-    return()
+
         
         
     
