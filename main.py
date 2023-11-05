@@ -15,10 +15,7 @@ import time
 
 
 def preprocessing(img):
-    
-    #cv.imshow('Original image',img) #Original image
-    dl.save_image(img, 'Original', 'Output')
-    
+        
     # Turn image into grey version (1 channel)
     img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     
@@ -30,16 +27,10 @@ def preprocessing(img):
         
     # Remove unwanted stars or craters with threshold
     _, img = cv.threshold(img, int(th), 255, 0)    
-    
-    #cv.imshow('After threshold',img)
-    dl.save_image(img, 'Threshold', 'Output')
-    
+        
     # Blur to remove noise
     img = cv.blur(img,(8,8))
     
-    #cv.imshow('After Blur',img)
-    dl.save_image(img, 'Blurred', 'Output')
-
     return(img)
 
 def targetmarkers(target, img):
