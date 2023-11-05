@@ -15,10 +15,12 @@ picam2.start()
 
 time.sleep(1)
 
-img = picam2.capture_array()
 
+for nummer in range(5):
+    
+    img = picam2.capture_array()
 
-cv.imshow(f'Before Size:{img.shape}',img)
+    cv.imshow(f'Bild {nummer}',img)
 
 cv.waitKey(0)
 cv.destroyAllWindows()
