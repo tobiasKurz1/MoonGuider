@@ -8,6 +8,7 @@ Created on Sun Nov  5 19:41:05 2023
 from picamera2 import Picamera2, Preview
 import cv2 as cv
 import time
+import cam_feed as cam
 
 anz = int(input("Anzahl der Bilder: "))
 
@@ -18,20 +19,7 @@ config = picam2.create_still_configuration()
 picam2.configure(config)
 
 
-cv.namedWindow('Camera Feed', cv.WINDOW_NORMAL)
-
-
-while True:
-    img = picam2.capture_array()
-    
-    cv.imshow('Camera Output',img)
-    
-    key = cv.waitKey(1)
-    
-    if key != -1:
-        cv.destroyWindow('Camera Feed')
-                    
-        break
+cam.setup(picam2)
         
 print("Aufnahme beginnt!")
 
