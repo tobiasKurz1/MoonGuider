@@ -143,7 +143,7 @@ while True:
     
     image = picam.capture_array()
     
-    #image = preprocessing(image)
+    image = preprocessing(image)
     
     target = moonposition(image)
     
