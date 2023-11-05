@@ -33,14 +33,14 @@ def preprocessing(img):
     
     return(img)
 
-def targetmarkers(target, img):
+def targetmarkers(target, img, shape):
     
     if target is not None:
         
         print(f"Target at {target[0:2]}")
         center_x,  center_y, radius = target
         
-        width, height, _ = img.shape
+        (width, height) = (shape[0], shape[1])
         
         
         line_color = (0, 0, 255)  # Red in BGR format
@@ -141,7 +141,7 @@ while True:
     deviation = get_deviation(image_center, target)
     print(f"Deviation: {deviation}")
     
-    final = targetmarkers(target, image)
+    final = targetmarkers(target, image, shape)
     
     cv.imshow('Camera Output',final)
     
