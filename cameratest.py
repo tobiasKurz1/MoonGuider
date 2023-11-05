@@ -9,21 +9,34 @@ from picamera2 import Picamera2, Preview
 import cv2 as cv
 import time
 
+framerate = input("Framerate: ")
+frames = input("Anzahl Frames: ")
 
 picam2 = Picamera2()
 picam2.start()
 
 time.sleep(1)
 
+testimg = picam2.capture_array()
 
-for nummer in range(5):
+
+cv.namedWindow('Camera Output', cv.WINDOW_NORMAL)
+cv.resizeWindow('Camera Output', testimg.shape[0], testimg.shape[1])
+
+for nummer in range(frames):
     
     img = picam2.capture_array()
-    cv.imread(img)
     
-    cv.imshow(f'Bild {nummer}',img)
     
-    time.sleep(1)
+    cv.imshow('Camera Output',img)
+    
+    key = cv.waitKey(1000/framerate)
+    
+    if key != -1:
+        break
+    
+    time.sleep(1/framerate)
 
-cv.waitKey(0)
+
+    
 cv.destroyAllWindows()
