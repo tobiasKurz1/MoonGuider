@@ -6,6 +6,7 @@ Created on Sun Nov  5 19:41:05 2023
 """
 
 from picamera2 import Picamera2, Preview
+import cv2 as cv
 import time
 
 
@@ -14,4 +15,10 @@ picam2.start()
 
 time.sleep(1)
 
-array = picam2.capture_array()
+img = picam2.capture_array()
+
+
+cv.imshow(f'Before Size:{img.shape}',img)
+
+cv.waitKey(0)
+cv.destroyAllWindows()
