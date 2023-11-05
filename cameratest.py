@@ -19,6 +19,7 @@ time.sleep(1)
 for nummer in range(5):
     
     img = picam2.capture_array()
+    cv.imread(img)
     
     cv.imshow(f'Bild {nummer}',img)
     
