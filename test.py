@@ -14,7 +14,7 @@ relay_pins = [17, 18, 22, 27]
 # Set the GPIO mode
 GPIO.setmode(GPIO.BCM)
 
-# Set the relay pins as output
+# Set the relay pins as output and default off
 for pin in relay_pins:
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.HIGH)
