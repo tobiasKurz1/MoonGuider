@@ -20,10 +20,16 @@ for pin in relay_pins:
     GPIO.output(pin, GPIO.HIGH)
 
 def up(duration=1, pins=relay_pins):
-    pin = pins[1]
-    GPIO.output(pin, GPIO.LOW)
-    time.sleep(duration)
-    GPIO.output(pin, GPIO.HIGH) 
+    """
+    Activate relay for specified duration.
+
+    :param duration: Duration in seconds to keep the relay activated (default: 1)
+    :param pins: List of relay pins (default: relay_pins)
+    """
+    pin = pins[1]  # Get correct relay pin from provided list
+    GPIO.output(pin, GPIO.LOW)  # Activate relay
+    time.sleep(duration)  # Wait for specified duration
+    GPIO.output(pin, GPIO.HIGH)  # Deactivate relay
     return()
 
 def down(duration=1, pins=relay_pins):
@@ -48,7 +54,7 @@ def right(duration=1, pins=relay_pins):
     return()
 
 
-# Prompt for the number of iterations, frequency in Hz, and mode
+# Prompt for the number of iterations, frequency in Hz, and mode (Left, Up, Down, Right)
 iterations = int(input("Iterations: "))
 fz = 1 / float(input("Frequency in Hz: "))
 mode = input("Mode (LUDR): ")
@@ -77,10 +83,12 @@ for i in range(iterations):
     time.sleep(fz / 2)
 
 
-
     
 
 """
+
+# Try every possible combination of activations. Press Enter in between.
+
 alles = ['0000', '0001', '0010', '0011', '0100', '0101', '0110', '0111', '1000', '1001', '1010', '1011', '1100', '1101', '1110', '1111']
 print("LUDR")
 for test in alles:
