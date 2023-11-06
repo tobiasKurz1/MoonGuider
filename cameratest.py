@@ -13,6 +13,7 @@ import cam_feed as cam
 anz = int(input("Anzahl der Bilder: "))
 
 delay = int(input("Abstand zw. Aufnahmen (s): "))
+dateiname = input("dateiname: ")
 
 picam2 = Picamera2()
 config = picam2.create_still_configuration()
@@ -28,13 +29,13 @@ shape = testimg.shape
 print("Aufnahme beginnt!")
 
 cv.namedWindow('Camera Feed', cv.WINDOW_NORMAL)
-cv.resizeWindow('Camera Feed', shape[0]//2, shape[1]//2)
+cv.resizeWindow('Camera Feed', shape[0]//4, shape[1]//4)
         
 
 
 for nr in range(anz):
     print(f'{nr+1}/{anz}')
-    picam2.capture_file(f'test{nr}.jpg')
+    picam2.capture_file(f'{dateiname}{nr}.jpg')
     image = picam2.capture_array()
     
     cv.imshow('Camera Feed',image)
