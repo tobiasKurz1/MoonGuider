@@ -21,12 +21,32 @@ picam2.configure(config)
 picam2.start()
 
 cam.setup(picam2)
-        
+
+
+testimg = picam2.capture_array()
+shape = testimg.shape
 print("Aufnahme beginnt!")
+
+cv.namedWindow('Camera Feed', cv.WINDOW_NORMAL)
+cv.resizeWindow('Camera Feed', shape[0]//2, shape[1]//2)
+        
+
 
 for nr in range(anz):
     print(f'{nr+1}/{anz}')
     picam2.capture_file(f'test{nr}.jpg')
+    image = picam2.capture_array()
+    
+    cv.imshow('Camera Feed',image)
+    
+    key = cv.waitKey(1)
+    
+    if key != -1:
+        cv.destroyWindow('Camera Feed')
+                    
+        break
+    
+    
     time.sleep(delay)
 
 
