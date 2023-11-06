@@ -48,24 +48,36 @@ def right(duration=1, pins=relay_pins):
     return()
 
 
+# Prompt for the number of iterations, frequency in Hz, and mode
+iterations = int(input("Iterations: "))
+fz = 1 / float(input("Frequency in Hz: "))
+mode = input("Mode (LUDR): ")
 
-
-iterations = int(input("Iterations "))
-fz = 1/float(input("Frequency in Hz "))
-mode = str(input("Mode LUDR "))
-
+# Convert input to list of characters
 on = [char for char in mode]
 
+# Loop for the specified number of iterations
 for i in range(iterations):
-    print(i+1)
+    print(i + 1)  # Print the current iteration number
+
+    # Activate the specified relays based on the mode
     for i in range(len(on)):
         if int(on[i]) == 1:
-            GPIO.output(relay_pins[i], GPIO.LOW)   
+            GPIO.output(relay_pins[i], GPIO.LOW)
+
+    # Pause for the specified time (frequency)
     time.sleep(fz)
+
+    # Deactivate the relays based on the mode
     for i in range(len(on)):
         if int(on[i]) == 1:
-            GPIO.output(relay_pins[i], GPIO.HIGH)  
+            GPIO.output(relay_pins[i], GPIO.HIGH)
+
+    # Pause for the specified time (frequency)
     time.sleep(fz)
+
+
+
     
 
 """
