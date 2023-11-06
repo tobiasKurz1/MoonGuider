@@ -25,7 +25,7 @@ cam.setup(picam2)
 print("Aufnahme beginnt!")
 
 for nr in range(anz):
-    print(nr)
+    print(f'{nr+1}/{anz}')
     picam2.capture_file(f'test{nr}.jpg')
     time.sleep(delay)
 
