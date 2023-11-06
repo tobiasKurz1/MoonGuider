@@ -38,7 +38,7 @@ def setup(picam2):
     while True:
         img = picam2.capture_array()
         
-        cv.imshow('Camera Output',img)
+        cv.imshow('Camera Feed',img)
         
         key = cv.waitKey(1)
         
