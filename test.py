@@ -66,7 +66,7 @@ for i in range(iterations):
             GPIO.output(relay_pins[i], GPIO.LOW)
 
     # Pause for the specified time (frequency)
-    time.sleep(fz)
+    time.sleep(fz / 2)
 
     # Deactivate the relays based on the mode
     for i in range(len(on)):
@@ -74,7 +74,7 @@ for i in range(iterations):
             GPIO.output(relay_pins[i], GPIO.HIGH)
 
     # Pause for the specified time (frequency)
-    time.sleep(fz)
+    time.sleep(fz / 2)
 
 
 
