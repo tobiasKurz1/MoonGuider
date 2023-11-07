@@ -32,8 +32,6 @@ shape = testimg.shape
 
 
 screen = min(get_monitors(), key=lambda monitor: monitor.width)
-print(screen)
-
 
 input("Stop")
 
@@ -42,7 +40,7 @@ print("Aufnahme beginnt!")
 
 
 cv.namedWindow('Camera Feed', cv.WINDOW_NORMAL)
-cv.resizeWindow('Camera Feed', shape[0]//4, shape[1]//4)
+cv.resizeWindow('Camera Feed', screen.width, screen.height)
         
 
 
