@@ -39,8 +39,8 @@ print("Aufnahme beginnt!")
 
 
 
-cv.namedWindow('Camera Feed', cv.WINDOW_NORMAL)
-cv.resizeWindow('Camera Feed', screen.width, screen.height)
+cv.namedWindow('Camera Feed', cv.WINDOW_FULLSCREEN)
+#cv.resizeWindow('Camera Feed', screen.width, screen.height)
         
 
 
