@@ -23,6 +23,12 @@ picam2.start()
 
 cam.setup(picam2)
 
+input("Jetzt mit veränderter config")
+config = picam2.create_video_configuration()
+picam2.configure(config)
+cam.setup(picam2)
+
+
 
 testimg = picam2.capture_array()
 shape = testimg.shape
