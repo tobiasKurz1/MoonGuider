@@ -155,6 +155,6 @@ while i < len(image_files):
     except:
         cv.destroyAllWindows()
         break
-        
+cv.destroyAllWindows()
 # cv.waitKey(0)
 # cv.destroyAllWindows()
