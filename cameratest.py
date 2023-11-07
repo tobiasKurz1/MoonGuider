@@ -40,6 +40,7 @@ print("Aufnahme beginnt!")
 
 
 cv.namedWindow('Camera Feed', cv.WINDOW_FULLSCREEN)
+cv.setWindowProperty('Camera Feed',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
 #cv.resizeWindow('Camera Feed', screen.width, screen.height)
         
 
