@@ -17,12 +17,14 @@ delay = int(input("Abstand zw. Aufnahmen (s): "))
 dateiname = input("dateiname: ")
 
 picam2 = Picamera2()
+
+
+cam.setup(picam2)
+
 config = picam2.create_still_configuration()
 picam2.configure(config)
 
 picam2.start()
-
-cam.setup(picam2)
 
 
 testimg = picam2.capture_array()
