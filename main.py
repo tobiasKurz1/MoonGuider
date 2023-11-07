@@ -14,19 +14,19 @@ import time
 
 
 
-def preprocessing(img):
+def preprocessing(img, grey = True, threshold = True, blur = True):
         
     # Turn image into grey version (1 channel)
-    img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    img = cv.cvtColor(img, cv.COLOR_BGR2GRAY) if grey else img
     
     # Define Threshold value for brightest object
-    th = 2 * np.min(img)
+    th = 2 * np.min(img) 
         
     # Remove unwanted stars or craters with threshold
-    _, img = cv.threshold(img, int(th), 255, 0)    
+    (_, img) = cv.threshold(img, int(th), 255, 0) if threshold else (None, img)
         
     # Blur to remove noise
-    img = cv.blur(img,(3,3))
+    img = cv.blur(img,(3,3)) if blur else img
     
     return(img)
 
@@ -135,7 +135,7 @@ while True:
     
     image = picam.capture_array()
     
-    image = preprocessing(image)
+    image = preprocessing(image,threshold=False)
     
     target = moonposition(image)
     
