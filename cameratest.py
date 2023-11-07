@@ -9,6 +9,7 @@ from picamera2 import Picamera2, Preview
 import cv2 as cv
 import time
 import cam_feed as cam
+from screeninfo import get_monitors
 
 anz = int(input("Anzahl der Bilder: "))
 
@@ -24,20 +25,18 @@ picam2.start()
 cam.setup(picam2)
 
 
-
-
-input("Jetzt mit veränderter config")
-picam2.stop()
-config = picam2.create_preview_configuration()
-picam2.configure(config)
-picam2.start()
-cam.setup(picam2)
-
-
-
 testimg = picam2.capture_array()
 shape = testimg.shape
+
+for monitor in get_monitors():
+    print(monitor)
+
+
+input("Stop")
+
 print("Aufnahme beginnt!")
+
+
 
 cv.namedWindow('Camera Feed', cv.WINDOW_NORMAL)
 cv.resizeWindow('Camera Feed', shape[0]//4, shape[1]//4)
