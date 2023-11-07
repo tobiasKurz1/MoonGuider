@@ -7,9 +7,39 @@ Created on Sat Oct 14 22:44:20 2023
 import os
 import cv2 as cv
 import numpy as np
-from main import preprocessing, moonposition, get_deviation, targetmarkers
+import calc as clc
 
-def save_image(image, filename, folder):
+
+folder = r"D:\Dropbox\_UNI\3. Semester\Semesterarbeit\MoonGuider\Testpictures"
+
+def preprocessing(img, grey = True, threshold = 10, blur = 3):
+    
+        
+    # Turn image into grey version (1 channel)
+    img = cv.cvtColor(img, cv.COLOR_BGR2GRAY) if grey else img
+    
+    save_image(img, "1_Grey")
+    
+    
+    print(f'Min Value: {np.min(img)}')
+    print(f'Max Value: {np.max(img)}')
+    
+    # Define Threshold value for brightest object
+    th = threshold if threshold else None
+        
+    # Remove unwanted stars or craters with threshold
+    (_, img) = cv.threshold(img, int(th), 255, 0) if threshold else (None, img)
+        
+    save_image(img, "2_Threshold")
+    
+    # Blur to remove noise
+    img = cv.blur(img,(int(blur), int(blur))) if blur else img
+    
+    save_image(img, "3_Blur")
+    
+    return(img)
+
+def save_image(image, filename, folder = "Output"):
     # Create the folder if it doesn't exist
     if not os.path.exists(folder):
         os.makedirs(folder)
@@ -20,8 +50,6 @@ def save_image(image, filename, folder):
     # Save the image to the specified path
     cv.imwrite(file_path, image)
     
-    
-
 def output_images_in_grid(folder, scale_factor=1.0):
     # Get a list of image filenames in the folder
     image_files = [f for f in os.listdir(folder) if f.endswith(('.jpg', '.png'))]
@@ -62,45 +90,70 @@ def output_images_in_grid(folder, scale_factor=1.0):
 
         # Draw the file name as a label on the image
         label = os.path.splitext(image_files[i])[0]  # Extract the file name without extension
-        cv.putText(grid, label, (x_start + 10, y_end - 10), cv.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+        cv.putText(grid, label, (x_start + 10, y_end - 10), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
 
     # Display the grid
     cv.imshow('Output', grid)
-    cv.waitKey(0)
-    cv.destroyAllWindows()
+    cv.waitKey(1)
+
+    
+    return
 
     
 
-folder = r"D:\Dropbox\_UNI\3. Semester\Semesterarbeit\MoonGuider\Testpictures"
+
+threshold = 10
+blur= 3
+
+param = 10
 
 image_files = [f for f in os.listdir(folder) if f.endswith(('.jpg', '.png'))]
 
-image_center = (image_files[0].shape[0]//2, image_files[0].shape[1]//2) #Center Point of the Image in (X,Y) Coordinates
+first_img = cv.imread(os.path.join(folder, image_files[0]))
 
-for filename in image_files:
+image_center = (first_img.shape[0]//2, first_img[0].shape[1]//2) #Center Point of the Image in (X,Y) Coordinates
+
+i = 0
+while i < len(image_files): 
     
-    print(f"\n### {filename} ###")
+    print(f"\n### {image_files[i]} ###")
     
-    image = cv.imread(os.path.join(folder, filename)) #get image file into python
+    image = cv.imread(os.path.join(folder, image_files[i])) #get image file into python
+        
+    processed = preprocessing(image, threshold = threshold, blur = blur)
     
-    processed = preprocessing(image)
+    target = clc.moonposition(processed, param)
     
-    target = moonposition(processed)
-    
-    deviation = get_deviation(image_center, target)
+    deviation = clc.get_deviation(image_center, target)
     print(f"Deviation: {deviation}")
     
-    final = targetmarkers(target, image)
+    final = clc.targetmarkers(target, image, processed.shape)
     #cv.imshow(f'Final Target with center at {target[0]}',final)
-    save_image(final, 'Final', 'Output')
+    save_image(final, 'Final')
     
         
-                
-        
     try:
-        output_images_in_grid('Output', 0.5)
+        output_images_in_grid('Output', 0.16)
+        change = 0
+        temp = input(f"Change Threshold from {threshold}?: ")
+        if temp: 
+            threshold = float(temp)
+            change = 1
+        temp = input(f"Change Blur from {blur}?: ")   
+        if temp: 
+            blur = int(temp)
+            change = 1
+        temp = input(f"Change Param from {param}?: ")   
+        if temp: 
+            param = int(temp)
+            change = 1
+        
+        if not(change):
+            i = i+1      
+        
         
     except:
+        cv.destroyAllWindows()
         break
         
 # cv.waitKey(0)
