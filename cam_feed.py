@@ -21,11 +21,17 @@ def initialize():
     
     return(picam)
 
-def setup(picam2):
+def setup(picam):
+    
+    config = picam.create_video_configuration()
+    picam.configure(config)
+
+    picam.start()
+    
     print("Set camera in right Position and press any key when ready")
     
     
-    testimg = picam2.capture_array()
+    testimg = picam.capture_array()
     shape = testimg.shape
     
     print(f'Shape: {shape}')
@@ -36,7 +42,7 @@ def setup(picam2):
     
     
     while True:
-        img = picam2.capture_array()
+        img = picam.capture_array()
         
         cv.imshow('Camera Feed',img)
         
@@ -44,6 +50,7 @@ def setup(picam2):
         
         if key != -1:
             cv.destroyWindow('Camera Feed')
+            picam.stop()
                         
             return()
         

@@ -104,6 +104,8 @@ def get_deviation(center, target):
 
 picam = Picamera2()
 
+cam.setup(picam)
+
 config = picam.create_still_configuration()
 picam.configure(config)
 
@@ -117,7 +119,7 @@ image_center = (shape[0]//2, shape[1]//2) #Center Point of the Image in (X,Y) Co
 
 
 
-cam.setup(picam)
+
 
 
 
