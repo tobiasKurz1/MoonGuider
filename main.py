@@ -8,15 +8,11 @@ import os
 import calc as clc 
 import cv2 as cv
 import numpy as np
-import dataloader as dl
 import cam_feed as cam
 from picamera2 import Picamera2
 import time
 
 
-
-
-    
 
 picam = Picamera2()
 
@@ -32,12 +28,6 @@ testimg = picam.capture_array()
 shape = testimg.shape
 
 image_center = (shape[0]//2, shape[1]//2) #Center Point of the Image in (X,Y) Coordinates
-
-
-
-
-
-
 
 
 cv.namedWindow('Camera Output', cv.WINDOW_FULLSCREEN)
