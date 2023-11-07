@@ -123,8 +123,10 @@ image_center = (shape[0]//2, shape[1]//2) #Center Point of the Image in (X,Y) Co
 
 
 
-cv.namedWindow('Camera Output', cv.WINDOW_NORMAL)
-#cv.resizeWindow('Camera Output', shape[0], shape[1])
+
+cv.namedWindow('Camera Output', cv.WINDOW_FULLSCREEN)
+cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
+
 
 # MAIN CAPTURE LOOP:
     
