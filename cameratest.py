@@ -19,7 +19,7 @@ dateiname = input("dateiname: ")
 picam2 = Picamera2()
 
 
-cam.setup(picam2)
+#cam.setup(picam2)
 
 config = picam2.create_still_configuration()
 picam2.configure(config)
@@ -30,8 +30,9 @@ picam2.start()
 testimg = picam2.capture_array()
 shape = testimg.shape
 
-for monitor in get_monitors():
-    print(monitor)
+
+screen = min(get_monitors(), key=lambda monitor: monitor.width)
+print(screen)
 
 
 input("Stop")
