@@ -54,7 +54,7 @@ while True:
     
     image = picam.capture_array()
     
-    image = clc.preprocessing(image,threshold=False)
+    image = clc.preprocessing(image, threshold = 0, blur = 3)
     
     target = clc.moonposition(image)
     

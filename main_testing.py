@@ -4,7 +4,7 @@ Created on Sat Oct 14 22:44:20 2023
 
 @author: Tobias Kurz
 
-This Python script processes a series of images stored in 'Testpictures'to test
+This Python script processes a series of images stored in 'Testpictures' to test
 parameters for the live capture.
 
 Key Components:
@@ -24,7 +24,7 @@ import calc as clc
 
 folder = r"Testpictures"
 
-def preprocessing(img, grey = True, threshold = 10, blur = 3):
+def preprocessing(img, grey = True, threshold = 0, blur = 3):
     
         
     # Turn image into grey version (1 channel)
