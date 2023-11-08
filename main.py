@@ -3,15 +3,28 @@
 Created on Sat Oct 14 22:44:20 2023
 
 @author: Tobias Kurz
+
+This Python script serves as the main file that integrates functions 
+from 'calc' and 'cam_feed' to capture and process images from the camera using 
+the 'picamera2' library. It calculates the deviation of a celestial target 
+(e.g., the moon) from the center of the image and visually marks the target's 
+position and deviation on the camera feed.
+
+Key Components:
+- Initializes the camera and sets up the camera feed.
+- Captures images and performs preprocessing using the 'calc' module.
+- Calculates the target's position and deviation.
+- Displays the camera feed with target markings.
+
+Ensure 'picamera2', 'cv2' (OpenCV), 'calc', and 'cam_feed' modules are 
+available to run this script.
 """
-import os
+
 import calc as clc 
 import cv2 as cv
-import numpy as np
 import cam_feed as cam
 from picamera2 import Picamera2
 import time
-
 
 
 picam = Picamera2()
@@ -27,8 +40,8 @@ picam.start()
 testimg = picam.capture_array()
 shape = testimg.shape
 
-image_center = (shape[0]//2, shape[1]//2) #Center Point of the Image in (X,Y) Coordinates
-
+#Center Point of the Image in (X,Y) Coordinates
+image_center = (shape[0]//2, shape[1]//2) 
 
 cv.namedWindow('Camera Output', cv.WINDOW_FULLSCREEN)
 cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
