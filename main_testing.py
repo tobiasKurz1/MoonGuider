@@ -3,6 +3,18 @@
 Created on Sat Oct 14 22:44:20 2023
 
 @author: Tobias Kurz
+
+This Python script processes a series of images stored in 'Testpictures'to test
+parameters for the live capture.
+
+Key Components:
+- Preprocesses images
+- Calculates the target's position and deviation from the center
+- Displays a grid of processed images with labels for comparison.
+- Allows the user to interactively change threshold, blur, and parameter values 
+  during image processing. Repeats image if parameters are changed.
+
+
 """
 import os
 import cv2 as cv
@@ -10,7 +22,7 @@ import numpy as np
 import calc as clc
 
 
-folder = r"D:\Dropbox\_UNI\3. Semester\Semesterarbeit\MoonGuider\Testpictures"
+folder = r"Testpictures"
 
 def preprocessing(img, grey = True, threshold = 10, blur = 3):
     
