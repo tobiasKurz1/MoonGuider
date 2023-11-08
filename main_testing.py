@@ -111,14 +111,16 @@ image_files = [f for f in os.listdir(folder) if f.endswith(('.jpg', '.png'))]
 
 first_img = cv.imread(os.path.join(folder, image_files[0]))
 
-image_center = (first_img.shape[0]//2, first_img[0].shape[1]//2) #Center Point of the Image in (X,Y) Coordinates
+# Center Point of the Image in (X,Y) Coordinates
+image_center = (first_img.shape[0]//2, first_img[0].shape[1]//2)
 
 i = 0
 while i < len(image_files): 
     
     print(f"\n### {image_files[i]} ###")
     
-    image = cv.imread(os.path.join(folder, image_files[i])) #get image file into python
+    # get image file into python
+    image = cv.imread(os.path.join(folder, image_files[i])) 
         
     processed = preprocessing(image, threshold = threshold, blur = blur)
     

@@ -3,6 +3,23 @@
 Created on Tue Nov  7 21:08:05 2023
 
 @author: Tobias Kurz
+
+This Python script offers functions for processing the Images taken by the Pi.
+This includes preprocessing, detection of the moon and calculating deviations 
+from the center. 
+
+Functions:
+- preprocessing(img, grey=True, threshold=0, blur=3): Preprocesses images by 
+  converting to grayscale, applying threshold, and blurring.
+- targetmarkers(target, img, shape): Marks moon position and deviation on the 
+  image.
+- moonposition(processed_img, param=1): Detects the largest circle 
+  (e.g., the moon) in the processed image.
+- get_deviation(center, target): Calculates deviation between the center 
+  and target.
+
+Ensure OpenCV (cv2) and NumPy are installed.
+
 """
 
 import cv2 as cv
