@@ -20,6 +20,7 @@ import os
 import cv2 as cv
 import numpy as np
 import calc as clc
+import time
 
 
 folder = r"Testpictures"
@@ -106,7 +107,7 @@ def output_images_in_grid(folder, scale_factor=1.0):
 
     # Display the grid
     cv.imshow('Output', grid)
-    cv.waitKey(1)
+    cv.waitKey(0)
 
     
     return
@@ -114,17 +115,18 @@ def output_images_in_grid(folder, scale_factor=1.0):
     
 
 
-threshold = 10
+threshold = 0
 blur= 3
 
-param = 10
+param = 1
+
 
 image_files = [f for f in os.listdir(folder) if f.endswith(('.jpg', '.png'))]
 
 first_img = cv.imread(os.path.join(folder, image_files[0]))
 
-# Center Point of the Image in (X,Y) Coordinates
-image_center = (first_img.shape[0]//2, first_img[0].shape[1]//2)
+# Center Point of the Image in (X,Y) Coordinates for initialization
+prev_center = (int(first_img.shape[0]//2), int(first_img.shape[1]//2))
 
 i = 0
 while i < len(image_files): 
@@ -137,18 +139,23 @@ while i < len(image_files):
     processed = preprocessing(image, threshold = threshold, blur = blur)
     
     target = clc.moonposition(processed, param)
+       
+    # sammeln der kommandos, nicht der position
+    #motion_buffer.append((time.time(),target))
     
-    deviation = clc.get_deviation(image_center, target)
-    print(f"Deviation: {deviation}")
+    deviation = clc.get_deviation(prev_center, target)
+    print(f"Deviation from previous: {deviation}")
     
-    final = clc.targetmarkers(target, image, processed.shape)
+    final = clc.targetmarkers(target,prev_center, image, processed.shape)
+    
+    prev_center = target[0:2]
     #cv.imshow(f'Final Target with center at {target[0]}',final)
     save_image(final, 'Final')
     
         
     try:
-        output_images_in_grid('Output', 0.16)
-        change = 0
+        output_images_in_grid('Output', 0.1)
+        """ change = 0
         temp = input(f"Change Threshold from {threshold}?: ")
         if temp: 
             threshold = float(temp)
@@ -164,8 +171,8 @@ while i < len(image_files):
         
         if not(change):
             i = i+1      
-        
-        
+        """
+        i = i+1
     except:
         cv.destroyAllWindows()
         break

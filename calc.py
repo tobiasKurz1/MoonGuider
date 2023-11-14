@@ -41,14 +41,14 @@ def preprocessing(img, grey = True, threshold = 0, blur = 3):
     
     return(img)
 
-def targetmarkers(target, img, shape):
+def targetmarkers(target, prev_center, img, shape):
     (width, height) = (shape[0], shape[1])
     line_color = (0, 0, 255)  # Red in BGR format
     
     # Define the thickness of the lines
     line_thickness = 5
     
-    if target is not None:
+    if target is not None and prev_center is not None:
         
         print(f"Target at {target}")
         center_x,  center_y, radius = target
@@ -57,7 +57,7 @@ def targetmarkers(target, img, shape):
 
         
         # Draw deviation Arrow
-        cv.arrowedLine(img, (width //2, height //2), (center_x, center_y), (0, 255, 0), line_thickness, tipLength=0.2)
+        cv.arrowedLine(img, prev_center, (center_x, center_y), (0, 255, 0), line_thickness, tipLength=0.2)
     
         # Draw horizontal line
         cv.line(img, (center_x - radius, center_y), (center_x + radius, center_y), line_color, line_thickness)
@@ -110,10 +110,12 @@ def moonposition(processed_img, param = 1):
     else: 
         return(None)  
 
-def get_deviation(center, target):
+def get_deviation(prev, current):
+    current = (int(current[0]), int(current[1]))
     
-    if target is not None:
-        dev = (target[0] - center[0], target[1] - center[1])
+    if current is not None and prev is not None:
+        dev = (current[0] - prev[0], current[1] - prev[1])
     else:
         dev = None
     return dev
+
