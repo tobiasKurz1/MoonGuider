@@ -40,6 +40,8 @@ def setup(picam):
 
     picam.start()
     
+    time.sleep(1)
+    
     print("Set camera in right Position and press any key when ready")
     
     
