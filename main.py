@@ -41,11 +41,12 @@ testimg = picam.capture_array()
 shape = testimg.shape
 
 #Center Point of the Image in (X,Y) Coordinates
-image_center = (shape[0]//2, shape[1]//2) 
+image_center = (int(shape[0]//2), int(shape[1]//2)) 
 
 cv.namedWindow('Camera Output', cv.WINDOW_FULLSCREEN)
 cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
 
+prev_center = image_center
 
 # MAIN CAPTURE LOOP:
     
@@ -54,14 +55,16 @@ while True:
     
     image = picam.capture_array()
     
-    image = clc.preprocessing(image, threshold = 0, blur = 3)
+    processed = clc.preprocessing(image, threshold = 0, blur = 3)
     
-    target = clc.moonposition(image)
+    target = clc.moonposition(processed, 1) # Testparameter, wird noch entfernt
     
-    deviation = clc.get_deviation(image_center, target)
+    deviation = clc.get_deviation(prev_center, target)
     print(f"Deviation: {deviation}")
     
-    final = clc.targetmarkers(target, image, shape)
+    final = clc.targetmarkers(target, prev_center, image, shape)
+    
+    prev_center = target[0:2]
     
     cv.imshow('Camera Output',final)
     
