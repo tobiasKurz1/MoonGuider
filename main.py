@@ -64,7 +64,10 @@ while True:
     
     final = clc.targetmarkers(target, prev_center, image, shape)
     
-    prev_center = target[0:2]
+    if target is not None:
+        prev_center = target[0:2]
+    else:
+        prev_center = None
     
     cv.imshow('Camera Output',final)
     
