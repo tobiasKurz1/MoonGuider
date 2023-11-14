@@ -111,9 +111,9 @@ def moonposition(processed_img, param = 1):
         return(None)  
 
 def get_deviation(prev, current):
-    current = (int(current[0]), int(current[1]))
     
     if current is not None and prev is not None:
+        current = (int(current[0]), int(current[1]))
         dev = (current[0] - prev[0], current[1] - prev[1])
     else:
         dev = None
