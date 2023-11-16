@@ -143,9 +143,9 @@ while i < len(image_files):
     
     # get image file into python
     org_image = cv.imread(os.path.join(folder, image_files[i])) 
-        
+
     processed = preprocessing(org_image, threshold = threshold, blur = blur)
-    
+
     (target_x, target_y, target_radius) = clc.moonposition(processed, 1)
        
     # sammeln der kommandos, nicht der position
@@ -160,7 +160,7 @@ while i < len(image_files):
         target_radius,
         reference_x,
         reference_y,
-        org_image,
+        processed,
         overlay = i%2,
         scale = 0.1
         )

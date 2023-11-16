@@ -43,6 +43,9 @@ def preprocessing(img, grey = True, threshold = 0, blur = 3):
 
 def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, overlay = True, scale = 1):
     
+    if len(img.shape) == 2:
+        img = cv.cvtColor(img, cv.COLOR_GRAY2BGR)
+
     img = cv.resize(img, None, fx=scale, fy=scale, interpolation= cv.INTER_LINEAR)
         
     (height, width) = img.shape[0:2]
@@ -94,7 +97,8 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, overlay 
         bar_height = int(height * 0.2)
     
         # Create a black bar
-        bar = np.ones((bar_height, width, 3), dtype=img.dtype) * 255
+     
+        bar = np.ones((bar_height, width, 3), dtype=np.uint8) * 255
     
         # Add the text to the black bar
         font = cv.FONT_HERSHEY_SIMPLEX
