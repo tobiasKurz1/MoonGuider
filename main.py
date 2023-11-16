@@ -28,7 +28,8 @@ import time
 
 duration = 1
 
-targetvalues = (["Time", "target_x", "target_y", "target_radius"])
+targetvalues = []
+targetvalues.append(["Time", "target_x", "target_y", "target_radius"])
 
 picam = Picamera2()
 

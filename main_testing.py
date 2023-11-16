@@ -17,7 +17,7 @@ Key Components:
 
 """
 
-#WIIIIILLLLDDDD
+
 
 import os
 import cv2 as cv
@@ -119,6 +119,7 @@ def output_images_in_grid(folder, scale_factor=1.0):
 
 
 targetvalues = []
+targetvalues.append(["Time", "target_x", "target_y", "target_radius"])
 
 threshold = 0
 blur= 3
@@ -138,7 +139,7 @@ image_center = (int(shape[0]//2), int(shape[1]//2))
 
 
 i = 0
-while i < len(image_files): 
+while i < len(image_files)-10: 
     
     start_frame = time.time()
     
