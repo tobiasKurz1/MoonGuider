@@ -24,6 +24,8 @@ Ensure OpenCV (cv2) and NumPy are installed.
 
 import cv2 as cv
 import numpy as np
+import time
+import pandas as pd
 
 def preprocessing(img, grey = True, threshold = 0, blur = 3):
         
@@ -102,7 +104,9 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, handover
     
         # Add the text to the black bar
         font = cv.FONT_HERSHEY_SIMPLEX
-        text_size = cv.getTextSize(bar_text, font, 1, 2)[0]
+        textsize = bar_height/150
+        print(f"text : {textsize}")
+        text_size = cv.getTextSize(bar_text, font, textsize, 2)[0]
         text_position = ((width - text_size[0]) // 2, (bar_height + text_size[1]) // 2)
         cv.putText(bar, bar_text, text_position, font, 1, (0, 0, 0), 2, cv.LINE_AA)
         
@@ -151,3 +155,11 @@ def get_deviation(ref, target):
         dev = None
     return dev
 
+def export(values, filename):
+    
+    data = pd.DataFrame({"Values":values})
+    data.to_excel(f'{filename}.xlsx',sheet_name=f'{time.ctime()[0:10]}',index=False)
+    
+    print(f"Exported to Excelfile '{filename}.xlsx'")
+
+    

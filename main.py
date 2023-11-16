@@ -28,9 +28,12 @@ import time
 
 duration = 1
 
+targetvalues = []
+
 picam = Picamera2()
 
 cam.setup(picam)
+
 
 config = picam.create_still_configuration()
 picam.configure(config)
@@ -59,6 +62,8 @@ while True:
     processed = clc.preprocessing(org_image, threshold = 0, blur = 5)
     
     (target_x, target_y, target_radius) = clc.moonposition(processed, 1) # Testparameter, wird noch entfernt
+    
+    targetvalues.append([target_x, target_y, target_radius])
     
     deviation = clc.get_deviation((reference_x, reference_y), (target_x, target_y))
     print(f"Deviation: {deviation}")
@@ -96,7 +101,7 @@ while True:
     if key != -1:
         break
     
-    
+#clc.export(targetvalues, "Log")   
 
         
 # cv.waitKey(0)

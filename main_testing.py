@@ -118,6 +118,8 @@ def output_images_in_grid(folder, scale_factor=1.0):
 
 
 
+targetvalues = []
+
 threshold = 0
 blur= 3
 
@@ -148,7 +150,9 @@ while i < len(image_files):
     processed = preprocessing(org_image, threshold = threshold, blur = blur)
 
     (target_x, target_y, target_radius) = clc.moonposition(processed, 1)
-       
+      
+    targetvalues.append([target_x, target_y, target_radius])
+    
     # sammeln der kommandos, nicht der position
     #motion_buffer.append((time.time(),target))
     
@@ -163,7 +167,7 @@ while i < len(image_files):
         reference_y,
         processed,
         handover_value = f"Effective framerate of {1/duration:.2f} fps",
-        overlay = i%2,
+        overlay = True,
         scale = 0.1
         )
     
@@ -210,6 +214,8 @@ while i < len(image_files):
     except:
         cv.destroyAllWindows()
         break
+    
+clc.export(targetvalues, "Log")
 cv.destroyAllWindows()
 # cv.waitKey(0)
 # cv.destroyAllWindows()
