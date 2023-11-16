@@ -41,9 +41,16 @@ def preprocessing(img, grey = True, threshold = 0, blur = 3):
     
     return(img)
 
-def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, overlay = True, scale = 1):
+def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, overlay = True, scale = 0):
     
-    img = cv.resize(img, None, fx=scale, fy=scale, interpolation= cv.INTER_LINEAR)
+    if scale:
+        img = cv.resize(img, None, fx=scale, fy=scale, interpolation= cv.INTER_LINEAR)
+        target_x = int(target_x * scale)
+        target_y = int(target_y * scale)
+        target_radius = int(target_radius * scale)
+        ref_x = int(ref_x * scale)
+        ref_y =int(ref_y * scale)
+
     
     (width, height) = img.shape[0:2]
     line_color = (0, 0, 255)  # Red in BGR format
