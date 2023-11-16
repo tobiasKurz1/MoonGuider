@@ -69,7 +69,7 @@ while True:
         reference_x,
         reference_y,
         org_image,
-        overlay = False,
+        overlay = True,
         scale = 1
         )
     
