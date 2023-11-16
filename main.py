@@ -98,7 +98,7 @@ while True:
     if key != -1:
         break
     
-#clc.export(targetvalues, "Log")   
+clc.export(targetvalues, "Log")   
 
         
 # cv.waitKey(0)
