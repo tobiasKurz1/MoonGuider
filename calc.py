@@ -88,24 +88,25 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, overlay 
     
     if overlay:
         
-        text = "Test!"
+        bar_text = f"Target at {target_x}, {target_y}"
         
         # Define the height of the black bar (you can adjust this value)
-        bar_height = int(height * 0.1)
+        bar_height = int(height * 0.2)
     
         # Create a black bar
         bar = np.ones((bar_height, width, 3), dtype=np.uint8) * 255
     
         # Add the text to the black bar
         font = cv.FONT_HERSHEY_SIMPLEX
-        text_size = cv.getTextSize(text, font, 1, 2)[0]
+        text_size = cv.getTextSize(bar_text, font, 1, 2)[0]
         text_position = ((width - text_size[0]) // 2, (bar_height + text_size[1]) // 2)
-        cv.putText(bar, text, text_position, font, 1, (255, 255, 255), 2, cv.LINE_AA)
-    
+        cv.putText(bar, bar_text, text_position, font, 1, (0, 0, 0), 2, cv.LINE_AA)
+        
         # Stack the black bar on top of the original image
-        img = np.vstack((img, bar))
+        #img = np.vstack((img, bar))
         #img = np.concatenate((img, bar), axis=0)
-        #img[height-bar_height:height, 0:width] = bar
+        img[height-bar_height:height, 0:width] = bar
+        
         
     return(img)
 

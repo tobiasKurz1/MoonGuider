@@ -161,7 +161,7 @@ while i < len(image_files):
         reference_x,
         reference_y,
         org_image,
-        overlay = True,
+        overlay = i%2,
         scale = 0.1
         )
     
