@@ -139,7 +139,7 @@ image_center = (int(shape[0]//2), int(shape[1]//2))
 
 
 i = 0
-while i < len(image_files)-10: 
+while i < len(image_files): 
     
     start_frame = time.time()
     
