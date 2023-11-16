@@ -43,7 +43,7 @@ def preprocessing(img, grey = True, threshold = 0, blur = 3):
 
 def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, overlay = True, scale = 0):
     
-    if scale:
+    if scale and target_x is not None:
         img = cv.resize(img, None, fx=scale, fy=scale, interpolation= cv.INTER_LINEAR)
         target_x = int(target_x * scale)
         target_y = int(target_y * scale)
