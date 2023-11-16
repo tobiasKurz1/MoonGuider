@@ -41,7 +41,7 @@ def preprocessing(img, grey = True, threshold = 0, blur = 3):
     
     return(img)
 
-def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, shape):
+def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, shape, overlay = True):
     (width, height) = (shape[0], shape[1])
     line_color = (0, 0, 255)  # Red in BGR format
     
@@ -76,6 +76,26 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, shape):
         
         #cv.putText(img, "Not Found", (center_x,center_y), cv.FONT_HERSHEY_SIMPLEX, 10, (0,0,255))
     
+    if overlay:
+        
+        text = "Test!"
+        
+        # Define the height of the black bar (you can adjust this value)
+        bar_height = int(height * 0.1)
+    
+        # Create a black bar
+        black_bar = np.zeros((bar_height, width, 3), dtype=np.uint8)
+    
+        # Add the text to the black bar
+        font = cv.FONT_HERSHEY_SIMPLEX
+        text_size = cv.getTextSize(text, font, 1, 2)[0]
+        text_position = ((width - text_size[0]) // 2, (bar_height + text_size[1]) // 2)
+        cv.putText(black_bar, text, text_position, font, 1, (255, 255, 255), 2, cv.LINE_AA)
+    
+        # Stack the black bar on top of the original image
+        img = np.vstack((img, black_bar))
+        
+        
     return(img)
 
 def moonposition(processed_img, param = 1):

@@ -62,14 +62,15 @@ while True:
     deviation = clc.get_deviation((reference_x, reference_y), (target_x, target_y))
     print(f"Deviation: {deviation}")
     
-    final = clc.targetmarkers(
+    marked = clc.targetmarkers(
         target_x,
         target_y,
         target_radius,
         reference_x,
         reference_y,
         org_image,
-        shape
+        shape,
+        overlay = True
         )
     
     if target_x is not None:
@@ -78,8 +79,10 @@ while True:
     else:
         reference_x = None
         reference_y = None
+        
+
     
-    cv.imshow('Camera Output',final)
+    cv.imshow('Camera Output',marked)
     
     end_frame = time.time()
     
