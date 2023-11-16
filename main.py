@@ -98,9 +98,11 @@ while True:
     
     if key != -1:
         break
+
     
+cv.waitKey(0)
+cv.destroyAllWindows()
 clc.export(targetvalues, "Log")   
 
         
-# cv.waitKey(0)
-# cv.destroyAllWindows()
+
