@@ -76,6 +76,9 @@ def targetmarkers(target, prev_center, img, shape):
         
         cv.line(img, (0, 0), (height, width), line_color, line_thickness)
         cv.line(img, (0, width), (height, 0), line_color, line_thickness)
+        
+        cv.circle(img, (center_x, center_y), 120, line_color, line_thickness)
+        cv.circle(img, (center_x, center_y), 160, line_color, line_thickness)
 
         
         #cv.putText(img, "Not Found", (center_x,center_y), cv.FONT_HERSHEY_SIMPLEX, 10, (0,0,255))
