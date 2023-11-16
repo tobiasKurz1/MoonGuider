@@ -68,7 +68,7 @@ while True:
         target_radius,
         reference_x,
         reference_y,
-        org_image,
+        processed,
         overlay = True,
         scale = 1
         )
