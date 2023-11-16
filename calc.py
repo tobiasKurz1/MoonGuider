@@ -83,6 +83,8 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, handover
     else:
         print("Target not found")
         
+        deviation = None
+        
         cv.line(img, (0, 0), (width, height), line_color, line_thickness)
         cv.line(img, (0, height), (width, 0), line_color, line_thickness)
         
