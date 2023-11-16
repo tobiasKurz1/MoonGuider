@@ -123,6 +123,7 @@ blur= 3
 
 param = 1
 
+duration = 1
 
 image_files = [f for f in os.listdir(folder) if f.endswith(('.jpg', '.png'))]
 
@@ -161,6 +162,7 @@ while i < len(image_files):
         reference_x,
         reference_y,
         processed,
+        handover_value = f"Effective framerate of {1/duration:.2f} fps",
         overlay = i%2,
         scale = 0.1
         )

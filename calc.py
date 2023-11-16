@@ -41,7 +41,7 @@ def preprocessing(img, grey = True, threshold = 0, blur = 3):
     
     return(img)
 
-def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, overlay = True, scale = 1):
+def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, handover_value, overlay = True, scale = 1):
     
     if len(img.shape) == 2:
         img = cv.cvtColor(img, cv.COLOR_GRAY2BGR)
@@ -91,7 +91,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, overlay 
     
     if overlay:
         
-        bar_text = f"Target at {target_x}, {target_y}"
+        bar_text = f"Target at {target_x}, {target_y}. {handover_value}"
         
         # Define the height of the black bar (you can adjust this value)
         bar_height = int(height * 0.2)

@@ -26,6 +26,7 @@ import cam_feed as cam
 from picamera2 import Picamera2
 import time
 
+duration = 1
 
 picam = Picamera2()
 
@@ -69,8 +70,9 @@ while True:
         reference_x,
         reference_y,
         processed,
+        handover_value = f"Effective framerate of {1/duration:.2f} fps",
         overlay = True,
-        scale = 1
+        scale = 1        
         )
     
     if target_x is not None:
@@ -88,7 +90,6 @@ while True:
     
     duration = end_frame - start_frame
     
-    print(f"Effective framerate of {1/duration:.2f} fps")
     
     key = cv.waitKey(1)
     
