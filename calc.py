@@ -41,32 +41,28 @@ def preprocessing(img, grey = True, threshold = 0, blur = 3):
     
     return(img)
 
-def targetmarkers(target, prev_center, img, shape):
+def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, shape):
     (width, height) = (shape[0], shape[1])
     line_color = (0, 0, 255)  # Red in BGR format
     
     # Define the thickness of the lines
     line_thickness = 5
     
-    if target is not None and prev_center is not None:
+    if target_x is not None and ref_x is not None:
         
-        print(f"Target at {target}")
-        center_x,  center_y, radius = target
-        
-        
-
-        
+        print(f"Target at {target_x}, {target_y}")
+                
         # Draw deviation Arrow
-        cv.arrowedLine(img, prev_center, (center_x, center_y), (0, 255, 0), line_thickness, tipLength=0.2)
+        cv.arrowedLine(img, (ref_x, ref_y), (target_x, target_y), (0, 255, 0), line_thickness, tipLength=0.2)
     
         # Draw horizontal line
-        cv.line(img, (center_x - radius, center_y), (center_x + radius, center_y), line_color, line_thickness)
+        cv.line(img, (target_x - target_radius, target_y), (target_x + target_radius, target_y), line_color, line_thickness)
     
         # Draw vertical line
-        cv.line(img, (center_x, center_y - radius), (center_x, center_y + radius), line_color, line_thickness)
+        cv.line(img, (target_x, target_y - target_radius), (target_x, target_y + target_radius), line_color, line_thickness)
         
         #Draw the circle
-        cv.circle(img, (center_x, center_y), radius, line_color, line_thickness)
+        cv.circle(img, (target_x, target_y), target_radius, line_color, line_thickness)
         
     else:
         print("Target not found")
@@ -108,13 +104,13 @@ def moonposition(processed_img, param = 1):
         return(center_x, center_y ,radius)
         
     else: 
-        return(None)  
+        return(None,None,None)  
 
-def get_deviation(prev, current):
+def get_deviation(ref, target):
     
-    if current is not None and prev is not None:
-        current = (int(current[0]), int(current[1]))
-        dev = (current[0] - prev[0], current[1] - prev[1])
+    if not None in (target[0], ref[0]):
+        target = (int(target[0]), int(target[1]))
+        dev = (target[0] - ref[0], target[1] - ref[1])
     else:
         dev = None
     return dev
