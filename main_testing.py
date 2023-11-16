@@ -115,7 +115,7 @@ def output_images_in_grid(folder, scale_factor=1.0):
     
     return
 
-    
+
 
 
 threshold = 0
@@ -129,35 +129,64 @@ image_files = [f for f in os.listdir(folder) if f.endswith(('.jpg', '.png'))]
 first_img = cv.imread(os.path.join(folder, image_files[0]))
 
 # Center Point of the Image in (X,Y) Coordinates for initialization
-prev_center = (int(first_img.shape[0]//2), int(first_img.shape[1]//2))
+shape = first_img.shape
+image_center = (int(shape[0]//2), int(shape[1]//2)) 
+(reference_x, reference_y) = image_center
+
 
 i = 0
 while i < len(image_files): 
     
+    start_frame = time.time()
+    
     print(f"\n### {image_files[i]} ###")
     
     # get image file into python
-    image = cv.imread(os.path.join(folder, image_files[i])) 
+    org_image = cv.imread(os.path.join(folder, image_files[i])) 
         
-    processed = preprocessing(image, threshold = threshold, blur = blur)
+    processed = preprocessing(org_image, threshold = threshold, blur = blur)
     
-    target = clc.moonposition(processed, param)
+    (target_x, target_y, target_radius) = clc.moonposition(processed, 1)
        
     # sammeln der kommandos, nicht der position
     #motion_buffer.append((time.time(),target))
     
-    deviation = clc.get_deviation(prev_center, target)
-    print(f"Deviation from previous: {deviation}")
+    deviation = clc.get_deviation((reference_x, reference_y), (target_x, target_y))
+    print(f"Deviation: {deviation}")
     
-    final = clc.targetmarkers(target,prev_center, image, processed.shape)
+    marked = clc.targetmarkers(
+        target_x,
+        target_y,
+        target_radius,
+        reference_x,
+        reference_y,
+        org_image,
+        overlay = False,
+        scale = 0.2
+        )
     
-    prev_center = target[0:2]
-    #cv.imshow(f'Final Target with center at {target[0]}',final)
-    save_image(final, 'Final')
+    
+    if target_x is not None:
+        reference_x = target_x
+        reference_y = target_y
+    else:
+        reference_x = None
+        reference_y = None
     
         
     try:
-        output_images_in_grid('Output', 0.1)
+        cv.imshow('Camera Output',marked)
+        
+        end_frame = time.time()
+        
+        duration = end_frame - start_frame
+        
+        print(f"Effective framerate of {1/duration:.2f} fps")
+        
+        key = cv.waitKey(0)
+        
+        
+        #output_images_in_grid('Output', 0.1)
         """ change = 0
         temp = input(f"Change Threshold from {threshold}?: ")
         if temp: 

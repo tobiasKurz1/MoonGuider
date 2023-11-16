@@ -69,8 +69,8 @@ while True:
         reference_x,
         reference_y,
         org_image,
-        shape,
-        overlay = True
+        overlay = False,
+        scale = 1
         )
     
     if target_x is not None:
