@@ -65,9 +65,6 @@ while True:
     
     targetvalues.append([target_x, target_y, target_radius])
     
-    deviation = clc.get_deviation((reference_x, reference_y), (target_x, target_y))
-    print(f"Deviation: {deviation}")
-    
     marked = clc.targetmarkers(
         target_x,
         target_y,

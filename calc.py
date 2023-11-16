@@ -60,13 +60,14 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, handover
         
         print(f"Target at unscaled Coordinates: {target_x}, {target_y}")
         
+        deviation = get_deviation((ref_x, ref_y), (target_x, target_y))
+        
         target_x = int(target_x * scale)
         target_y = int(target_y * scale)
         target_radius = int(target_radius * scale)
         ref_x = int(ref_x * scale)
         ref_y =int(ref_y * scale)
         
-                
         # Draw deviation Arrow
         cv.arrowedLine(img, (ref_x, ref_y), (target_x, target_y), (0, 255, 0), line_thickness, tipLength=0.2)
     
@@ -93,7 +94,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, handover
     
     if overlay:
         
-        bar_text = f"Target at {target_x}, {target_y}. {handover_value}"
+        bar_text = f"Target at {target_x}, {target_y} Deviation: {deviation} {handover_value}"
         
         # Define the height of the black bar (you can adjust this value)
         bar_height = int(height * 0.2)
@@ -147,11 +148,9 @@ def moonposition(processed_img, param = 1):
 
 def get_deviation(ref, target):
     
-    if not None in (target[0], ref[0]):
-        target = (int(target[0]), int(target[1]))
-        dev = (target[0] - ref[0], target[1] - ref[1])
-    else:
-        dev = None
+    target = (int(target[0]), int(target[1]))
+    dev = (target[0] - ref[0], target[1] - ref[1])
+
     return dev
 
 def export(values, filename):
