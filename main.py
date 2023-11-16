@@ -100,7 +100,7 @@ while True:
         break
 
     
-cv.waitKey(0)
+
 cv.destroyAllWindows()
 clc.export(targetvalues, "Log")   
 
