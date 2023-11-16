@@ -94,7 +94,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, handover
     
     if overlay:
         
-        bar_text = f"Target at {target_x}, {target_y} Deviation: {deviation} {handover_value}"
+        bar_text = f"Target at {target_x}, {target_y}; Deviation: {deviation}; {handover_value}"
         
         # Define the height of the black bar (you can adjust this value)
         bar_height = int(height * 0.2)
@@ -153,10 +153,11 @@ def get_deviation(ref, target):
 
     return dev
 
-def export(values, filename):
-    
-    data = pd.DataFrame({"Values":values})
-    data.to_excel(f'{filename}.xlsx',sheet_name=f'{time.ctime()[0:10]}',index=False)
+def export(data, filename):
+        
+    df = pd.DataFrame(data)
+    df.to_excel(f"{filename}.xlsx",sheet_name=f'{time.ctime()[0:10]}', index=False, header=False)
+
     
     print(f"Exported to Excelfile '{filename}.xlsx'")
 

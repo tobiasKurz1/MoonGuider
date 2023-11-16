@@ -63,7 +63,7 @@ while True:
     
     (target_x, target_y, target_radius) = clc.moonposition(processed, 1) # Testparameter, wird noch entfernt
     
-    targetvalues.append([target_x, target_y, target_radius])
+    targetvalues.append([str(time.time())[6:13],target_x, target_y, target_radius])
     
     marked = clc.targetmarkers(
         target_x,

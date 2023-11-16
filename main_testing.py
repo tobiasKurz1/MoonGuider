@@ -151,7 +151,7 @@ while i < len(image_files):
 
     (target_x, target_y, target_radius) = clc.moonposition(processed, 1)
       
-    targetvalues.append([target_x, target_y, target_radius])
+    targetvalues.append([str(time.time())[6:13],target_x, target_y, target_radius])
     
     # sammeln der kommandos, nicht der position
     #motion_buffer.append((time.time(),target))
