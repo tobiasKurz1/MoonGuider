@@ -157,6 +157,7 @@ def get_deviation(ref, target):
 
 def export(data, filename):
     
+    print("Nr. of Datapoints: {len(data)-1}")
     temp = input("Save Logged data as ...? Press Enter for default 'Log.xlsx'")
     if temp: 
         filename = temp
