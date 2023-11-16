@@ -156,7 +156,11 @@ def get_deviation(ref, target):
     return dev
 
 def export(data, filename):
-        
+    
+    temp = input("Save Logged data as ...? Press Enter for default 'Log.xlsx'")
+    if temp: 
+        filename = temp
+    
     df = pd.DataFrame(data)
     df.to_excel(f"{filename}.xlsx",sheet_name=f'{time.ctime()[0:10]}', index=False, header=False)
 
