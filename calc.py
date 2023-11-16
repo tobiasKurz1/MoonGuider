@@ -52,7 +52,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, overlay 
         ref_y =int(ref_y * scale)
 
     
-    (width, height) = img.shape[0:2]
+    (height, width) = img.shape[0:2]
     line_color = (0, 0, 255)  # Red in BGR format
     
     # Define the thickness of the lines
@@ -77,11 +77,11 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, overlay 
     else:
         print("Target not found")
         
-        cv.line(img, (0, 0), (height, width), line_color, line_thickness)
-        cv.line(img, (0, width), (height, 0), line_color, line_thickness)
+        cv.line(img, (0, 0), (width, height), line_color, line_thickness)
+        cv.line(img, (0, height), (width, 0), line_color, line_thickness)
         
-        cv.circle(img, (height // 2, width // 2), 120, line_color, line_thickness)
-        cv.circle(img, (height // 2, width // 2), 160, line_color, line_thickness)
+        cv.circle(img, (width // 2, height // 2), 120, line_color, line_thickness)
+        cv.circle(img, (width // 2, height // 2), 160, line_color, line_thickness)
 
         
         #cv.putText(img, "Not Found", (center_x,center_y), cv.FONT_HERSHEY_SIMPLEX, 10, (0,0,255))
@@ -94,17 +94,18 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, overlay 
         bar_height = int(height * 0.1)
     
         # Create a black bar
-        black_bar = np.zeros((bar_height, height, 3), dtype=np.uint8)
+        bar = np.ones((bar_height, width, 3), dtype=np.uint8) * 255
     
         # Add the text to the black bar
         font = cv.FONT_HERSHEY_SIMPLEX
         text_size = cv.getTextSize(text, font, 1, 2)[0]
         text_position = ((width - text_size[0]) // 2, (bar_height + text_size[1]) // 2)
-        cv.putText(black_bar, text, text_position, font, 1, (255, 255, 255), 2, cv.LINE_AA)
+        cv.putText(bar, text, text_position, font, 1, (255, 255, 255), 2, cv.LINE_AA)
     
         # Stack the black bar on top of the original image
-        img = np.vstack((img, black_bar))
-        
+        img = np.vstack((img, bar))
+        #img = np.concatenate((img, bar), axis=0)
+        #img[height-bar_height:height, 0:width] = bar
         
     return(img)
 
