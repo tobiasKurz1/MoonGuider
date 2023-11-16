@@ -70,7 +70,7 @@ while True:
         reference_y,
         org_image,
         overlay = False,
-        scale = 0.5
+        scale = 1
         )
     
     if target_x is not None:
