@@ -175,7 +175,7 @@ class buffer:
         self.buffer_length = buffer_length
 
     def add(self, value, name=None):
-        print(f'Buffer Lenth {name} : len(self.values[name])')
+        print(f'Buffer Lenth {name} : {len(self.values[name])}')
         
         if name not in self.values and name is not None:
             self.values[name] = []
