@@ -121,6 +121,8 @@ def output_images_in_grid(folder, scale_factor=1.0):
 targetvalues = []
 targetvalues.append(["Time", "target_x", "target_y", "target_radius"])
 
+buffer = clc.buffer(buffer_length = 3)
+
 threshold = 0
 blur= 3
 
@@ -151,19 +153,21 @@ while i < len(image_files):
     processed = preprocessing(org_image, threshold = threshold, blur = blur)
 
     (target_x, target_y, target_radius) = clc.moonposition(processed, 1)
+    
+    buffer.add(target_x, "target_x")
+    buffer.add(target_y, "target_y")
+    buffer.add(target_radius, "target_radius")
       
     targetvalues.append([str(time.time())[6:13],target_x, target_y, target_radius])
     
-    # sammeln der kommandos, nicht der position
-    #motion_buffer.append((time.time(),target))
     
     deviation = clc.get_deviation((reference_x, reference_y), (target_x, target_y))
     print(f"Deviation: {deviation}")
     
     marked = clc.targetmarkers(
-        target_x,
-        target_y,
-        target_radius,
+        buffer.average("target_x"),
+        buffer.average("target_y"),
+        buffer.average("target_radius"),
         reference_x,
         reference_y,
         processed,

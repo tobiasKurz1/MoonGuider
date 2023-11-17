@@ -31,6 +31,8 @@ duration = 1
 targetvalues = []
 targetvalues.append(["Time", "target_x", "target_y", "target_radius"])
 
+buffer = clc.buffer(buffer_length = 3)
+
 picam = Picamera2()
 
 cam.setup(picam)
@@ -64,12 +66,16 @@ while True:
     
     (target_x, target_y, target_radius) = clc.moonposition(processed, 1) # Testparameter, wird noch entfernt
     
-    targetvalues.append([str(time.time())[6:13],target_x, target_y, target_radius])
+    buffer.add(target_x, "target_x")
+    buffer.add(target_y, "target_y")
+    buffer.add(target_radius, "target_radius")    
+    
+    targetvalues.append([str(time.time())[6:13],target_x, target_y, target_radius])  
     
     marked = clc.targetmarkers(
-        target_x,
-        target_y,
-        target_radius,
+        buffer.average("target_x"),
+        buffer.average("target_y"),
+        buffer.average("target_radius"),
         reference_x,
         reference_y,
         processed,

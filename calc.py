@@ -169,3 +169,31 @@ def export(data, filename):
     print(f"Exported to Excelfile '{filename}.xlsx'")
 
     
+class buffer:
+    def __init__(self, buffer_length = 1):
+        self.values = {}
+        self.buffer_length = buffer_length
+
+    def add(self, value, name=None):
+        print(f'Buffer Lenth {name} : len(self.values[name])')
+        
+        if name not in self.values and name is not None:
+            self.values[name] = []
+        
+        # Only valid Coordiantes are buffered!
+        if value is not None:
+            self.values[name].append(value)
+            
+        if self.buffer_length is not None and len(self.values[name]) > self.buffer_length:
+                self.values[name].pop(0)
+                
+    def average(self, name):
+        if name is not None:
+            if name not in self.values:
+                raise ValueError(f"Target '{name}' does not exist in the buffer.")
+            if not self.values[name]:
+                return None
+            return float(sum(self.values[name]) / len(self.values[name]))
+        else:
+            return None
+    
