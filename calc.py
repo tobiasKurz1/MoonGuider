@@ -175,14 +175,14 @@ class buffer:
         self.buffer_length = buffer_length
 
     def add(self, value, name=None):
-        print(f'Buffer Lenth {name} : {len(self.values[name])}')
-        
+
         if name not in self.values and name is not None:
             self.values[name] = []
         
         # Only valid Coordiantes are buffered!
         if value is not None:
             self.values[name].append(value)
+            print(f'Buffer Lenth {name} : {len(self.values[name])}')
             
         if self.buffer_length is not None and len(self.values[name]) > self.buffer_length:
                 self.values[name].pop(0)
