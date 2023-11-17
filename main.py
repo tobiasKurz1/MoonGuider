@@ -31,7 +31,7 @@ duration = 1
 targetvalues = []
 targetvalues.append(["Time", "target_x", "target_y", "target_radius"])
 
-buffer = clc.buffer(buffer_length = 3)
+buffer = clc.buffer(buffer_length = 10)
 
 picam = Picamera2()
 
