@@ -27,6 +27,7 @@ import numpy as np
 import time
 import pandas as pd
 
+
 def preprocessing(img, grey = True, threshold = 0, blur = 3):
         
     # Turn image into grey version (1 channel)
@@ -60,6 +61,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, handover
         
         print(f"Target at unscaled Coordinates: {target_x}, {target_y}")
         
+        #Deviation calculated before scaling!
         deviation = get_deviation((ref_x, ref_y), (target_x, target_y))
         
         target_x = int(target_x * scale)
@@ -118,7 +120,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, handover
         img[height-bar_height:height, 0:width] = bar
         
         
-    return(img)
+    return(img, deviation)
 
 def moonposition(processed_img, param = 1):
     
@@ -182,8 +184,7 @@ class buffer:
         # Only valid Coordiantes are buffered!
         if value is not None:
             self.values[name].append(value)
-            print(f'Buffer Lenth {name} : {len(self.values[name])}')
-            
+                        
         if self.buffer_length is not None and len(self.values[name]) > self.buffer_length:
                 self.values[name].pop(0)
                 
@@ -196,4 +197,7 @@ class buffer:
             return float(sum(self.values[name]) / len(self.values[name]))
         else:
             return None
+
+            
+            
     

@@ -121,7 +121,7 @@ def output_images_in_grid(folder, scale_factor=1.0):
 targetvalues = []
 targetvalues.append(["Time", "target_x", "target_y", "target_radius"])
 
-buffer = clc.buffer(buffer_length = 3)
+buffer = clc.buffer(buffer_length = 1)
 
 threshold = 0
 blur= 3
@@ -164,7 +164,7 @@ while i < len(image_files):
     deviation = clc.get_deviation((reference_x, reference_y), (target_x, target_y))
     print(f"Deviation: {deviation}")
     
-    marked = clc.targetmarkers(
+    marked, deviation = clc.targetmarkers(
         buffer.average("target_x"),
         buffer.average("target_y"),
         buffer.average("target_radius"),
@@ -220,7 +220,7 @@ while i < len(image_files):
         cv.destroyAllWindows()
         break
     
-clc.export(targetvalues, "Log")
+#clc.export(targetvalues, "Log")
 cv.destroyAllWindows()
 # cv.waitKey(0)
 # cv.destroyAllWindows()

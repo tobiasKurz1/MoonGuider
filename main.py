@@ -25,13 +25,16 @@ import cv2 as cv
 import cam_feed as cam
 from picamera2 import Picamera2
 import time
+import relay_handling as relay
 
 duration = 1
 
 targetvalues = []
 targetvalues.append(["Time", "target_x", "target_y", "target_radius"])
 
-buffer = clc.buffer(buffer_length = 10)
+buffer = clc.buffer(buffer_length = 4)
+
+guide = relay.guide(relay_pins = [27, 17, 22, 18])
 
 picam = Picamera2()
 
@@ -72,7 +75,7 @@ while True:
     
     targetvalues.append([str(time.time())[6:13],target_x, target_y, target_radius])  
     
-    marked = clc.targetmarkers(
+    marked, deviation = clc.targetmarkers(
         buffer.average("target_x"),
         buffer.average("target_y"),
         buffer.average("target_radius"),
@@ -84,9 +87,11 @@ while True:
         scale = 1        
         )
     
+    guide.to(deviation)
+    
     if target_x is not None:
-        reference_x = target_x
-        reference_y = target_y
+        reference_x = buffer.average("target_x")
+        reference_y = buffer.average("target_y")
     else:
         reference_x = None
         reference_y = None
@@ -98,6 +103,8 @@ while True:
     end_frame = time.time()
     
     duration = end_frame - start_frame
+    
+
     
     
     key = cv.waitKey(1)
