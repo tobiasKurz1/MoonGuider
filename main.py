@@ -34,7 +34,7 @@ targetvalues.append(["Time", "target_x", "target_y", "target_radius"])
 
 buffer = clc.buffer(buffer_length = 4)
 
-guide = relay.guide(relay_pins = [27, 17, 22, 18], margin = 2.0)
+guide = relay.guide(relay_pins = [27, 17, 22, 18], margin = 1.5)
 
 time.sleep(1)
 
@@ -42,8 +42,8 @@ picam = Picamera2()
 
 cam.setup(picam)
 
-config = picam.create_video_configuration()
-#config = picam.create_still_configuration()
+#config = picam.create_video_configuration()
+config = picam.create_still_configuration()
 picam.configure(config)
 
 picam.start()
