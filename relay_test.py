@@ -58,7 +58,7 @@ def right(duration=1, pins=relay_pins):
 iterations = input("Iterations (press enter for general test): ")
 
 if iterations:
-    iteration = int(iterations)
+    iterations = int(iterations)
     fz = 1 / float(input("Frequency in Hz: "))
     mode = input("Mode (RLDU): ")
     
