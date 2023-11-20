@@ -9,7 +9,7 @@ import RPi.GPIO as GPIO
 import time
 
 # Define the GPIO pins for each relay
-relay_pins = [17, 18, 22, 27]
+relay_pins = [27, 17, 22, 18]
 
 # Set the GPIO mode
 GPIO.setmode(GPIO.BCM)
@@ -57,7 +57,7 @@ def right(duration=1, pins=relay_pins):
 # Prompt for the number of iterations, frequency in Hz, and mode (Left, Up, Down, Right)
 iterations = int(input("Iterations: "))
 fz = 1 / float(input("Frequency in Hz: "))
-mode = input("Mode (LUDR): ")
+mode = input("Mode (RLDU): ")
 
 # Convert input to list of characters
 on = [char for char in mode]
