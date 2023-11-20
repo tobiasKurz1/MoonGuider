@@ -98,7 +98,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, handover
     
     if overlay:
         
-        bar_text = f"Target at {target_x}, {target_y}; Deviation: {deviation}; {handover_value}"
+        bar_text = f"Target at {target_x:.2f}, {target_y:.2f}; Deviation: {deviation:.2f}; {handover_value}"
         
         # Define the height of the black bar (you can adjust this value)
         bar_height = int(height * 0.2)
