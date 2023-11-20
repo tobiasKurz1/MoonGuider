@@ -36,6 +36,8 @@ buffer = clc.buffer(buffer_length = 3)
 
 guide = relay.guide(relay_pins = [27, 17, 22, 18], margin = 1.5)
 
+time.sleep(1)
+
 picam = Picamera2()
 
 cam.setup(picam)
