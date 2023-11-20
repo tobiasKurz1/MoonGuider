@@ -175,6 +175,7 @@ class buffer:
     def __init__(self, buffer_length = 1):
         self.values = {}
         self.buffer_length = buffer_length
+        print(f"Target averaging buffer set to {buffer.length}")
 
     def add(self, value, name=None):
 

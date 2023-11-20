@@ -10,6 +10,7 @@ class guide:
     def __init__(self, relay_pins = [27, 17, 22, 18], margin = 0):
         self.relay_pins = relay_pins
         self.margin = margin
+        print(f"Activation Margin set to {margin} px")
         GPIO.setmode(GPIO.BCM)
         
         for pin in self.relay_pins:
