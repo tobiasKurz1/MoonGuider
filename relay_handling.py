@@ -15,8 +15,9 @@ class guide:
             GPIO.setup(pin, GPIO.OUT)
             GPIO.output(pin, GPIO.HIGH)
         
-    def to(self, deviation= (None, None)):
-        if None in self.deviation:
+    def to(self, deviation = (None, None)):
+        
+        if None in deviation:
             return
         
         else:
