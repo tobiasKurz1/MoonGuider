@@ -7,8 +7,9 @@ Created on Mon Nov 20 21:59:14 2023
 import RPi.GPIO as GPIO
 
 class guide:
-    def __init__(self, relay_pins = [27, 17, 22, 18]):
+    def __init__(self, relay_pins = [27, 17, 22, 18], margin = 0):
         self.relay_pins = relay_pins
+        self.margin = margin
         GPIO.setmode(GPIO.BCM)
         
         for pin in self.relay_pins:
@@ -27,17 +28,23 @@ class guide:
             # deactivate everything else
             
             # direction = (Right, Left, Down, Up)
-            direction = (xdev > 0,
-                         xdev < 0,
-                         ydev > 0,
-                         ydev < 0)
+            direction = (xdev > self.margin,
+                         xdev < self.margin * -1,
+                         ydev > self.margin,
+                         ydev < self.margin * -1)
             
             for i in range(len(direction)):
                 if direction[i] ==  True:
                     GPIO.output(self.relay_pins[i], GPIO.LOW)
-                    print("RLDU Relay {i} activated")
+                    
                 else:
                     GPIO.output(self.relay_pins[i], GPIO.HIGH)
-                    print("RLDU Relay {i} deactivated")
-        
         return
+    
+    def stop(self):
+        for pin in self.relay_pins:
+            GPIO.output(pin, GPIO.HIGH)
+            
+        GPIO.cleanup()
+        return
+            

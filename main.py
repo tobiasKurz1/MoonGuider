@@ -34,7 +34,7 @@ targetvalues.append(["Time", "target_x", "target_y", "target_radius"])
 
 buffer = clc.buffer(buffer_length = 4)
 
-guide = relay.guide(relay_pins = [27, 17, 22, 18])
+guide = relay.guide(relay_pins = [27, 17, 22, 18], margin = 1.5)
 
 picam = Picamera2()
 
@@ -115,6 +115,8 @@ while True:
     
 
 cv.destroyAllWindows()
+guide.stop()
+
 clc.export(targetvalues, "Log")   
 
         
