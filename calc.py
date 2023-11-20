@@ -97,8 +97,12 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, handover
         #cv.putText(img, "Not Found", (center_x,center_y), cv.FONT_HERSHEY_SIMPLEX, 10, (0,0,255))
     
     if overlay:
+        devx, devy = None, None
+        if None not in deviation:
+            devx = f"{deviation[0]:.2f}"
+            devx = f"{deviation[1]:.2f}"
         
-        bar_text = f"Target at {target_x:.2f}, {target_y:.2f}; Deviation: {deviation:.2f}; {handover_value}"
+        bar_text = f"Target at {target_x:.2f}, {target_y:.2f}; Deviation: {devx}, {devy}; {handover_value}"
         
         # Define the height of the black bar (you can adjust this value)
         bar_height = int(height * 0.2)
