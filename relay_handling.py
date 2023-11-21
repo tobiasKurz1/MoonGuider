@@ -22,6 +22,9 @@ class guide:
     def activate(self, pin):
         try:
             GPIO.output(pin, GPIO.LOW)
+            for i in range(len(self.relay_pins)):
+                if self.relay_pins[i] == pin:
+                    self.active[i] = True
         except:
             raise ValueError(f"Unable to activate relay on pin {pin}")
         return  
@@ -29,6 +32,9 @@ class guide:
     def deactivate(self, pin):
         try:
             GPIO.output(pin, GPIO.HIGH)
+            for i in range(len(self.relay_pins)):
+                if self.relay_pins[i] == pin:
+                    self.active[i] = False
         except:
             raise ValueError(f"Unable to deactivate relay on pin {pin}")
         return   
