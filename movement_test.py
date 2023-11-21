@@ -72,7 +72,7 @@ while True:
     
     i = i+1
     
-    if i > step * 4: break
+    if i > step * 5: break
 
 
     
