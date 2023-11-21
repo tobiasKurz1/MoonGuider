@@ -19,24 +19,20 @@ class guide:
             GPIO.setup(pin, GPIO.OUT)
             GPIO.output(pin, GPIO.HIGH)
     
-    def setup(self):
-        print("Setting up the Movement of the Guider")
-        print("The program will now go through every direction.")
-        print("Please input the number of the correspinding direction:")
-        print("1 -> Right\n2 -> Left\n3 -> Up\n4 -> Down")
-        new_pins = []
-        
-        for pin in self.relay_pins:
-            GPIO.output(pin, GPIO.LOW)   
-            temp = input("Moving...? ")
+    def activate(self, pin):
+        try:
+            GPIO.output(pin, GPIO.LOW)
+        except:
+            raise ValueError(f"Unable to activate relay on pin {pin}")
+        return  
+    
+    def deactivate(self, pin):
+        try:
             GPIO.output(pin, GPIO.HIGH)
-            print(f"Relay Pin {self.relay_pins[0]} set do direction {temp}")
-            new_pins.append(int(temp))
-        
-        self.relay_pins = new_pins
-        print("New Order of relay Pins is now: {new_pins}")
-        
-        return
+        except:
+            raise ValueError(f"Unable to deactivate relay on pin {pin}")
+        return   
+
     
     def showactive(self):
         act = []
