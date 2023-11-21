@@ -42,29 +42,29 @@ cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN
 
 step = 20
     
-i = -step
+i = -1
     
 while True: 
     
-    if i in range(step): 
+    if i in range(step+1, step*2): 
         guide.activate(relay_pins[0])
         guide.deactivate(relay_pins[1])
         guide.deactivate(relay_pins[2])
         guide.deactivate(relay_pins[3])
 
-    if i in range(step+1, step*2): 
+    if i in range(step * 2 + 1, step * 3): 
         guide.deactivate(relay_pins[0])
         guide.activate(relay_pins[1])
         guide.deactivate(relay_pins[2])
         guide.deactivate(relay_pins[3])
 
-    if i in range(step * 2 + 1, step * 3): 
+    if i in range(step * 3 + 1, step * 4): 
         guide.deactivate(relay_pins[0])
         guide.deactivate(relay_pins[1])
         guide.activate(relay_pins[2])
         guide.deactivate(relay_pins[3])
 
-    if i in range(step * 3 + 1, step * 4): 
+    if i in range(step * 4 + 1, step * 5): 
         guide.deactivate(relay_pins[0])
         guide.deactivate(relay_pins[1])
         guide.deactivate(relay_pins[2])
