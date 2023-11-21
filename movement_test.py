@@ -7,7 +7,7 @@ import relay_handling as relay
 
 relay_pins = [18, 22, 17, 27]
 
-buffer = clc.buffer(buffer_length = 4)
+buffer = clc.buffer(buffer_length = 2)
 
 guide = relay.guide(relay_pins, margin = 1.5)
 
