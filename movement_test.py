@@ -70,8 +70,12 @@ while True:
     i = i+1
     
     if i > step * 4: break
+
+
     
     processed = picam.capture_array()
+    
+    print(shape.processed)
      
     (target_x, target_y, target_radius) = clc.moonposition(processed, 1) # Testparameter, wird noch entfernt
     
