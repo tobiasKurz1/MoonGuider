@@ -92,13 +92,14 @@ while True:
     
     guide.to(deviation)
     
+    """ Commented Because guiding to image center
     if target_x is not None:
         reference_x = buffer.average("target_x")
         reference_y = buffer.average("target_y")
     else:
         reference_x = None
         reference_y = None
-        
+    """   
 
     
     cv.imshow('Camera Output',marked)
