@@ -37,7 +37,7 @@ cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN
 
 # MAIN CAPTURE LOOP:
 
-step = 10
+step = 20
     
 i = 0
     
@@ -90,7 +90,7 @@ while True:
         reference_x,
         reference_y,
         processed,
-        handover_value = f"Active relays: {guide.showactive()} {i%10:.2f}",
+        handover_value = f"Active relays: {guide.showactive()} {(10*i)%step:.2f}%",
         overlay = True,
         scale = 1        
         )
