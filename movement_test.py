@@ -42,7 +42,7 @@ cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN
 
 step = 20
     
-i = -1
+i = -step
     
 while True: 
     
