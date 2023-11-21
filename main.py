@@ -30,7 +30,7 @@ import relay_handling as relay
 duration = 1
 
 targetvalues = []
-targetvalues.append(["Time", "target_x", "target_y", "target_radius"])
+targetvalues.append(["Time", "target_x", "target_y", "target_radius", "Active Relays"])
 
 buffer = clc.buffer(buffer_length = 4)
 
@@ -76,7 +76,7 @@ while True:
     buffer.add(target_y, "target_y")
     buffer.add(target_radius, "target_radius")    
     
-    targetvalues.append([str(time.time())[6:13],target_x, target_y, target_radius])  
+    targetvalues.append([str(time.time())[6:13],target_x, target_y, target_radius, guide.showactive()])  
     
     marked, deviation = clc.targetmarkers(
         buffer.average("target_x"),
