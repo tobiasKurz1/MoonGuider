@@ -73,9 +73,9 @@ while True:
 
 
     
-    processed = picam.capture_array()
+    org_image = picam.capture_array()
     
-    print(processed.shape)
+    processed = clc.preprocessing(org_image, threshold = 0, blur = 5)
      
     (target_x, target_y, target_radius) = clc.moonposition(processed, 1) # Testparameter, wird noch entfernt
     
