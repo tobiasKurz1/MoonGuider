@@ -48,7 +48,7 @@ picam.configure(config)
 
 picam.start()
     
-guide.setup()
+#guide.setup()
 
 testimg = picam.capture_array()
 shape = testimg.shape
