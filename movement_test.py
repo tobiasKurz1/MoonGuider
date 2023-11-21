@@ -16,6 +16,9 @@ time.sleep(1)
 picam = Picamera2()
 
 
+targetvalues = []
+targetvalues.append(["Time", "target_x", "target_y", "deviation_x", "deviation_y", "Active Relays"])
+
 #config = picam.create_video_configuration()
 config = picam.create_still_configuration()
 picam.configure(config)
@@ -39,7 +42,7 @@ cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN
 
 step = 20
     
-i = 0
+i = -1
     
 while True: 
     
@@ -79,6 +82,8 @@ while True:
      
     (target_x, target_y, target_radius) = clc.moonposition(processed, 1) # Testparameter, wird noch entfernt
     
+    
+    
     buffer.add(target_x, "target_x")
     buffer.add(target_y, "target_y")
     buffer.add(target_radius, "target_radius")    
@@ -95,7 +100,7 @@ while True:
         scale = 1        
         )
     
-
+    targetvalues.append([str(time.time())[6:13],target_x, target_y, deviation[0], deviation[1], guide.showactive()])  
     
     
        
@@ -111,5 +116,5 @@ while True:
 cv.destroyAllWindows()
 guide.stop()
 
-        
+clc.export(targetvalues, "Log")   
 
