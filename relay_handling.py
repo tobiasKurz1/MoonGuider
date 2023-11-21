@@ -10,6 +10,8 @@ class guide:
     def __init__(self, relay_pins = [27, 17, 22, 18], margin = 0):
         self.relay_pins = relay_pins
         self.margin = margin
+        self.active = []
+        
         print(f"Activation Margin set to {margin} px")
         GPIO.setmode(GPIO.BCM)
         
@@ -35,6 +37,20 @@ class guide:
         print("New Order of relay Pins is now: {new_pins}")
         
         return
+    
+    def showactive(self):
+        act = []
+        
+        if self.active[0]:
+            act.append("Right")
+        if self.active[1]:
+            act.append("Left")
+        if self.active[2]:
+            act.append("Up")
+        if self.active[3]:
+            act.append("Down")
+            
+        return(act)
         
     
     def to(self, deviation = (None, None)):
@@ -49,12 +65,12 @@ class guide:
             # deactivate everything else
             
             # direction = (Right, Left, Down, Up)
-            direction = (xdev > self.margin,
+            self.active = (xdev > self.margin,
                          xdev < self.margin * -1,
                          ydev > self.margin,
                          ydev < self.margin * -1)
             
-            for i in range(len(direction)):
+            for i in range(len(self.active)):
                 if direction[i] ==  True:
                     GPIO.output(self.relay_pins[i], GPIO.LOW)
                     

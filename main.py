@@ -85,7 +85,7 @@ while True:
         reference_x,
         reference_y,
         processed,
-        handover_value = f"Effective framerate of {1/duration:.2f} fps",
+        handover_value = f"Effective framerate of {1/duration:.2f} fps, active relays: {guide.showactive()}",
         overlay = True,
         scale = 1        
         )
