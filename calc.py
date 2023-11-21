@@ -102,7 +102,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, handover
             devx = f"{deviation[0]:.2f}"
             devx = f"{deviation[1]:.2f}"
         
-        bar_text = f"Target at {target_x:.2f}, {target_y:.2f}; Deviation: {devx}, {devy}; {handover_value}"
+        bar_text = f"Target at {target_x}, {target_y}; Deviation: {devx}, {devy}; {handover_value}"
         
         # Define the height of the black bar (you can adjust this value)
         bar_height = int(height * 0.2)
