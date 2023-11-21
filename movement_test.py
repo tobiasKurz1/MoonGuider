@@ -75,7 +75,7 @@ while True:
     
     processed = picam.capture_array()
     
-    print(shape.processed)
+    print(processed.shape)
      
     (target_x, target_y, target_radius) = clc.moonposition(processed, 1) # Testparameter, wird noch entfernt
     
