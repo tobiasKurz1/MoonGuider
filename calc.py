@@ -100,7 +100,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, handover
         devx, devy = None, None
         if None not in deviation:
             devx = f"{deviation[0]:.2f}"
-            devx = f"{deviation[1]:.2f}"
+            devy = f"{deviation[1]:.2f}"
         
         bar_text = f"Target at {target_x}, {target_y}; Deviation: {devx}, {devy}; {handover_value}"
         

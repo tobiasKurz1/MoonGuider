@@ -56,6 +56,9 @@ shape = testimg.shape
 #Center Point of the Image in (X,Y) Coordinates
 image_center = (int(shape[0]//2), int(shape[1]//2)) 
 
+print(F"Shape: {shape}")
+print(F"Center: {image_center}")
+
 cv.namedWindow('Camera Output', cv.WINDOW_FULLSCREEN)
 cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
 
