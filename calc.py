@@ -173,7 +173,7 @@ def export(data, filename):
         filename = temp
     
     df = pd.DataFrame(data)
-    df.to_excel(f"/Logs/{filename}.xlsx",sheet_name=f'{time.ctime()[0:10]}', index=False, header=False)
+    df.to_excel(f"Logs/{filename}.xlsx",sheet_name=f'{time.ctime()[0:10]}', index=False, header=False)
 
     
     print(f"Exported to Excelfile '{filename}.xlsx'")
