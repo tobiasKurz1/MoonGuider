@@ -71,7 +71,7 @@ class guide:
                          ydev < self.margin * -1)
             
             for i in range(len(self.active)):
-                if direction[i] ==  True:
+                if self.active[i] ==  True:
                     GPIO.output(self.relay_pins[i], GPIO.LOW)
                     
                 else:
