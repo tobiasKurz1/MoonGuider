@@ -40,11 +40,13 @@ cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN
 
 # MAIN CAPTURE LOOP:
 
-step = 10
+step = 2
     
 i = 0
+
+rounds = 2
     
-for rounds in range(2 * step * 5): 
+while True: 
     
     if i in range(step+1, step*2): 
         guide.activate(relay_pins[0])
@@ -72,7 +74,11 @@ for rounds in range(2 * step * 5):
     
     i = i+1
     
-    if i > step * 5: i = 0
+    if i > step * 5: 
+        i = 0
+        rounds = rounds - 1
+        if rounds <= 0:
+            break
 
 
     
