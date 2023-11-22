@@ -44,7 +44,7 @@ step = 10
     
 i = 0
     
-for rounds in range(2): 
+for rounds in range(2 * step * 5): 
     
     if i in range(step+1, step*2): 
         guide.activate(relay_pins[0])
