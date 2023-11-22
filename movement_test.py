@@ -105,7 +105,7 @@ while True:
         reference_x,
         reference_y,
         processed,
-        handover_value = f"Active relays: {guide.showactive()}    {i} / {step*5}",
+        handover_value = f"Active relays: {guide.showactive()}    {i-1} / {step*5}; rounds left:{rounds-1}",
         overlay = True,
         scale = 1        
         )
