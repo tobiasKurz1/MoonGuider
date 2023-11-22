@@ -40,11 +40,11 @@ cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN
 
 # MAIN CAPTURE LOOP:
 
-step = 100
+step = 250
     
 i = 1
 
-rounds = 2
+rounds = 1
     
 while True: 
     
