@@ -72,7 +72,6 @@ while True:
         guide.deactivate(relay_pins[2])
         guide.activate(relay_pins[3])        
     
-    i = i+1
     
     if i > step * 5: 
         i = 1
@@ -84,6 +83,7 @@ while True:
         if rounds <= 0:
             break
 
+    i = i+1
 
     
     org_image = picam.capture_array()
