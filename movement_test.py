@@ -42,7 +42,7 @@ cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN
 
 step = 2
     
-i = 0
+i = 1
 
 rounds = 2
     
@@ -75,7 +75,11 @@ while True:
     i = i+1
     
     if i > step * 5: 
-        i = 0
+        i = 1
+        guide.deactivate(relay_pins[0])
+        guide.deactivate(relay_pins[1])
+        guide.deactivate(relay_pins[2])
+        guide.deactivate(relay_pins[3])  
         rounds = rounds - 1
         if rounds <= 0:
             break
