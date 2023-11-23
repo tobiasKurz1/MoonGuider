@@ -187,12 +187,12 @@ class buffer:
 
     def add(self, value, name=None):
 
-        if name not in self.values and name is not None:
+        if (name not in self.values and name is not None):
             self.values[name] = []
         
-        # Only valid Coordiantes are buffered!
-        if value is not None:
-            self.values[name].append(value)
+
+        
+        self.values[name].append(value)
                         
         if self.buffer_length is not None and len(self.values[name]) > self.buffer_length:
                 self.values[name].pop(0)
@@ -203,7 +203,9 @@ class buffer:
                 raise ValueError(f"Target '{name}' does not exist in the buffer.")
             if not self.values[name]:
                 return None
-            return float(sum(self.values[name]) / len(self.values[name]))
+            temp =  list(filter(lambda x: x is not None, self.values[name]))
+            
+            return float(sum(temp) / len(temp)) if temp else None
         else:
             return None
 
