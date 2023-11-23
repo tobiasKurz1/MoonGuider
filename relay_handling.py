@@ -59,7 +59,7 @@ class guide:
         
         if None in deviation:
             for pin in self.relay_pins:
-                GPIO.output(self.pin, GPIO.HIGH)
+                GPIO.output(pin, GPIO.HIGH)
                 
             return
         
