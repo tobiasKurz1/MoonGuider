@@ -53,7 +53,7 @@ cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN
     
 while True: 
     
-    prozent = (((r-rounds)*s + i)/(s * 5 * r))*100
+    
     
     if i in range(step+1, step*2): 
         guide.activate(relay_pins[0])
@@ -89,7 +89,8 @@ while True:
         rounds = rounds - 1
         if rounds <= 0:
             break
-
+    
+    prozent = (((r-rounds)*s + i)/(s * 5 * r))*100
     i = i+1
 
     
