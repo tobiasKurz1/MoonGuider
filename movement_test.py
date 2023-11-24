@@ -5,6 +5,14 @@ from picamera2 import Picamera2
 import time
 import relay_handling as relay
 
+
+step = int(input("Nr. of steps per direction: "))
+    
+i = 1
+
+rounds = int(input("Nr. of Rounds: "))
+
+
 relay_pins = [18, 22, 17, 27]
 
 buffer = clc.buffer(buffer_length = 2)
@@ -40,11 +48,7 @@ cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN
 
 # MAIN CAPTURE LOOP:
 
-step = int(input("Nr. of steps per direction: "))
-    
-i = 1
 
-rounds = int(input("Nr. of Rounds: "))
     
 while True: 
     
