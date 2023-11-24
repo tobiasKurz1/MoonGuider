@@ -48,12 +48,8 @@ cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN
 (reference_x, reference_y) = image_center
 
 # MAIN CAPTURE LOOP:
-
-
     
-while True: 
-    
-    
+while True:  
     
     if i in range(step+1, step*2): 
         guide.activate(relay_pins[0])
@@ -89,8 +85,9 @@ while True:
         rounds = rounds - 1
         if rounds <= 0:
             break
-    
-    prozent = (((r-rounds)*s + i)/(s * 5 * r))*100
+    print(f"r={r}, rounds={rounds}, s={s}, i={i}")
+    prozent = (((r-rounds)*s + i) / (s * 5 * r)) *100
+    print(prozent)
     i = i+1
 
     
