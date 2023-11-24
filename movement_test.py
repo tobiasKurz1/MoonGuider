@@ -19,8 +19,8 @@ picam = Picamera2()
 targetvalues = []
 targetvalues.append(["Time", "target_x", "target_y", "deviation_x", "deviation_y", "Active Relays"])
 
-#config = picam.create_video_configuration()
-config = picam.create_still_configuration()
+config = picam.create_video_configuration()
+#config = picam.create_still_configuration()
 picam.configure(config)
 
 picam.start()
@@ -106,7 +106,7 @@ while True:
         reference_y,
         processed,
         handover_value = f"Active relays: {guide.showactive()}    {i-1} / {step*5}; rounds left:{rounds-1}",
-        overlay = True,
+        overlay = False,
         scale = 1        
         )
     

@@ -9,12 +9,13 @@ from picamera2 import Picamera2, Preview
 import cv2 as cv
 import time
 import cam_feed as cam
-from screeninfo import get_monitors
 
+"""
 anz = int(input("Anzahl der Bilder: "))
 
 delay = int(input("Abstand zw. Aufnahmen (s): "))
 dateiname = input("dateiname: ")
+"""
 
 picam2 = Picamera2()
 
@@ -31,19 +32,13 @@ testimg = picam2.capture_array()
 shape = testimg.shape
 
 
-screen = min(get_monitors(), key=lambda monitor: monitor.width)
-
-input("Stop")
-
-print("Aufnahme beginnt!")
-
 
 
 cv.namedWindow('Camera Feed', cv.WINDOW_FULLSCREEN)
 cv.setWindowProperty('Camera Feed',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
 #cv.resizeWindow('Camera Feed', screen.width, screen.height)
         
-
+"""
 
 for nr in range(anz):
     print(f'{nr+1}/{anz}')
@@ -63,10 +58,11 @@ for nr in range(anz):
     time.sleep(delay)
 
 
-"""
+
 framerate = float(input("Framerate: "))
 frames = int(input("Anzahl Frames: "))
-
+"""
+"""
 picam2 = Picamera2()
 config = picam2.create_still_configuration()
 picam2.configure(config)
