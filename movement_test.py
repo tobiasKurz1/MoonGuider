@@ -7,11 +7,11 @@ import relay_handling as relay
 
 
 step = int(input("Nr. of steps per direction: "))
-s = step
+s = float(step)
 i = 1
 
 rounds = int(input("Nr. of Rounds: "))
-r = rounds
+r = float(rounds)
 
 
 relay_pins = [18, 22, 17, 27]
@@ -97,7 +97,7 @@ while True:
      
     (target_x, target_y, target_radius) = clc.moonposition(processed, 1) # Testparameter, wird noch entfernt
     
-    
+    prozent = (((r-rounds)*s + step)/(s * 5 * r))*100
     
     buffer.add(target_x, "target_x")
     buffer.add(target_y, "target_y")
@@ -110,7 +110,7 @@ while True:
         reference_x,
         reference_y,
         processed,
-        handover_value = f"Active relays: {guide.showactive()}    {i-1} / {step*5}; rounds left:{rounds-1}; {((((r-rounds)*s + step)*100)/(s * 5 * r)):.1f}%",
+        handover_value = f"Active relays: {guide.showactive()}    {i-1} / {step*5}; rounds left:{rounds-1}; {prozent:.1f}%",
         overlay = True,
         scale = 1        
         )
