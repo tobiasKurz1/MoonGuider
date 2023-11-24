@@ -40,11 +40,11 @@ cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN
 
 # MAIN CAPTURE LOOP:
 
-step = 250
+step = int(input("Nr. of steps per direction: "))
     
 i = 1
 
-rounds = 1
+rounds = int(input("Nr. of Rounds: "))
     
 while True: 
     
