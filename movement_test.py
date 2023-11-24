@@ -53,6 +53,8 @@ cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN
     
 while True: 
     
+    prozent = (((r-rounds)*s + i)/(s * 5 * r))*100
+    
     if i in range(step+1, step*2): 
         guide.activate(relay_pins[0])
         guide.deactivate(relay_pins[1])
@@ -97,7 +99,7 @@ while True:
      
     (target_x, target_y, target_radius) = clc.moonposition(processed, 1) # Testparameter, wird noch entfernt
     
-    prozent = (((r-rounds)*s + i)/(s * 5 * r))*100
+    
        
     buffer.add(target_x, "target_x")
     buffer.add(target_y, "target_y")
