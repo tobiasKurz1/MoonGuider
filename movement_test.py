@@ -97,9 +97,8 @@ while True:
      
     (target_x, target_y, target_radius) = clc.moonposition(processed, 1) # Testparameter, wird noch entfernt
     
-    prozent = (((r-rounds)*s + step)/(s * 5 * r))*100
-    print(prozent)
-    
+    prozent = (((r-rounds)*s + i)/(s * 5 * r))*100
+       
     buffer.add(target_x, "target_x")
     buffer.add(target_y, "target_y")
     buffer.add(target_radius, "target_radius")    
