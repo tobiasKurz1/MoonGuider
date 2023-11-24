@@ -7,7 +7,7 @@ import relay_handling as relay
 
 
 step = int(input("Nr. of steps per direction: "))
-s = steps
+s = step
 i = 1
 
 rounds = int(input("Nr. of Rounds: "))
