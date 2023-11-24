@@ -8,6 +8,9 @@ import RPi.GPIO as GPIO
 
 class guide:
     def __init__(self, relay_pins = [27, 17, 22, 18], margin = 0):
+        
+        # Pin order is RIGHT, LEFT, UP, DOWN
+        
         self.relay_pins = relay_pins
         self.margin = margin
         self.active = ["","","",""]
@@ -60,7 +63,7 @@ class guide:
         if None in deviation:
             for pin in self.relay_pins:
                 GPIO.output(pin, GPIO.HIGH)
-                
+            self.active = (False, False, False, False)                
             return
         
         else:
