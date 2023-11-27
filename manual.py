@@ -8,7 +8,7 @@ import keyboard
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import matplotlib
-matplotlib.use('Agg')
+#matplotlib.use('Agg')
 
 
 
@@ -22,7 +22,7 @@ time.sleep(1)
 
 picam = Picamera2()
 
-cam.setup(picam)
+#cam.setup(picam)
 
 targetvalues = []
 targetvalues.append(["Time", "target_x", "target_y", "Active Relays"])
