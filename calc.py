@@ -120,10 +120,8 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, handover
         
         # Stack the black bar on top of the original image
         # If Moon would be under the bar at the bottom, put bar on top
-        if target_x is not None:
-            if (target_y + target_radius) > (height - bar_height):
-               img[0:bar_height, 0:width] = bar 
-            
+        if target_x is not None and (target_y + target_radius) > (height - bar_height):
+            img[0:bar_height, 0:width] = bar   
         else:
             img[height-bar_height:height, 0:width] = bar
         
