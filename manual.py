@@ -7,7 +7,8 @@ import relay_handling as relay
 import keyboard
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-
+import matplotlib
+matplotlib.use('Agg')
 
 
 
@@ -128,7 +129,7 @@ while True:
     targetvalues.append([str(time.time())[6:13],target_x, target_y, guide.showactive()])  
      
 
-cv.destroyAllWindows()
+
 guide.stop()
 
 clc.export(targetvalues, "Log")   
