@@ -37,5 +37,5 @@ def animate(i, xs, ys):
     plt.ylabel('Temperature (deg C)')
 
 # Set up plot to call animate() function periodically
-ani = animation.FuncAnimation(fig, animate, fargs=(xs, ys), interval=1000)
+ani = animation.FuncAnimation(fig, animate, fargs=(xs, ys), interval=0)
 plt.show()
