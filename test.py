@@ -18,15 +18,15 @@ def animate(i, x, y1, y2):
     
     buff = 100
     
-    xs = x[-buff:]
-    y1s = y1[-buff:]
-    y2s = y2[-buff:]
+    x = x[-buff:]
+    y1 = y1[-buff:]
+    y2 = y2[-buff:]
     
     
     # Draw x and y lists
     ax.clear()
-    ax.plot(xs, y1s, label="y1")
-    ax.plot(xs, y2s, label="y2")
+    ax.plot(x, y1, label="y1")
+    ax.plot(x, y2, label="y2")
 
     # Format plot
     plt.xticks(rotation=45, ha='right')
