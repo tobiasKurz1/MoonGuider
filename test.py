@@ -36,7 +36,7 @@ def animate(i, x, y1, y2):
     plt.legend()
 
 # Set up plot to call animate() function periodically
-ani = animation.FuncAnimation(fig, animate, fargs=(x, y1, y2), interval=1000)
+ani = animation.FuncAnimation(fig, animate, fargs=(x, y1, y2), interval=500)
 def update_data():
     x.append(time.ctime())
     y1.append(np.random.random())
@@ -46,4 +46,4 @@ def update_data():
 # Main loop to update data
 while True:
     update_data()
-    plt.pause(0.5)  # Adjust the pause duration as needed
+    plt.pause(1)  # Adjust the pause duration as needed
