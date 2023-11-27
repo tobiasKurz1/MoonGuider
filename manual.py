@@ -28,10 +28,10 @@ targetvalues = []
 targetvalues.append(["Time", "target_x", "target_y", "Active Relays"])
 
 #config = picam.create_video_configuration()
-config = picam.create_still_configuration()
-picam.configure(config)
+#config = picam.create_still_configuration()
+#picam.configure(config)
 
-picam.start()
+#picam.start()
     
 
 
