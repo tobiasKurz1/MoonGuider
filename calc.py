@@ -119,9 +119,13 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, handover
         cv.putText(bar, bar_text, text_position, font, 1, (0, 0, 0), 2, cv.LINE_AA)
         
         # Stack the black bar on top of the original image
-        #img = np.vstack((img, bar))
-        #img = np.concatenate((img, bar), axis=0)
-        img[height-bar_height:height, 0:width] = bar
+        # If Moon would be under the bar at the bottom, put bar on top
+        if target_x is not None:
+            if (target_y + target_radius) > (height - bar_height):
+               img[0:bar_height, 0:width] = bar 
+            
+        else:
+            img[height-bar_height:height, 0:width] = bar
         
         
     return(img, deviation)
