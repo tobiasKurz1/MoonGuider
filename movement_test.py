@@ -86,9 +86,9 @@ while True:
         if rounds <= 0:
             break
     
-    print(f"r={r}, rounds={rounds}, s={s}, i={i}")
+   
     prozent = (((r-rounds)*5*s + i) / (s * 5 * r)) *100
-    print(prozent)
+
     i = i+1
 
     
