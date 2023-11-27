@@ -21,7 +21,7 @@ time.sleep(1)
 
 picam = Picamera2()
 
-picam.setup()
+cam.setup(picam)
 
 targetvalues = []
 targetvalues.append(["Time", "target_x", "target_y", "Active Relays"])
