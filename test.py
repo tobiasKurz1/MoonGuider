@@ -14,7 +14,7 @@ y2 = []
 
 
 # This function is called periodically from FuncAnimation
-def animate(x, y1, y2):
+def animate(i, x, y1, y2):
     
     buff = 100
     
