@@ -9,12 +9,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
 
-# Create figure for plotting
-fig = plt.figure()
-ax = fig.add_subplot(1, 1, 1)
-x = []
-y1 = []
-y2 = []
+
 
 relay_pins = [18, 22, 17, 27]
 
@@ -45,10 +40,17 @@ shape = testimg.shape
 #Center Point of the Image in (X,Y) Coordinates
 image_center = (int(shape[1]//2), int(shape[0]//2)) 
 
-cv.namedWindow('Camera Output', cv.WINDOW_FULLSCREEN)
-cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
+# cv.namedWindow('Camera Output', cv.WINDOW_FULLSCREEN)
+# cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
 
 (reference_x, reference_y) = image_center
+
+# Create figure for plotting
+fig = plt.figure()
+ax = fig.add_subplot(1, 1, 1)
+x = []
+y1 = []
+y2 = []
 
 def animate(i, x, y1, y2):
     
