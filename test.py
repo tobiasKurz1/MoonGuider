@@ -33,6 +33,7 @@ def animate(i, x, y1, y2):
     plt.subplots_adjust(bottom=0.30)
     plt.title('TEst')
     plt.ylabel('Values')
+    plt.legend()
 
 # Set up plot to call animate() function periodically
 ani = animation.FuncAnimation(fig, animate, fargs=(x, y1, y2), interval=500)
