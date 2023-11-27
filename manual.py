@@ -6,41 +6,7 @@ import time
 import relay_handling as relay
 import keyboard
 
-def on_key_event(e):
-    if e.name == 'w':
-        print("Key 'w' pressed!")
-    if e.name == 'a':
-        print("Key 'a' pressed!")
-    if e.name == 's':
-        print("Key 's' pressed!")
-    if e.name == 'd':
-        print("Key 'd' pressed!")
-    
-        
 
-
-keyboard.on_press(on_key_event)
-i = 0
-while True:
-    
-    
-    print(i)
-    time.sleep(1)
-    
-    if keyboard.is_pressed('esc'):
-            print("Escape key pressed. Exiting the loop.")
-            break
-    
-    
-    i = i+1
-    pass
-
-
-
-
-keyboard.unhook_all()
-
-"""
 relay_pins = [18, 22, 17, 27]
 
 buffer = clc.buffer(buffer_length = 2)
@@ -49,79 +15,64 @@ guide = relay.guide(relay_pins, margin = 1.5)
 
 time.sleep(1)
 
-picam = Picamera2()
+#picam = Picamera2()
 
 
 targetvalues = []
 targetvalues.append(["Time", "target_x", "target_y", "deviation_x", "deviation_y", "Active Relays"])
 
 #config = picam.create_video_configuration()
-config = picam.create_still_configuration()
-picam.configure(config)
+#config = picam.create_still_configuration()
+#picam.configure(config)
 
-picam.start()
+#picam.start()
     
-#guide.setup()
 
-testimg = picam.capture_array()
-shape = testimg.shape
+
+#testimg = picam.capture_array()
+#shape = testimg.shape
 
 #Center Point of the Image in (X,Y) Coordinates
-image_center = (int(shape[1]//2), int(shape[0]//2)) 
+#image_center = (int(shape[1]//2), int(shape[0]//2)) 
 
-cv.namedWindow('Camera Output', cv.WINDOW_FULLSCREEN)
-cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
+#cv.namedWindow('Camera Output', cv.WINDOW_FULLSCREEN)
+#cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
 
-(reference_x, reference_y) = image_center
+#(reference_x, reference_y) = image_center
 
-# MAIN CAPTURE LOOP:
-    
-while True:  
-    
-    if 
-    
-    
-    if i in range(step+1, step*2): 
+def on_key_event(e):
+    if e.name == 'd':
         guide.activate(relay_pins[0])
         guide.deactivate(relay_pins[1])
         guide.deactivate(relay_pins[2])
         guide.deactivate(relay_pins[3])
-
-    if i in range(step * 2 + 1, step * 3): 
-        guide.deactivate(relay_pins[0])
-        guide.deactivate(relay_pins[1])
-        guide.activate(relay_pins[2])
-        guide.deactivate(relay_pins[3])
-
-    if i in range(step * 3 + 1, step * 4): 
+    if e.name == 'a':
         guide.deactivate(relay_pins[0])
         guide.activate(relay_pins[1])
         guide.deactivate(relay_pins[2])
         guide.deactivate(relay_pins[3])
-
-    if i in range(step * 4 + 1, step * 5): 
+    if e.name == 'w':
+        guide.deactivate(relay_pins[0])
+        guide.deactivate(relay_pins[1])
+        guide.activate(relay_pins[2])
+        guide.deactivate(relay_pins[3])
+    if e.name == 's':
         guide.deactivate(relay_pins[0])
         guide.deactivate(relay_pins[1])
         guide.deactivate(relay_pins[2])
-        guide.activate(relay_pins[3])        
-    
-    
-    if i > step * 5: 
-        i = 1
-        guide.deactivate(relay_pins[0])
-        guide.deactivate(relay_pins[1])
-        guide.deactivate(relay_pins[2])
-        guide.deactivate(relay_pins[3])  
-        rounds = rounds - 1
-        if rounds <= 0:
-            break
-    
-   
-    prozent = (((r-rounds)*5*s + i) / (s * 5 * r)) *100
+        guide.activate(relay_pins[3])
 
-    i = i+1
+# MAIN CAPTURE LOOP:
+keyboard.on_press(on_key_event)  
 
+while True:  
     
+    
+   if keyboard.is_pressed('esc'):
+       print("Escape key pressed. Exiting the loop.")
+       break
+
+   """ 
     org_image = picam.capture_array()
     
     processed = clc.preprocessing(org_image, threshold = 0, blur = 5)
@@ -157,11 +108,10 @@ while True:
     # if key != -1:
     #     break
 
-    
+    """
 
 cv.destroyAllWindows()
 guide.stop()
 
 clc.export(targetvalues, "Log")   
-
-"""
+keyboard.unhook_all()
