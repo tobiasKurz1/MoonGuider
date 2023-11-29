@@ -50,9 +50,9 @@ class guide:
             act.append("Right")
         if self.active[1]:
             act.append("Left")
-        if self.active[2]:
-            act.append("Up")
         if self.active[3]:
+            act.append("Up")
+        if self.active[2]:
             act.append("Down")
             
         return(act)
