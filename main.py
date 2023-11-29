@@ -32,7 +32,7 @@ duration = 1
 targetvalues = []
 targetvalues.append(["Time", "target_x", "target_y", "target_radius", "x_deviation"," y_deviation", "Active Relays"])
 
-buffer = clc.buffer(buffer_length = 4)
+buffer = clc.buffer(buffer_length = 6)
 
 guide = relay.guide(relay_pins = [18, 22, 27, 17], margin = 1.5)
 
