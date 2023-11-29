@@ -187,13 +187,26 @@ class buffer:
         self.buffer_length = buffer_length
         print(f"Target averaging buffer set to {buffer_length}")
 
+    def errorcheck(self, name = None):
+        if name not in self.values:
+                raise ValueError(f"Target '{name}' does not exist in the buffer.")
+            
+    def get_valid(self, name = None):
+        temp = 0
+        
+        
+        if name is not None:
+            self.errorcheck(name)
+            temp = len([value for value in self.values[name] if value is not None])
+        
+        return f"{temp} of {self.buffer_length}"
+                
+        
     def add(self, value, name=None):
 
         if (name not in self.values and name is not None):
             self.values[name] = []
-        
-
-        
+                
         self.values[name].append(value)
                         
         if self.buffer_length is not None and len(self.values[name]) > self.buffer_length:
@@ -201,8 +214,9 @@ class buffer:
                 
     def average(self, name):
         if name is not None:
-            if name not in self.values:
-                raise ValueError(f"Target '{name}' does not exist in the buffer.")
+            
+            self.errorcheck(name)
+            
             if not self.values[name]:
                 return None
             temp =  list(filter(lambda x: x is not None, self.values[name]))

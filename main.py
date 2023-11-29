@@ -77,6 +77,7 @@ while True:
     buffer.add(target_radius, "target_radius")    
     
     
+    
     marked, deviation = clc.targetmarkers(
         buffer.average("target_x"),
         buffer.average("target_y"),
@@ -84,7 +85,7 @@ while True:
         reference_x,
         reference_y,
         org_image,
-        handover_value = f"Effective framerate of {1/duration:.2f} fps, active relays: {guide.showactive()}",
+        handover_value = f"Effective framerate of {1/duration:.2f} fps, active relays: {guide.showactive()}, Valid target positions: {buffer.get_valid}",
         overlay = True,
         scale = 1        
         )
