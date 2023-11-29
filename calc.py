@@ -191,7 +191,7 @@ class buffer:
         if name not in self.values:
                 raise ValueError(f"Target '{name}' does not exist in the buffer.")
             
-    def get_valid(self, name = None):
+    def get_valid(self, name = "target_x"):
         temp = 0
         
         
