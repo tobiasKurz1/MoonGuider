@@ -30,11 +30,11 @@ import relay_handling as relay
 duration = 1
 
 targetvalues = []
-targetvalues.append(["Time", "target_x", "target_y", "target_radius", "Active Relays"])
+targetvalues.append(["Time", "target_x", "target_y", "target_radius", "x_deviation"," y_deviation", "Active Relays"])
 
 buffer = clc.buffer(buffer_length = 4)
 
-guide = relay.guide(relay_pins = [18, 22, 17, 27], margin = 1.5)
+guide = relay.guide(relay_pins = [18, 22, 27, 17], margin = 1.5)
 
 time.sleep(1)
 
@@ -76,7 +76,7 @@ while True:
     buffer.add(target_y, "target_y")
     buffer.add(target_radius, "target_radius")    
     
-    targetvalues.append([str(time.time())[6:13],target_x, target_y, target_radius, guide.showactive()])  
+    
     
     marked, deviation = clc.targetmarkers(
         buffer.average("target_x"),
@@ -89,7 +89,7 @@ while True:
         overlay = True,
         scale = 1        
         )
-    
+    targetvalues.append([str(time.time())[6:13],target_x, target_y, deviation[0], deviation[1], target_radius, guide.showactive()])  
     guide.to(deviation)
     
     """ Commented Because guiding to image center
