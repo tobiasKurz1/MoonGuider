@@ -32,7 +32,7 @@ duration = 1
 targetvalues = []
 targetvalues.append(["Time", "target_x", "target_y", "target_radius", "x_deviation"," y_deviation", "Active Relays"])
 
-buffer = clc.buffer(buffer_length = 6)
+buffer = clc.buffer(buffer_length = 10)
 
 guide = relay.guide(relay_pins = [18, 22, 27, 17], margin = 1.5)
 
@@ -77,19 +77,18 @@ while True:
     buffer.add(target_radius, "target_radius")    
     
     
-    
     marked, deviation = clc.targetmarkers(
         buffer.average("target_x"),
         buffer.average("target_y"),
         buffer.average("target_radius"),
         reference_x,
         reference_y,
-        processed,
+        org_image,
         handover_value = f"Effective framerate of {1/duration:.2f} fps, active relays: {guide.showactive()}",
         overlay = True,
         scale = 1        
         )
-    targetvalues.append([str(time.time())[6:13],target_x, target_y, deviation[0], deviation[1], target_radius, guide.showactive()])  
+    targetvalues.append([str(time.time())[6:13],target_x, target_y, target_radius, deviation[0], deviation[1], guide.showactive()])  
     guide.to(deviation)
     
     """ Commented Because guiding to image center
