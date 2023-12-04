@@ -32,32 +32,30 @@ class guide:
     
     def check_sticky(self, xdev, ydev):
         
-        self.sbx.append(xdev)
-        self.sby.append(ydev)
+        self.sbx.append(abs(xdev))
+        self.sby.append(abs(ydev))
                         
         if len(self.sbx) > self.sticky_buffer:
             self.sbx.pop(0)
             self.sby.pop(0)
-                    
-            gradx = [self.sbx[i] - self.sbx[i - 1] for i in range(1, len(self.sbx))]
-            grady = [self.sby[i] - self.sby[i - 1] for i in range(1, len(self.sby))]
+        
+            err_x = 0
+            err_y = 0
             
-            # Check if all differences have the same sign
-            positive_x = all(diff >= 0 for diff in gradx)
-            negative_x = all(diff <= 0 for diff in gradx)
+            for i in range(1,len(self.sbx)):
+                if self.sbx[i] > self.sbx[i-1]:
+                    err_x = err_x + 1
+                if self.sby[i] > self.sby[i-1]:
+                    err_y = err_y + 1
             
-            positive_y = all(diff >= 0 for diff in grady)
-            negative_y = all(diff <= 0 for diff in grady)
-    
-            
-            if positive_x or negative_x:
+            if err_x >= self.sticky_buffer - 1:
                 self.pulse(0)
                 self.pulse(1)
                 
-            if positive_y or negative_y:
+            if err_y >= self.sticky_buffer - 1:
                 self.pulse(2)
-                self.pulse(3) 
-
+                self.pulse(3)
+        
         return
     
     
