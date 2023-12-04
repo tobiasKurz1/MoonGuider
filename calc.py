@@ -105,8 +105,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
     if overlay:
         
         if None not in deviation:
-            deviation[0] = f"{deviation[0]:.2f}"
-            deviation[1] = f"{deviation[1]:.2f}"
+            deviation = (f"{deviation[0]:.2f}", f"{deviation[1]:.2f}")
             
         if None not in (target_x, target_y):
             target_x = f"{target_x:.2f}"
