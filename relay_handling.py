@@ -13,7 +13,9 @@ class guide:
         # Pin order is RIGHT, LEFT, DOWN, UP
         self.relay_pins = relay_pins
         self.margin = margin
-        self.active = ["","","","","Mode"]
+        self.active = ["","","",""]
+        
+        self.mode_info = None
         
         self.sticky_buffer = sticky_buffer
         
@@ -113,7 +115,7 @@ class guide:
             act.append("Up")
 
             
-        act.append(self.active[4])
+        act.append(self.mode_info)
             
         return(act)
     
@@ -121,23 +123,23 @@ class guide:
         
         if not None in self.active_deviation:
             self.last_deviation = self.active_deviation
-            self.active[4] = "Active Guiding"
+            self.mode_info = "Active Guiding"
             
             return
         
         else: 
             if self.cloud_mode == "guide_last":
                 self.active_deviation = self.last_deviation
-                self.active[4] = f"Guiding to last deviation of {self.last_deviation}"
+                self.mode_info = "Guiding to last valid deviation"
                 
             elif self.cloud_mode == "predict":
-                self.active[4] = f"Guiding to predicted deviation of PLACEHOLDER"
+                self.mode_info = "Guiding to predicted deviation of PLACEHOLDER"
                 
                 ### hier wird noch logik eingefügt ###
                 
                 pass
             else:
-                self.active[4] = "Guiding paused"
+                self.mode_info = "Guiding paused"
                 return
         
         
