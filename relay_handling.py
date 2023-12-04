@@ -8,7 +8,7 @@ import RPi.GPIO as GPIO
 import time
 
 class guide:
-    def __init__(self, relay_pins = [27, 17, 22, 18], margin = 0, sticky_buffer = 10):
+    def __init__(self, relay_pins = [27, 17, 22, 18], margin = 0, sticky_buffer = 6):
         
         # Pin order is RIGHT, LEFT, DOWN, UP
         
@@ -63,8 +63,8 @@ class guide:
         return
     
     
-    def pulse(self, pin, number = 5):
-        for i in range(number):
+    def pulse(self, pin, count = 3):
+        for i in range(count):
             GPIO.output(self.relay_pins[pin], GPIO.LOW)
             time.sleep(0.1)
             GPIO.output(self.relay_pins[pin], GPIO.HIGH)
