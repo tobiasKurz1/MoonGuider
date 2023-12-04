@@ -130,7 +130,7 @@ class guide:
         else: 
             if self.cloud_mode == "guide_last":
                 self.active_deviation = self.last_deviation
-                self.mode_info = "Guiding to last valid deviation"
+                self.mode_info = f"Guiding to last valid deviation {self.last_deviation}"
                 
             elif self.cloud_mode == "predict":
                 self.mode_info = "Guiding to predicted deviation of PLACEHOLDER"
