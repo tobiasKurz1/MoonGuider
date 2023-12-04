@@ -35,28 +35,28 @@ class guide:
         self.sbx.append(xdev)
         self.sby.append(ydev)
                         
-        if len(self.sby) > self.sticky_buffer:
-                self.sbx.pop(0)
-                self.sby.pop(0)
-                
-        gradx = [self.sbx[i] - self.sbx[i - 1] for i in range(1, len(self.sbx))]
-        grady = [self.sby[i] - self.sby[i - 1] for i in range(1, len(self.sby))]
-        
-        # Check if all differences have the same sign
-        positive_x = all(diff >= 0 for diff in gradx)
-        negative_x = all(diff <= 0 for diff in gradx)
-        
-        positive_y = all(diff >= 0 for diff in grady)
-        negative_y = all(diff <= 0 for diff in grady)
-
-        
-        if positive_x or negative_x:
-            self.pulse(0)
-            self.pulse(1)
+        if len(self.sbx) > self.sticky_buffer:
+            self.sbx.pop(0)
+            self.sby.pop(0)
+                    
+            gradx = [self.sbx[i] - self.sbx[i - 1] for i in range(1, len(self.sbx))]
+            grady = [self.sby[i] - self.sby[i - 1] for i in range(1, len(self.sby))]
             
-        if positive_y or negative_y:
-            self.pulse(2)
-            self.pulse(3) 
+            # Check if all differences have the same sign
+            positive_x = all(diff >= 0 for diff in gradx)
+            negative_x = all(diff <= 0 for diff in gradx)
+            
+            positive_y = all(diff >= 0 for diff in grady)
+            negative_y = all(diff <= 0 for diff in grady)
+    
+            
+            if positive_x or negative_x:
+                self.pulse(0)
+                self.pulse(1)
+                
+            if positive_y or negative_y:
+                self.pulse(2)
+                self.pulse(3) 
 
         return
     
