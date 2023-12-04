@@ -20,8 +20,8 @@ class guide:
         self.sbx = []
         self.sby = []
         
-        self.active_deviation = (0,0)
-        self.last_deviation = (0,0)
+        self.active_deviation = (None, None)
+        self.last_deviation = (None, None)
                  
         if cloud_mode == "guide_last" or cloud_mode == "predict":
             self.cloud_mode = cloud_mode
