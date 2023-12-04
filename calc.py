@@ -72,10 +72,10 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
     elif None in (target_x, target_y): 
         # Target is not found but deviation is generated through prediction
         # or last deviation
-        scl_devx = deviation[0] * scale
-        scl_devy = deviation[1] * scale
-        scl_ref_x = ref_x * scale
-        scl_ref_y = ref_y * scale
+        scl_devx = (deviation[0] * scale)
+        scl_devy = int(deviation[1] * scale)
+        scl_ref_x = int(ref_x * scale)
+        scl_ref_y = int(ref_y * scale)
         
         # Draw deviation Arrow
         cv.arrowedLine(img, (scl_ref_x, scl_ref_y), (scl_ref_x + scl_devx, scl_ref_y + scl_devy), (0, 0, 255), line_thickness, tipLength=0.2)
@@ -84,11 +84,11 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
     
         print(f"Target at unscaled Coordinates: {target_x}, {target_y}")
               
-        scl_target_x = target_x * scale
-        scl_target_y = target_y * scale
-        scl_target_radius = target_radius * scale
-        scl_ref_x = ref_x * scale
-        scl_ref_y = ref_y * scale
+        scl_target_x = int(target_x * scale)
+        scl_target_y = int(target_y * scale)
+        scl_target_radius = int(target_radius * scale)
+        scl_ref_x = int(ref_x * scale)
+        scl_ref_y =int(ref_y * scale)
         
         # Draw deviation Arrow
         cv.arrowedLine(img, (scl_ref_x, scl_ref_y), (scl_target_x, scl_target_y), (0, 255, 0), line_thickness, tipLength=0.2)
@@ -103,12 +103,16 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
         cv.circle(img, (scl_target_x, scl_target_y), scl_target_radius, line_color, line_thickness)
     
     if overlay:
-        devx, devy = None, None
-        if None not in deviation:
-            devx = f"{deviation[0]:.2f}"
-            devy = f"{deviation[1]:.2f}"
         
-        bar_text = f"Target at {target_x}, {target_y}; Deviation: {devx}, {devy}; {handover_value}"
+        if None not in deviation:
+            deviation[0] = f"{deviation[0]:.2f}"
+            deviation[1] = f"{deviation[1]:.2f}"
+            
+        if None not in (target_x, target_y):
+            target_x = f"{target_x:.2f}"
+            target_y = f"{target_y:.2f}"
+        
+        bar_text = f"Target at {target_x}, {target_y}; Deviation: {deviation[0]}, {deviation[1]}; {handover_value}"
         
         # Define the height of the black bar (you can adjust this value)
         bar_height = int(height * 0.2)
