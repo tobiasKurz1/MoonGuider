@@ -59,11 +59,12 @@ class guide:
                 self.pulse(3)
                 self.sbx = []
                 self.sby = []
+                
         return
     
     
-    def pulse(self, pin):
-        for i in range(5):
+    def pulse(self, pin, number = 5):
+        for i in range(number):
             GPIO.output(self.relay_pins[pin], GPIO.LOW)
             time.sleep(0.1)
             GPIO.output(self.relay_pins[pin], GPIO.HIGH)
@@ -120,7 +121,6 @@ class guide:
             ydev = deviation[1]
             
             self.check_sticky(xdev, ydev)
-            
             
             # Activate the pins in the direction of positive deviation, 
             # deactivate everything else
