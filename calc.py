@@ -57,7 +57,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
     # Define the thickness of the lines
     line_thickness = 5
     
-    if None in deviation:
+    if None in deviation: # No target is tracked
         
         print("Target not found")
         
@@ -69,28 +69,38 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
 
         #cv.putText(img, "Not Found", (center_x,center_y), cv.FONT_HERSHEY_SIMPLEX, 10, (0,0,255))
         
-    else:
-        
-        print(f"Target at unscaled Coordinates: {target_x}, {target_y}")
-              
-        target_x = int(target_x * scale)
-        target_y = int(target_y * scale)
-        target_radius = int(target_radius * scale)
-        ref_x = int(ref_x * scale)
-        ref_y =int(ref_y * scale)
+    elif None in (target_x, target_y): 
+        # Target is not found but deviation is generated through prediction
+        # or last deviation
+        scl_devx = int(deviation[0] * scale)
+        scl_devy = int(deviation[1] * scale)
+        scl_ref_x = int(ref_x * scale)
+        scl_ref_y = int(ref_y * scale)
         
         # Draw deviation Arrow
-        cv.arrowedLine(img, (ref_x, ref_y), (target_x, target_y), (0, 255, 0), line_thickness, tipLength=0.2)
+        cv.arrowedLine(img, (scl_ref_x, scl_ref_y), (scl_ref_x + scl_devx, scl_ref_y + scl_devy), (0, 0, 255), line_thickness, tipLength=0.2)
+        
+    else:   # Both target and deviation are valid
+    
+        print(f"Target at unscaled Coordinates: {target_x}, {target_y}")
+              
+        scl_target_x = int(target_x * scale)
+        scl_target_y = int(target_y * scale)
+        scl_target_radius = int(target_radius * scale)
+        scl_ref_x = int(ref_x * scale)
+        scl_ref_y =int(ref_y * scale)
+        
+        # Draw deviation Arrow
+        cv.arrowedLine(img, (scl_ref_x, scl_ref_y), (scl_target_x, scl_target_y), (0, 255, 0), line_thickness, tipLength=0.2)
     
         # Draw horizontal line
-        cv.line(img, (target_x - target_radius, target_y), (target_x + target_radius, target_y), line_color, line_thickness)
+        cv.line(img, (scl_target_x - scl_target_radius, scl_target_y), (scl_target_x + scl_target_radius, scl_target_y), line_color, line_thickness)
     
         # Draw vertical line
-        cv.line(img, (target_x, target_y - target_radius), (target_x, target_y + target_radius), line_color, line_thickness)
+        cv.line(img, (scl_target_x, scl_target_y - scl_target_radius), (scl_target_x, scl_target_y + scl_target_radius), line_color, line_thickness)
         
         #Draw the circle
-        cv.circle(img, (target_x, target_y), target_radius, line_color, line_thickness)
-        
+        cv.circle(img, (scl_target_x, scl_target_y), scl_target_radius, line_color, line_thickness)
     
     if overlay:
         devx, devy = None, None
