@@ -27,6 +27,7 @@ from picamera2 import Picamera2
 import time
 import relay_handling as relay
 
+
 duration = 1
 
 targetvalues = []
