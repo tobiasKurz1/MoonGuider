@@ -142,6 +142,9 @@ class guide:
         
         return
     
+    def active_deviation(self):
+        return self.active_deviation
+    
     def to(self, deviation = (None, None)):
         self.active_deviation = deviation
         
