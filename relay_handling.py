@@ -51,11 +51,14 @@ class guide:
             if err_x >= self.sticky_buffer - 1:
                 self.pulse(0)
                 self.pulse(1)
+                self.sbx = []
+                self.sby = []
                 
             if err_y >= self.sticky_buffer - 1:
                 self.pulse(2)
                 self.pulse(3)
-        
+                self.sbx = []
+                self.sby = []
         return
     
     
@@ -63,7 +66,7 @@ class guide:
         for i in range(5):
             GPIO.output(self.relay_pins[pin], GPIO.LOW)
             time.sleep(0.1)
-            GPIO.output(self.relay_pins[pin], GPIO.LOW)
+            GPIO.output(self.relay_pins[pin], GPIO.HIGH)
             time.sleep(0.1)
                         
         return
