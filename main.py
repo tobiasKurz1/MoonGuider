@@ -32,7 +32,7 @@ duration = 1
 targetvalues = []
 targetvalues.append(["Time", "target_x", "target_y", "target_radius", "x_deviation"," y_deviation", "Active Relays"])
 
-buffer = clc.buffer(buffer_length = 10)
+buffer = clc.buffer(buffer_length = 3)
 
 guide = relay.guide(relay_pins = [18, 22, 27, 17], margin = 1.5)
 
@@ -90,6 +90,8 @@ while True:
         scale = 1        
         )
     targetvalues.append([str(time.time())[6:13],target_x, target_y, target_radius, deviation[0], deviation[1], guide.showactive()])  
+    
+  
     guide.to(deviation)
     
     """ Commented Because guiding to image center
