@@ -8,19 +8,26 @@ import RPi.GPIO as GPIO
 import time
 
 class guide:
-    def __init__(self, relay_pins = [27, 17, 22, 18], margin = 0, sticky_buffer = 6):
+    def __init__(self, relay_pins = [27, 17, 22, 18], margin = 0, sticky_buffer = 6, cloud_mode = None):
         
         # Pin order is RIGHT, LEFT, DOWN, UP
-        
         self.relay_pins = relay_pins
         self.margin = margin
-        self.active = ["","","",""]
+        self.active = ["","","","","Mode"]
         
         self.sticky_buffer = sticky_buffer
         
         self.sbx = []
         self.sby = []
         
+        self.active_deviation = (0,0)
+        self.last_deviation = (0,0)
+                 
+        if cloud_mode == "guide_last" or cloud_mode == "predict":
+            self.cloud_mode = cloud_mode
+        else:
+            self.cloud_mode = None
+            
         
         
         print(f"Activation Margin set to {margin} px")
@@ -105,12 +112,42 @@ class guide:
         if self.active[2]:
             act.append("Down")
             
+        act.append(self.active[4])
+            
         return(act)
+    
+    def cloud_handling(self):
         
+        if not None in self.active_deviation:
+            self.last_deviation = self.active_deviation
+            self.active[4] = "Active Guiding"
+            
+            return
+        
+        else: 
+            if self.cloud_mode == "guide_last":
+                self.active_deviation = self.last_deviation
+                self.active[4] = f"Guiding to last deviation of {self.last_deviation}"
+                
+            elif self.cloud_mode == "predict":
+                self.active[4] = f"Guiding to predicted deviation of PLACEHOLDER"
+                
+                ### hier wird noch logik eingefügt ###
+                
+                pass
+            else:
+                self.active[4] = "Guiding paused"
+                return
+        
+        
+        return
     
     def to(self, deviation = (None, None)):
+        self.active_deviation = deviation
         
-        if None in deviation:
+        self.cloud_handling()
+        
+        if None in self.active_deviation:
             for pin in self.relay_pins:
                 GPIO.output(pin, GPIO.HIGH)
             self.active = (False, False, False, False)                
