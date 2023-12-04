@@ -76,23 +76,29 @@ while True:
     buffer.add(target_y, "target_y")
     buffer.add(target_radius, "target_radius")    
     
+    avrg_target_x = buffer.average("target_x")
+    avrg_target_y = buffer.average("target_y")
     
+    deviation = clc.get_deviation((avrg_target_x, avrg_target_y), (reference_x, reference_y))  
+  
+    guide.to(deviation)
     
-    marked, deviation = clc.targetmarkers(
-        buffer.average("target_x"),
-        buffer.average("target_y"),
+    targetvalues.append([str(time.time())[6:13],target_x, target_y, target_radius, deviation[0], deviation[1], guide.showactive()])  
+    
+    marked = clc.targetmarkers(
+        avrg_target_x,
+        avrg_target_y,
         buffer.average("target_radius"),
         reference_x,
         reference_y,
+        deviation,
         org_image,
         handover_value = f"Effective framerate of {1/duration:.2f} fps, active relays: {guide.showactive()}, Valid target positions: {buffer.get_valid()}",
         overlay = True,
         scale = 1        
         )
-    targetvalues.append([str(time.time())[6:13],target_x, target_y, target_radius, deviation[0], deviation[1], guide.showactive()])  
     
-  
-    guide.to(deviation)
+
     
     """ Commented Because guiding to image center
     if target_x is not None:

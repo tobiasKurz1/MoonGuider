@@ -44,7 +44,7 @@ def preprocessing(img, grey = True, threshold = 0, blur = 3):
     
     return(img)
 
-def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, handover_value, overlay = True, scale = 1):
+def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, img, handover_value, overlay = True, scale = 1):
     
     if len(img.shape) == 2:
         img = cv.cvtColor(img, cv.COLOR_GRAY2BGR)
@@ -57,13 +57,22 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, handover
     # Define the thickness of the lines
     line_thickness = 5
     
-    if target_x is not None and ref_x is not None:
+    if None in deviation:
+        
+        print("Target not found")
+        
+        cv.line(img, (0, 0), (width, height), line_color, line_thickness)
+        cv.line(img, (0, height), (width, 0), line_color, line_thickness)
+        
+        cv.circle(img, (width // 2, height // 2), 120, line_color, line_thickness)
+        cv.circle(img, (width // 2, height // 2), 160, line_color, line_thickness)
+
+        #cv.putText(img, "Not Found", (center_x,center_y), cv.FONT_HERSHEY_SIMPLEX, 10, (0,0,255))
+        
+    else:
         
         print(f"Target at unscaled Coordinates: {target_x}, {target_y}")
-        
-        #Deviation calculated before scaling!
-        deviation = get_deviation((ref_x, ref_y), (target_x, target_y))
-        
+              
         target_x = int(target_x * scale)
         target_y = int(target_y * scale)
         target_radius = int(target_radius * scale)
@@ -82,19 +91,6 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, handover
         #Draw the circle
         cv.circle(img, (target_x, target_y), target_radius, line_color, line_thickness)
         
-    else:
-        print("Target not found")
-        
-        deviation = (None, None)
-        
-        cv.line(img, (0, 0), (width, height), line_color, line_thickness)
-        cv.line(img, (0, height), (width, 0), line_color, line_thickness)
-        
-        cv.circle(img, (width // 2, height // 2), 120, line_color, line_thickness)
-        cv.circle(img, (width // 2, height // 2), 160, line_color, line_thickness)
-
-        
-        #cv.putText(img, "Not Found", (center_x,center_y), cv.FONT_HERSHEY_SIMPLEX, 10, (0,0,255))
     
     if overlay:
         devx, devy = None, None
@@ -126,7 +122,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, img, handover
             img[height-bar_height:height, 0:width] = bar
         
         
-    return(img, deviation)
+    return(img)
 
 def moonposition(processed_img, param = 1):
     
@@ -156,12 +152,15 @@ def moonposition(processed_img, param = 1):
     else: 
         return(None,None,None)  
 
-def get_deviation(ref, target):
+def get_deviation(target, ref):
+    if None in ref or None in target:
+        return (None, None)
     
-    target = (int(target[0]), int(target[1]))
-    dev = (target[0] - ref[0], target[1] - ref[1])
+    else:    
+        target = (int(target[0]), int(target[1]))
+        dev = (target[0] - ref[0], target[1] - ref[1])
 
-    return dev
+        return dev
 
 def export(data, filename):
     
