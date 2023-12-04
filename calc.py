@@ -72,10 +72,10 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
     elif None in (target_x, target_y): 
         # Target is not found but deviation is generated through prediction
         # or last deviation
-        scl_devx = int(deviation[0] * scale)
-        scl_devy = int(deviation[1] * scale)
-        scl_ref_x = int(ref_x * scale)
-        scl_ref_y = int(ref_y * scale)
+        scl_devx = deviation[0] * scale
+        scl_devy = deviation[1] * scale
+        scl_ref_x = ref_x * scale
+        scl_ref_y = ref_y * scale
         
         # Draw deviation Arrow
         cv.arrowedLine(img, (scl_ref_x, scl_ref_y), (scl_ref_x + scl_devx, scl_ref_y + scl_devy), (0, 0, 255), line_thickness, tipLength=0.2)
@@ -84,11 +84,11 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
     
         print(f"Target at unscaled Coordinates: {target_x}, {target_y}")
               
-        scl_target_x = int(target_x * scale)
-        scl_target_y = int(target_y * scale)
-        scl_target_radius = int(target_radius * scale)
-        scl_ref_x = int(ref_x * scale)
-        scl_ref_y =int(ref_y * scale)
+        scl_target_x = target_x * scale
+        scl_target_y = target_y * scale
+        scl_target_radius = target_radius * scale
+        scl_ref_x = ref_x * scale
+        scl_ref_y = ref_y * scale
         
         # Draw deviation Arrow
         cv.arrowedLine(img, (scl_ref_x, scl_ref_y), (scl_target_x, scl_target_y), (0, 255, 0), line_thickness, tipLength=0.2)
@@ -167,7 +167,7 @@ def get_deviation(target, ref):
         return (None, None)
     
     else:    
-        target = (int(target[0]), int(target[1]))
+        target = (float(target[0]), float(target[1]))
         dev = (target[0] - ref[0], target[1] - ref[1])
 
         return dev
