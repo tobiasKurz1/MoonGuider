@@ -128,7 +128,7 @@ class guide:
             return
         
         else: 
-            if self.cloud_mode == "guide_last":
+            if self.cloud_mode == "guide_last" and not None in self.last_deviation :
                 self.active_deviation = self.last_deviation
                 self.mode_info = f"Guiding to last valid deviation {self.last_deviation}"
                 
@@ -136,12 +136,9 @@ class guide:
                 self.mode_info = "Guiding to predicted deviation of PLACEHOLDER"
                 
                 ### hier wird noch logik eingefügt ###
-                
-                pass
+ 
             else:
-                self.mode_info = "Guiding paused"
-                return
-        
+                self.mode_info = "Guiding paused"     
         
         return
     
@@ -157,8 +154,8 @@ class guide:
             return
         
         else:
-            xdev = deviation[0]
-            ydev = deviation[1]
+            xdev = self.active_deviation[0]
+            ydev = self.active_deviation[1]
             
             self.check_sticky(xdev, ydev)
             
