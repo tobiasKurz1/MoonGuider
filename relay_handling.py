@@ -6,14 +6,15 @@ Created on Mon Nov 20 21:59:14 2023
 """
 import RPi.GPIO as GPIO
 import time
+import calc as clc
 
 class guide:
-    def __init__(self, relay_pins = [27, 17, 22, 18], margin = 0, sticky_buffer = 6, cloud_mode = None):
+    def __init__(self, relay_pins = [27, 17, 22, 18], margin = 0, sticky_buffer = 6, cloud_mode = None, guide_buffer = 10):
         
         # Pin order is RIGHT, LEFT, DOWN, UP
         self.relay_pins = relay_pins
         self.margin = margin
-        self.active = ["","","",""]
+        self.active = [False, False, False, False]
         
         self.mode_info = None
         
@@ -24,6 +25,9 @@ class guide:
         
         self.active_deviation = (None, None)
         self.last_deviation = (None, None)
+        self.guide_buffer = guide_buffer
+        self.timestamps = []
+        
                  
         if cloud_mode == "guide_last" or cloud_mode == "predict":
             self.cloud_mode = cloud_mode
@@ -81,25 +85,38 @@ class guide:
                         
         return
     
-    def activate(self, pin):
-        try:
-            GPIO.output(pin, GPIO.LOW)
-            for i in range(len(self.relay_pins)):
-                if self.relay_pins[i] == pin:
-                    self.active[i] = True
-        except:
-            raise ValueError(f"Unable to activate relay on pin {pin}")
-        return  
-    
-    def deactivate(self, pin):
-        try:
-            GPIO.output(pin, GPIO.HIGH)
-            for i in range(len(self.relay_pins)):
-                if self.relay_pins[i] == pin:
-                    self.active[i] = False
-        except:
-            raise ValueError(f"Unable to deactivate relay on pin {pin}")
-        return   
+    def activate(self, right = False, left = False, down = False, up = False):
+        """ Activates the Pins which are set to True, deactivates the Rest """
+         
+        if right:
+            GPIO.output(self.relay_pins[0], GPIO.LOW)
+            self.active[0] = True
+        else:
+            GPIO.output(self.relay_pins[0], GPIO.HIGH)
+            self.active[0] = False            
+            
+        if left:
+            GPIO.output(self.relay_pins[1], GPIO.LOW)
+            self.active[1] = True
+        else:
+            GPIO.output(self.relay_pins[1], GPIO.HIGH)
+            self.active[1] = False
+            
+        if down:
+            GPIO.output(self.relay_pins[2], GPIO.LOW)
+            self.active[2] = True
+        else:
+            GPIO.output(self.relay_pins[2], GPIO.HIGH)
+            self.active[2] = False
+            
+        if up:
+            GPIO.output(self.relay_pins[3], GPIO.LOW)
+            self.active[3] = True
+        else:
+            GPIO.output(self.relay_pins[3], GPIO.HIGH)
+            self.active[3] = False
+            
+        return
 
     
     def showactive(self):
@@ -113,7 +130,6 @@ class guide:
             act.append("Down")
         if self.active[3]:
             act.append("Up")
-
             
         act.append(self.mode_info)
             
@@ -129,11 +145,16 @@ class guide:
         
         else: 
             if self.cloud_mode == "guide_last" and not None in self.last_deviation :
-                self.active_deviation = self.last_deviation
                 self.mode_info = f"Guiding to last valid deviation {self.last_deviation}"
+                self.active_deviation = self.last_deviation
                 
             elif self.cloud_mode == "predict":
                 self.mode_info = "Guiding to predicted deviation of PLACEHOLDER"
+                
+                
+                
+                
+                
                 
                 ### hier wird noch logik eingefügt ###
  
@@ -149,9 +170,7 @@ class guide:
         self.cloud_handling()
         
         if None in self.active_deviation:
-            for pin in self.relay_pins:
-                GPIO.output(pin, GPIO.HIGH)
-            self.active = (False, False, False, False)                
+            self.activate(False, False, False, False)                
             return
         
         else:
@@ -164,23 +183,17 @@ class guide:
             # deactivate everything else
             
             # direction = (Right, Left, Down, Up)
-            self.active = (xdev > self.margin,
-                         xdev < self.margin * -1,
-                         ydev > self.margin,
-                         ydev < self.margin * -1)
+            (right, left, down, up) = (xdev > self.margin,
+                                       xdev < self.margin * -1,
+                                       ydev > self.margin,
+                                       ydev < self.margin * -1)
             
-            for i in range(len(self.active)):
-                if self.active[i] ==  True:
-                    GPIO.output(self.relay_pins[i], GPIO.LOW)
-                    
-                else:
-                    GPIO.output(self.relay_pins[i], GPIO.HIGH)
+            self.activate(right,left,down,up)
+            
         return
     
     def stop(self):
-        for pin in self.relay_pins:
-            GPIO.output(pin, GPIO.HIGH)
-            
+        self.activate()            
         GPIO.cleanup()
         return
             

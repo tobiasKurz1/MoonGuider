@@ -99,26 +99,13 @@ while True:
         scale = 1        
         )
     
-
-    
-    """ Commented Because guiding to image center
-    if target_x is not None:
-        reference_x = buffer.average("target_x")
-        reference_y = buffer.average("target_y")
-    else:
-        reference_x = None
-        reference_y = None
-    """   
-
     
     cv.imshow('Camera Output',marked)
     
     end_frame = time.time()
     
     duration = end_frame - start_frame
-    
-
-    
+      
     
     key = cv.waitKey(1)
     

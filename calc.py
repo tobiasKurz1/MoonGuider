@@ -236,7 +236,3 @@ class buffer:
             return float(sum(temp) / len(temp)) if temp else None
         else:
             return None
-
-            
-            
-    
