@@ -6,7 +6,7 @@ Created on Mon Nov 20 21:59:14 2023
 """
 import RPi.GPIO as GPIO
 import time
-import calc as clc
+
 
 class guide:
     def __init__(self, relay_pins = [27, 17, 22, 18], margin = 0, sticky_buffer = 6, cloud_mode = None, guide_buffer = 10):
@@ -25,9 +25,10 @@ class guide:
         
         self.active_deviation = (None, None)
         self.last_deviation = (None, None)
+        
         self.guide_buffer = guide_buffer
         self.timestamps = []
-        
+                
                  
         if cloud_mode == "guide_last" or cloud_mode == "predict":
             self.cloud_mode = cloud_mode
@@ -115,7 +116,9 @@ class guide:
         else:
             GPIO.output(self.relay_pins[3], GPIO.HIGH)
             self.active[3] = False
-            
+       
+        self.timestamp()
+        
         return
 
     
@@ -163,6 +166,13 @@ class guide:
         
         return
     
+    def timestamp(self):
+        t = time.time()
+        self.timestamps.append([t, self.active[0], self.active[1], self.active[2], self.active[3]])
+        
+        if len(self.timestamps) > self.guide_buffer:
+            self.timestamps.pop(0)
+
     
     def to(self, deviation = (None, None)):
         self.active_deviation = deviation
