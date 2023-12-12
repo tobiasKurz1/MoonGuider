@@ -9,7 +9,7 @@ import time
 
 
 class guide:
-    def __init__(self, relay_pins = [27, 17, 22, 18], margin = 0, sticky_buffer = 6, cloud_mode = None, guide_buffer = 10):
+    def __init__(self, relay_pins = [27, 17, 22, 18], margin = 0, sticky_buffer = 6, cloud_mode = None, record_buffer = 20):
         
         # Pin order is RIGHT, LEFT, DOWN, UP
         self.relay_pins = relay_pins
@@ -25,12 +25,14 @@ class guide:
         
         self.active_deviation = (None, None)
         self.last_deviation = (None, None)
+        self.deviation_records = []
         
-        self.guide_buffer = guide_buffer
-        self.timestamps = []
+        self.record_buffer = record_buffer
+
+    
                 
                  
-        if cloud_mode == "guide_last" or cloud_mode == "predict":
+        if cloud_mode == "guide_last" or cloud_mode == "repeat":
             self.cloud_mode = cloud_mode
         else:
             self.cloud_mode = None
@@ -45,6 +47,9 @@ class guide:
             GPIO.output(pin, GPIO.HIGH)
     
     def check_sticky(self, xdev, ydev):
+        
+        if not self.mode_info == "Active Guiding":
+            return
         
         self.sbx.append(abs(xdev))
         self.sby.append(abs(ydev))
@@ -116,8 +121,6 @@ class guide:
         else:
             GPIO.output(self.relay_pins[3], GPIO.HIGH)
             self.active[3] = False
-       
-        self.timestamp()
         
         return
 
@@ -141,37 +144,41 @@ class guide:
     def cloud_handling(self):
         
         if not None in self.active_deviation:
+            
+            if not self.mode_info == "Active Guiding": # Reset the recorded list when moon is spotted
+                self.deviation_records = []
+                
+            self.record(self.active_deviation)
             self.last_deviation = self.active_deviation
             self.mode_info = "Active Guiding"
-            
+                        
             return
         
         else: 
             if self.cloud_mode == "guide_last" and not None in self.last_deviation :
                 self.mode_info = f"Guiding to last valid deviation {self.last_deviation}"
                 self.active_deviation = self.last_deviation
+                return
                 
-            elif self.cloud_mode == "predict":
-                self.mode_info = "Guiding to predicted deviation of PLACEHOLDER"
-                
-                
-                
-                
-                
-                
-                ### hier wird noch logik eingefügt ###
+            elif self.cloud_mode == "repeat":
+                self.mode_info = f"Guiding by repeating last {len(self.records)} deviations"
+                self.active_deviation = self.deviation_records[0]
+                self.deviation_records.append(self.deviation_records[0])
+                self.deviation_records.pop(0)
+                return
+               
  
             else:
                 self.mode_info = "Guiding paused"     
         
         return
     
-    def timestamp(self):
-        t = time.time()
-        self.timestamps.append([t, self.active[0], self.active[1], self.active[2], self.active[3]])
+    def record(self, deviation):
+       
+        self.deviation_records.append(deviation)
         
-        if len(self.timestamps) > self.guide_buffer:
-            self.timestamps.pop(0)
+        if len(self.deviation_records) > self.record_buffer:
+            self.deviation_records.pop(0)
 
     
     def to(self, deviation = (None, None)):
