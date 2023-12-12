@@ -166,7 +166,6 @@ class guide:
                 self.deviation_records.append(self.deviation_records[0])
                 self.deviation_records.pop(0)
                 return
-               
  
             else:
                 self.mode_info = "Guiding paused"     
