@@ -9,10 +9,9 @@ import time
 
 
 class guide:
-    def __init__(self, relay_pins = [27, 17, 22, 18], margin = 0, sticky_buffer = 6, cloud_mode = None, record_buffer = 20):
+    def __init__(self, relay_pins = [27, 17, 22, 18], margin = 0, sticky_buffer = 6, cloud_mode = None, record_buffer = 20, rotate = 0):
         
-        # Pin order is RIGHT, LEFT, DOWN, UP
-        self.relay_pins = relay_pins
+
         self.margin = margin
         self.active = [False, False, False, False]
         
@@ -29,8 +28,20 @@ class guide:
         
         self.record_buffer = record_buffer
 
+
+        # Pin order is RIGHT, LEFT, DOWN, UP
+        self.relay_pins = relay_pins
     
-                
+        if rotate == 90:
+            self.relay_pins = [relay_pins[3], relay_pins[2], relay_pins[0], relay_pins[1]]
+        if rotate == 180:
+            self.relay_pins = [relay_pins[1], relay_pins[0], relay_pins[3], relay_pins[2]]
+        if rotate == 270:
+            self.relay_pins = [relay_pins[2], relay_pins[3], relay_pins[1], relay_pins[0]]
+        else:
+            if rotate != 0:
+                raise ValueError("Only camera rotations of 0, 90, 180 or 270 Degree supported.")
+            
                  
         if cloud_mode == "guide_last" or cloud_mode == "repeat":
             self.cloud_mode = cloud_mode
