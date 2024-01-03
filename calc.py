@@ -36,7 +36,7 @@ def adjust_font_size(text, font, target_height, target_width, max_font_scale=5):
         text_size = calculate_text_size(text, font, current_font_scale, 2)
         total_text_height = text_size[1] * len(text.split('\n'))
         total_text_width = text_size[0]  # Assuming all lines have similar width
-        if total_text_height <= target_height and int(0.85 * total_text_width)  <= target_width:
+        if total_text_height <= target_height and int(0.65 * total_text_width)  <= target_width:
             return current_font_scale
         else:
             current_font_scale -= 0.1
