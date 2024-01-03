@@ -34,14 +34,15 @@ shape = testimg.shape
 time.sleep(1)
 
 
-cv.namedWindow('Camera Feed', cv.WINDOW_FULLSCREEN)
+#cv.namedWindow('Camera Feed', cv.WINDOW_NORMAL)
 time.sleep(1)
 #cv.setWindowProperty('Camera Feed',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
-cv.resizeWindow('Camera Feed', 480, 320)
+#cv.resizeWindow('Camera Feed', 480, 320)
 time.sleep(1)
 
 while True:
-     
+    cv.namedWindow('Camera Feed', cv.WINDOW_NORMAL)
+    cv.setWindowProperty('Camera Feed',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
     image = picam2.capture_array()
       
     cv.imshow('Camera Feed',image)
