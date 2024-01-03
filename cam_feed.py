@@ -52,7 +52,7 @@ def setup(picam):
 
     
     while True:
-        cv.namedWindow('Camera Feed', cv.WINDOW_FULLSCREEN)
+        cv.namedWindow('Camera Feed', cv.WINDOW_NORMAL)
         cv.setWindowProperty('Camera Feed',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
         img = picam.capture_array()
         
