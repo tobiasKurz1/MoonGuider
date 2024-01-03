@@ -96,7 +96,7 @@ while True:
         reference_y,
         guide.active_deviation,
         org_image,
-        handover_value = f"Effective framerate of {1/duration:.2f} fps, active relays: {guide.showactive()}, Valid target positions: {buffer.get_valid()}",
+        handover_value = f"Effective framerate of {1/duration:.2f} fps, active relays: {guide.showactive()},\nValid target positions: {buffer.get_valid()}",
         overlay = True,
         scale = 1        
         )
