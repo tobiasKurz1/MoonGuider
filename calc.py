@@ -128,7 +128,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
         total_text_height = sum([size[1] for size in text_sizes])
         
         # Calculate starting position for the first line
-        y_position = (bar_height - total_text_height + text_sizes[0]//2) // 2
+        y_position = (bar_height - total_text_height + text_sizes[0][1]//2) // 2
 
         for line, size in zip(text_lines, text_sizes):
             text_position = ((width - size[0]) // 2, y_position)
