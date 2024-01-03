@@ -27,6 +27,19 @@ import numpy as np
 import time
 import pandas as pd
 
+def calculate_text_size(text, font, font_scale, thickness):
+    return cv.getTextSize(text, font, font_scale, thickness)[0]
+
+def adjust_font_size(text, font, target_height, max_font_scale=5):
+    current_font_scale = max_font_scale
+    while current_font_scale > 0.1:
+        text_size = calculate_text_size(text, font, current_font_scale, 2)
+        total_text_height = text_size[1] * len(text.split('\n'))
+        if total_text_height <= target_height:
+            return current_font_scale
+        else:
+            current_font_scale -= 0.1
+    return current_font_scale
 
 def preprocessing(img, grey = True, threshold = 0, blur = 3):
         
@@ -121,19 +134,26 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
         bar = np.ones((bar_height, width, 3), dtype=np.uint8) * 255
     
         # Add the text to the black bar
-        font = cv.FONT_HERSHEY_SIMPLEX
+        font = cv.FONT_HERSHEY_SIMPLEX      
         
         text_lines = bar_text.split('\n')
-        text_sizes = [cv.getTextSize(line, font, 4, 2)[0] for line in text_lines]
-        total_text_height = sum([size[1] for size in text_sizes])
+        max_font_scale = 10
         
-        # Calculate starting position for the first line
-        y_position = (bar_height - total_text_height + text_sizes[0][1]//2) // 2
+        # Adjust the font size to fit within the bar
+        font_scale = adjust_font_size(bar_text, font, bar_height, max_font_scale)
 
-        for line, size in zip(text_lines, text_sizes):
-            text_position = ((width - size[0]) // 2, y_position)
-            cv.putText(bar, line, text_position, font, 4, (0, 0, 0), 2, cv.LINE_AA)
-            y_position = 1.5 * size[1]  # Move the y_position down for the next line
+        # Calculate starting position for the first line
+        y_position = (bar_height - calculate_text_size(text_lines[0], font, font_scale, 2)[1] * len(text_lines)) // 2
+
+        # Draw each line of text
+        for line in text_lines:
+            text_position = ((width - calculate_text_size(line, font, font_scale, 2)[0]) // 2, y_position)
+            cv.putText(bar, line, text_position, font, font_scale, (0, 0, 0), 2, cv.LINE_AA)
+            y_position += calculate_text_size(line, font, font_scale, 2)[1]
+
+
+        print(font_scale)
+
 
 
 
