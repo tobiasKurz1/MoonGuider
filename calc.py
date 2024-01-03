@@ -148,7 +148,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
         # Draw each line of text
         for line in text_lines:
             text_position = ((width - calculate_text_size(line, font, font_scale, 2)[0]) // 2, y_position)
-            cv.putText(bar, line, text_position, font, font_scale, (0, 0, 0), 2, cv.LINE_AA)
+            cv.putText(bar, line, text_position, font, font_scale, (0, 0, 0), 4, cv.LINE_AA)
             y_position += calculate_text_size(line, font, font_scale, 2)[1]
 
 
