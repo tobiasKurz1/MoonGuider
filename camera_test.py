@@ -22,7 +22,7 @@ picam2 = Picamera2()
 
 #cam.setup(picam2)
 
-config = picam2.create_still_configuration()
+config = picam2.create_video_configuration()
 picam2.configure(config)
 
 picam2.start()
