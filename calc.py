@@ -30,13 +30,15 @@ import pandas as pd
 def calculate_text_size(text, font, font_scale, thickness):
     return cv.getTextSize(text, font, font_scale, thickness)[0]
 
-def adjust_font_size(text, font, target_height, target_width, max_font_scale=5):
+def adjust_font_size(text, font, target_height, target_width, thickness, max_font_scale=5):
     current_font_scale = max_font_scale
+    lines = text.split('\n')
+
     while current_font_scale > 0.1:
         text_size = calculate_text_size(text, font, current_font_scale, 2)
-        total_text_height = text_size[1] * len(text.split('\n'))
-        total_text_width = text_size[0]  # Assuming all lines have similar width
-        if total_text_height <= target_height and total_text_width  <= target_width:
+        total_text_height = text_size[1] * lines
+        max_width = max(calculate_text_size(line, font, current_font_scale, thickness)[0] for line in lines)
+        if total_text_height <= target_height and max_width  <= target_width:
             return current_font_scale
         else:
             current_font_scale -= 0.1
@@ -142,7 +144,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
         thickness = 7
         
         # Adjust the font size to fit within the bar
-        font_scale = adjust_font_size(bar_text, font, bar_height,width, max_font_scale)
+        font_scale = adjust_font_size(bar_text, font, bar_height,width, thickness, max_font_scale)
 
         # Calculate starting position for the first line
         y_position = (bar_height - calculate_text_size(text_lines[0], font, font_scale, thickness)[1] * len(text_lines)) // 2
