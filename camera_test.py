@@ -36,8 +36,8 @@ time.sleep(1)
 
 cv.namedWindow('Camera Feed', cv.WINDOW_FULLSCREEN)
 time.sleep(1)
-cv.setWindowProperty('Camera Feed',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
-#cv.resizeWindow('Camera Feed', screen.width, screen.height)
+#cv.setWindowProperty('Camera Feed',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
+cv.resizeWindow('Camera Feed', 480, 320)
 time.sleep(1)
 
 while True:
