@@ -9,7 +9,7 @@ import time
 
 
 class guide:
-    def __init__(self, relay_pins = [27, 17, 22, 18], margin = 0, sticky_buffer = 6, cloud_mode = None, record_buffer = 20, rotate = 0):
+    def __init__(self, relay_pins = [19, 13, 6, 26], margin = 0, sticky_buffer = 6, cloud_mode = None, record_buffer = 20, rotate = 0):
         
 
         self.margin = margin
