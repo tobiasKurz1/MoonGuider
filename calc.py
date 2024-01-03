@@ -138,7 +138,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
         
         text_lines = bar_text.split('\n')
         max_font_scale = 10
-        thickness = 10
+        thickness = 7
         
         # Adjust the font size to fit within the bar
         font_scale = adjust_font_size(bar_text, font, bar_height, max_font_scale)
@@ -149,7 +149,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
         # Draw each line of text
         for line in text_lines:
             text_position = ((width - calculate_text_size(line, font, font_scale, 2)[0]) // 2, y_position)
-            cv.putText(bar, line, text_position, font, font_scale, (0, 0, 0), 4, cv.LINE_AA)
+            cv.putText(bar, line, text_position, font, font_scale, (0, 0, 0), thickness, cv.LINE_AA)
             y_position += calculate_text_size(line, font, font_scale, thickness)[1]
 
 
