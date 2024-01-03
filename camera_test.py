@@ -37,6 +37,22 @@ shape = testimg.shape
 cv.namedWindow('Camera Feed', cv.WINDOW_FULLSCREEN)
 cv.setWindowProperty('Camera Feed',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
 #cv.resizeWindow('Camera Feed', screen.width, screen.height)
+
+while True:
+     
+    image = picam2.capture_array()
+      
+    cv.imshow('Camera Feed',image)
+         
+    
+    key = cv.waitKey(1)
+    
+    if key != -1:
+        break
+
+    
+
+cv.destroyAllWindows()
         
 """
 
