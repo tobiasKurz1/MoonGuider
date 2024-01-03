@@ -28,16 +28,16 @@ import time
 import pandas as pd
 
 def calculate_text_size(text, font, font_scale, thickness):
-    return cv.getTextSize(text, font, font_scale, thickness)
+    return cv.getTextSize(text, font, font_scale, thickness)[0]
 
 def adjust_font_size(text, font, target_height, target_width, thickness, max_font_scale=5):
     current_font_scale = max_font_scale
     lines = text.split('\n')
 
     while current_font_scale > 0.1:
-        text_size = calculate_text_size(text, font, current_font_scale, 2)[0]
-        total_text_height = text_size[1] * lines
-        max_width = max(calculate_text_size(line, font, current_font_scale, thickness)[1] for line in lines)
+        text_size = calculate_text_size(text, font, current_font_scale, 2)
+        total_text_height = text_size[1] * len(lines)
+        max_width = max(calculate_text_size(line, font, current_font_scale, thickness)[0] for line in lines)
         if total_text_height <= target_height and max_width  <= target_width:
             return current_font_scale
         else:
