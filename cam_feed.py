@@ -50,12 +50,10 @@ def setup(picam):
     
     print(f'Shape: {shape}')
 
-
-    cv.namedWindow('Camera Feed', cv.WINDOW_FULLSCREEN)
-    cv.setWindowProperty('Camera Feed',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
-        
     
     while True:
+        cv.namedWindow('Camera Feed', cv.WINDOW_FULLSCREEN)
+        cv.setWindowProperty('Camera Feed',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
         img = picam.capture_array()
         
         cv.imshow('Camera Feed',img)

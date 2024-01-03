@@ -57,14 +57,16 @@ shape = testimg.shape
 #Center Point of the Image in (X,Y) Coordinates
 image_center = (int(shape[1]//2), int(shape[0]//2)) 
 
-cv.namedWindow('Camera Output', cv.WINDOW_FULLSCREEN)
-cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
+
 
 (reference_x, reference_y) = image_center
 
 # MAIN CAPTURE LOOP:
     
 while True:
+    cv.namedWindow('Camera Output', cv.WINDOW_FULLSCREEN)
+    cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
+    
     start_frame = time.time()
     
     org_image = picam.capture_array()
