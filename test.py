@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 
 # Set up GPIO
 GPIO.setmode(GPIO.BCM)
-button_pin = 17  # Change this to the actual GPIO pin you've connected the button to
+button_pin = 26  # Change this to the actual GPIO pin you've connected the button to
 GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 def button_callback(channel):
