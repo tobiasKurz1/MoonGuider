@@ -111,7 +111,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
             target_x = f"{target_x:.2f}"
             target_y = f"{target_y:.2f}"
         
-        bar_text = f"Target at {target_x}, {target_y}; Deviation: {deviation[0]}, {deviation[1]}; {handover_value}"
+        bar_text = f"Target at {target_x}, {target_y}; Deviation: {deviation[0]}, {deviation[1]};\n{handover_value}"
         
         # Define the height of the black bar (you can adjust this value)
         bar_height = int(height * 0.2)
@@ -122,10 +122,24 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
     
         # Add the text to the black bar
         font = cv.FONT_HERSHEY_SIMPLEX
+        
+        text_lines = bar_text.split('\n')
+        text_sizes = [cv.getTextSize(line, font, 4, 2)[0] for line in text_lines]
+        total_text_height = sum([size[1] for size in text_sizes])
+        
+        # Calculate starting position for the first line
+        y_position = (bar_height - total_text_height) // 2
 
-        text_size = cv.getTextSize(bar_text, font, 4, 2)[0]
-        text_position = ((width - text_size[0]) // 2, (bar_height + text_size[1]) // 2)
-        cv.putText(bar, bar_text, text_position, font, 4, (0, 0, 0), 6, cv.LINE_AA)
+        for line, size in zip(text_lines, text_sizes):
+            text_position = ((width - size[0]) // 2, y_position)
+            cv.putText(bar, line, text_position, font, 4, (0, 0, 0), 2, cv.LINE_AA)
+            y_position += size[1]  # Move the y_position down for the next line
+
+
+
+        # text_size = cv.getTextSize(bar_text, font, 4, 2)[0]
+        # text_position = ((width - text_size[0]) // 2, (bar_height + text_size[1]) // 2)
+        # cv.putText(bar, bar_text, text_position, font, 4, (0, 0, 0), 6, cv.LINE_AA)
         
         # Stack the black bar on top of the original image
         # If Moon would be under the bar at the bottom, put bar on top
