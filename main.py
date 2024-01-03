@@ -64,7 +64,7 @@ image_center = (int(shape[1]//2), int(shape[0]//2))
 # MAIN CAPTURE LOOP:
     
 while True:
-    cv.namedWindow('Camera Output', cv.WINDOW_FULLSCREEN)
+    cv.namedWindow('Camera Output', cv.WINDOW_NORMAL)
     cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
     
     start_frame = time.time()
