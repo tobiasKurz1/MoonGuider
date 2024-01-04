@@ -8,6 +8,8 @@ Created on Mon Oct 30 19:01:12 2023
 import RPi.GPIO as GPIO
 import time
 
+
+
 # Define the GPIO pins for each relay
 relay_pins = [19, 13, 6, 26]
 

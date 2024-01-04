@@ -37,6 +37,66 @@ buffer = clc.buffer(buffer_length = 3)
 
 guide = relay.guide(relay_pins = [19, 13, 6, 26], margin = 1.5, sticky_buffer= 4,rotate = 90, cloud_mode = None)
 
+def perform_relay_test():
+    deviations = []
+
+    while True:
+        cv.namedWindow('Camera Output', cv.WINDOW_NORMAL)
+        cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
+        
+        org_image = picam.capture_array()
+        processed = clc.preprocessing(org_image, threshold = 0, blur = 5)
+        
+        (target_x, target_y, _) = clc.moonposition(processed)
+                
+        marked = clc.targetmarkers(
+            target_x,
+            target_y,
+            _,
+            target_x,
+            target_y,
+            0,
+            org_image,
+            handover_value = "Performing Relay Test.\nPress Button if correct stationary Target is found.",
+            overlay = True,
+            scale = 1        
+            )
+                
+        cv.imshow('Camera Output',marked)
+        key = cv.waitKey(1)
+        
+        if key != -1:
+            return
+        
+        time.sleep(1)
+        
+        if guide.button_is_pressed():
+            time.sleep(0.5)
+            cv.destroyAllWindows()
+            print("Relay Testing in Progress...\nThis will take 40s")
+            break
+    
+    for pin in guide.relay_pins:
+        org_image = picam.capture_array()
+        processed = clc.preprocessing(org_image, threshold = 0, blur = 5)
+        
+        (target_x, target_y, _) = clc.moonposition(processed)
+        
+        print(f"Testing pin {pin}...")
+        guide.activate_pin(pin)
+        time.sleep(10)
+        guide.activate()
+        
+        org_image = picam.capture_array()
+        processed = clc.preprocessing(org_image, threshold = 0, blur = 5)
+        (x, y, _) = clc.moonposition(processed)
+        deviation = clc.get_deviation((x, y), (target_x, target_y))
+        deviations.append(deviation)
+        print(f"Detected deviation: {deviation}")
+        
+    input("\nPress Enter to continue")
+    return
+
 time.sleep(1)
 
 picam = Picamera2()
@@ -49,7 +109,9 @@ picam.configure(config)
 
 picam.start()
     
-#guide.setup()
+
+perform_relay_test()
+
 
 testimg = picam.capture_array()
 shape = testimg.shape
@@ -57,9 +119,12 @@ shape = testimg.shape
 #Center Point of the Image in (X,Y) Coordinates
 image_center = (int(shape[1]//2), int(shape[0]//2)) 
 
-
-
 (reference_x, reference_y) = image_center
+
+
+
+
+
 
 # MAIN CAPTURE LOOP:
     
@@ -73,7 +138,7 @@ while True:
     
     processed = clc.preprocessing(org_image, threshold = 0, blur = 5)
     
-    (target_x, target_y, target_radius) = clc.moonposition(processed, 1) # Testparameter, wird noch entfernt
+    (target_x, target_y, target_radius) = clc.moonposition(processed)
     
     buffer.add(target_x, "target_x")
     buffer.add(target_y, "target_y")
@@ -122,4 +187,7 @@ guide.stop()
 clc.export(targetvalues, "Log")   
 
         
+
+        
+    
 

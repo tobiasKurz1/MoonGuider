@@ -175,12 +175,12 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
         
     return(img)
 
-def moonposition(processed_img, param = 1):
+def moonposition(processed_img):
     
     circles = cv.HoughCircles(
         processed_img,       # Input image
         cv.HOUGH_GRADIENT,   # Detection method
-        dp=param,                # Inverse ratio of the accumulator resolution to the image resolution
+        dp=1,                # Inverse ratio of the accumulator resolution to the image resolution
         minDist=50,          # Minimum distance between detected centers
         param1=100,          # Higher threshold for edge detection
         param2=30,           # Accumulator threshold for circle detection

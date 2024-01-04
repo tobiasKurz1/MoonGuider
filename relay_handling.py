@@ -7,14 +7,15 @@ Created on Mon Nov 20 21:59:14 2023
 import RPi.GPIO as GPIO
 import time
 
+    
 
 class guide:
-    def __init__(self, relay_pins = [19, 13, 6, 26], margin = 0, sticky_buffer = 6, cloud_mode = None, record_buffer = 20, rotate = 0):
+    def __init__(self, relay_pins = [19, 13, 6, 26], button_pin = 16, margin = 0, sticky_buffer = 6, cloud_mode = None, record_buffer = 20, rotate = 0):
         
 
         self.margin = margin
         self.active = [False, False, False, False]
-        
+        self.button_pin = button_pin
         self.mode_info = None
         
         self.sticky_buffer = sticky_buffer
@@ -53,9 +54,14 @@ class guide:
         print(f"Activation Margin set to {margin} px")
         GPIO.setmode(GPIO.BCM)
         
+        GPIO.setup(self.button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+               
         for pin in self.relay_pins:
             GPIO.setup(pin, GPIO.OUT)
             GPIO.output(pin, GPIO.HIGH)
+    
+    def button_is_pressed(self):
+        return GPIO.input(self.button_pin) == GPIO.LOW
     
     def check_sticky(self, xdev, ydev):
         
@@ -100,6 +106,10 @@ class guide:
             GPIO.output(self.relay_pins[pin], GPIO.HIGH)
             time.sleep(0.1)
                         
+        return
+    
+    def activate_pin(pin):
+        GPIO.output(pin, GPIO.LOW)
         return
     
     def activate(self, right = False, left = False, down = False, up = False):
@@ -223,4 +233,7 @@ class guide:
         self.activate()            
         GPIO.cleanup()
         return
-            
+  
+
+
+          
