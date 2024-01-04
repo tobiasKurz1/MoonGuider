@@ -55,7 +55,7 @@ def perform_relay_test():
             _,
             target_x,
             target_y,
-            0,
+            None,
             org_image,
             handover_value = "Performing Relay Test.\nPress Button if correct stationary Target is found.",
             overlay = True,
