@@ -14,7 +14,7 @@ rounds = int(input("Nr. of Rounds: "))
 r = float(rounds)
 
 
-relay_pins = [18, 22, 17, 27]
+relay_pins = [19, 13, 6, 26]
 
 buffer = clc.buffer(buffer_length = 2)
 

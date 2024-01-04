@@ -74,13 +74,13 @@ def perform_relay_test():
             time.sleep(1)
             break
     
-    for pin in guide.relay_pins:
+    for pin, direction in zip(guide.relay_pins, ["right","left","down","up"]):
         org_image = picam.capture_array()
         processed = clc.preprocessing(org_image, threshold = 0, blur = 5)
         
         (target_x, target_y, _) = clc.moonposition(processed)
         
-        print(f"Testing pin {pin}...")
+        print(f"Testing pin {pin} ({direction})...")
         
         guide.activate_pin(pin)
         time.sleep(10)
