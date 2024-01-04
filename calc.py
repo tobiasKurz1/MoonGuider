@@ -158,11 +158,12 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
      
         # Stack the black bar on top of the original image
         # If Moon would be under the bar at the bottom, put bar on top
-        if target_x is not None and deviation[0] is not None:
-            if (scl_target_y + scl_target_radius) > (height - bar_height):
+        if target_x is None or deviation[0] is None:
+            img[height-bar_height:height, 0:width] = bar         
+        elif (scl_target_y + scl_target_radius) > (height - bar_height):
                 img[0:bar_height, 0:width] = bar   
         else:
-            img[height-bar_height:height, 0:width] = bar
+            img[height-bar_height:height, 0:width] = bar 
         
         
     return(img)
