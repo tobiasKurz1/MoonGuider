@@ -109,6 +109,7 @@ while True:
         buffer.average("target_radius"),
         reference_x,
         reference_y,
+        (0,0),
         processed,
         handover_value = f"Active relays: {guide.showactive()}    {i-1} / {step*5}; rounds left:{rounds-1}; {prozent:.1f}%",
         overlay = True,
