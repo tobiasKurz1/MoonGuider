@@ -50,36 +50,21 @@ while True:
     cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
     
     if i in range(step+1, step*2): 
-        guide.activate(relay_pins[0])
-        guide.deactivate(relay_pins[1])
-        guide.deactivate(relay_pins[2])
-        guide.deactivate(relay_pins[3])
+        guide.activate(right=True)
 
     if i in range(step * 2 + 1, step * 3): 
-        guide.deactivate(relay_pins[0])
-        guide.deactivate(relay_pins[1])
-        guide.activate(relay_pins[2])
-        guide.deactivate(relay_pins[3])
+        guide.activate(left=True)
 
     if i in range(step * 3 + 1, step * 4): 
-        guide.deactivate(relay_pins[0])
-        guide.activate(relay_pins[1])
-        guide.deactivate(relay_pins[2])
-        guide.deactivate(relay_pins[3])
+        guide.activate(down=True)
 
     if i in range(step * 4 + 1, step * 5): 
-        guide.deactivate(relay_pins[0])
-        guide.deactivate(relay_pins[1])
-        guide.deactivate(relay_pins[2])
-        guide.activate(relay_pins[3])        
+        guide.activate(up=True)       
     
     
     if i > step * 5: 
         i = 1
-        guide.deactivate(relay_pins[0])
-        guide.deactivate(relay_pins[1])
-        guide.deactivate(relay_pins[2])
-        guide.deactivate(relay_pins[3])  
+        guide.activate()  
         rounds = rounds - 1
         if rounds <= 0:
             break
