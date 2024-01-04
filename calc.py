@@ -87,12 +87,14 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
         # or last deviation
         scl_devx = int(deviation[0] * scale)
         scl_devy = int(deviation[1] * scale)
-        scl_ref_x = int(ref_x * scale)
-        scl_ref_y = int(ref_y * scale)
-        
-        # Draw deviation Arrow
-        cv.arrowedLine(img, (scl_ref_x, scl_ref_y), (scl_ref_x + scl_devx, scl_ref_y + scl_devy), (0, 0, 255), line_thickness, tipLength=0.2)
-        
+        try:
+            scl_ref_x = int(ref_x * scale)
+            scl_ref_y = int(ref_y * scale)
+            
+            # Draw deviation Arrow
+            cv.arrowedLine(img, (scl_ref_x, scl_ref_y), (scl_ref_x + scl_devx, scl_ref_y + scl_devy), (0, 0, 255), line_thickness, tipLength=0.2)
+        except: pass
+    
     else:   # Both target and deviation are valid
     
         print(f"Target at unscaled Coordinates: {target_x}, {target_y}")
