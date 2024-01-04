@@ -80,7 +80,6 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
         
         cv.circle(img, (width // 2, height // 2), 120, line_color, line_thickness)
         cv.circle(img, (width // 2, height // 2), 160, line_color, line_thickness)
-
         
     elif None in (target_x, target_y): 
         
