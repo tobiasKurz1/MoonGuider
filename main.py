@@ -83,6 +83,7 @@ def perform_relay_test():
         (target_x, target_y, _) = clc.moonposition(processed)
         
         print(f"Testing pin {pin}...")
+        print(f"{type(pin)}")
         guide.activate_pin(pin)
         time.sleep(10)
         guide.activate()
