@@ -83,7 +83,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
 
         
     elif None in (target_x, target_y): 
-        print("Target not found")
+        
         # Target is not found but deviation is generated through prediction
         # or last deviation
         scl_devx = int(deviation[0] * scale)
