@@ -108,7 +108,7 @@ class guide:
                         
         return
     
-    def activate_pin(pin):
+    def activate_pin(self, pin):
         GPIO.output(pin, GPIO.LOW)
         return
     
