@@ -157,18 +157,11 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
 
 
      
-
-
-
-
-        # text_size = cv.getTextSize(bar_text, font, 4, 2)[0]
-        # text_position = ((width - text_size[0]) // 2, (bar_height + text_size[1]) // 2)
-        # cv.putText(bar, bar_text, text_position, font, 4, (0, 0, 0), 6, cv.LINE_AA)
-        
         # Stack the black bar on top of the original image
         # If Moon would be under the bar at the bottom, put bar on top
-        if target_x is not None and (scl_target_y + scl_target_radius) > (height - bar_height):
-            img[0:bar_height, 0:width] = bar   
+        if target_x is not None :
+            if (scl_target_y + scl_target_radius) > (height - bar_height):
+                img[0:bar_height, 0:width] = bar   
         else:
             img[height-bar_height:height, 0:width] = bar
         
