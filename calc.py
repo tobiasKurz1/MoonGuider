@@ -156,7 +156,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
             y_position += calculate_text_size(line, font, font_scale, thickness)[1]
 
 
-        print(font_scale)
+     
 
 
 
