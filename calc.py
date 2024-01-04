@@ -75,17 +75,15 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
     
     if None in deviation: # No target is tracked
         
-        print("Target not found")
-        
         cv.line(img, (0, 0), (width, height), line_color, line_thickness)
         cv.line(img, (0, height), (width, 0), line_color, line_thickness)
         
         cv.circle(img, (width // 2, height // 2), 120, line_color, line_thickness)
         cv.circle(img, (width // 2, height // 2), 160, line_color, line_thickness)
 
-        #cv.putText(img, "Not Found", (center_x,center_y), cv.FONT_HERSHEY_SIMPLEX, 10, (0,0,255))
         
     elif None in (target_x, target_y): 
+        print("Target not found")
         # Target is not found but deviation is generated through prediction
         # or last deviation
         scl_devx = int(deviation[0] * scale)
