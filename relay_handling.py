@@ -34,9 +34,9 @@ class guide:
     
         if rotate == 90:
             self.relay_pins = [relay_pins[3], relay_pins[2], relay_pins[0], relay_pins[1]]
-        if rotate == 180:
+        elif rotate == 180:
             self.relay_pins = [relay_pins[1], relay_pins[0], relay_pins[3], relay_pins[2]]
-        if rotate == 270:
+        elif rotate == 270:
             self.relay_pins = [relay_pins[2], relay_pins[3], relay_pins[1], relay_pins[0]]
         else:
             if rotate != 0:
