@@ -95,7 +95,7 @@ while True:
     
     processed = clc.preprocessing(org_image, threshold = 0, blur = 5)
      
-    (target_x, target_y, target_radius) = clc.moonposition(processed, 1) # Testparameter, wird noch entfernt
+    (target_x, target_y, target_radius) = clc.moonposition(processed) # Testparameter, wird noch entfernt
     
     
        
