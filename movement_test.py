@@ -102,8 +102,9 @@ while True:
     buffer.add(target_x, "target_x")
     buffer.add(target_y, "target_y")
     buffer.add(target_radius, "target_radius")    
-        
-    marked, deviation = clc.targetmarkers(
+    deviation = clc.get_deviation((target_x, target_y), (reference_x, reference_y))
+    
+    marked = clc.targetmarkers(
         buffer.average("target_x"),
         buffer.average("target_y"),
         buffer.average("target_radius"),
