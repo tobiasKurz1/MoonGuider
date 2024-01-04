@@ -57,7 +57,7 @@ def perform_relay_test():
             target_y,
             (0,0),
             org_image,
-            handover_value = "Performing Relay Test.\nPress Button if correct stationary Target is found.",
+            handover_value = "To perform relay test.\npress Button if correct stationary Target is found.",
             overlay = True,
             scale = 1        
             )
@@ -68,12 +68,10 @@ def perform_relay_test():
         if key != -1:
             return
         
-        time.sleep(1)
-        
         if guide.button_is_pressed():
-            time.sleep(0.5)
             cv.destroyAllWindows()
             print("Relay Testing in Progress...\nThis will take 40s")
+            time.sleep(1)
             break
     
     for pin in guide.relay_pins:
@@ -121,10 +119,6 @@ shape = testimg.shape
 image_center = (int(shape[1]//2), int(shape[0]//2)) 
 
 (reference_x, reference_y) = image_center
-
-
-
-
 
 
 # MAIN CAPTURE LOOP:
