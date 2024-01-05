@@ -46,6 +46,8 @@ def adjust_font_size(text, font, target_height, target_width, thickness, max_fon
 
 def preprocessing(img, grey = True, threshold = 0, blur = 3):
         
+    # Turn image into rgb
+    img = cv.cvtColor(img, cv.COLOR_YUV2BGR_I420)
     # Turn image into grey version (1 channel)
     img = cv.cvtColor(img, cv.COLOR_BGR2GRAY) if grey else img
     
