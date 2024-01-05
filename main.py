@@ -110,7 +110,7 @@ picam = Picamera2()
 #config = picam.create_video_configuration()
 #config = picam.create_still_configuration()
 config = picam.create_video_configuration(
-    main={'format': 'RGB888', "size": (int(4056//1.5),int( 3040//1.5))},
+    main={'format': 'RGB888', "size": (int(4056/2),int( 3040/2))},
     buffer_count= 6,
     )
 
