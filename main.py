@@ -58,7 +58,7 @@ def perform_relay_test():
             target_y,
             (0,0),
             org_image,
-            handover_value = "To perform relay test.\npress Button if correct stationary Target is found.",
+            handover_value = "Press any key to skip relay test.\nPress Button if correct stationary Target is found.",
             overlay = True,
             scale = 1        
             )
@@ -143,6 +143,14 @@ while True:
     avrg_target_x = buffer.average("target_x")
     avrg_target_y = buffer.average("target_y")
     
+    if guide.button_is_pressed() and not None in (avrg_target_x, avrg_target_y):
+        (reference_x, reference_y) = (avrg_target_x, avrg_target_y)
+        press_counter += 1
+        if press_counter >= 2:
+            (reference_x, reference_y) = image_center            
+    else:
+        press_counter = 0
+    
     deviation = clc.get_deviation((avrg_target_x, avrg_target_y), (reference_x, reference_y))  
   
     guide.to(deviation)
@@ -157,7 +165,7 @@ while True:
         reference_y,
         guide.active_deviation,
         org_image,
-        handover_value = f"Effective framerate of {1/duration:.2f} fps, active relays: {guide.showactive()},\nValid target positions: {buffer.get_valid()}",
+        handover_value = f"{1/duration:.2f} FpS, active relays: {guide.showactive()},\nValid target positions: {buffer.get_valid()}",
         overlay = True,
         scale = 1        
         )
@@ -173,14 +181,6 @@ while True:
     
     if key != -1:
         break
-
-    if guide.button_is_pressed() and not None in (avrg_target_x, avrg_target_y):
-        (reference_x, reference_y) = (avrg_target_x, avrg_target_y)
-        press_counter += 1
-        if press_counter >= 2:
-            (reference_x, reference_y) = image_center            
-    else:
-        press_counter = 0
 
 
 cv.destroyAllWindows()
