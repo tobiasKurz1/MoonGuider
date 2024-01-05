@@ -111,8 +111,8 @@ cam.setup(picam)
 #config = picam.create_video_configuration()
 #config = picam.create_still_configuration()
 config = picam.create_video_configuration(
-    main={'format': 'BGR888', "size": (4056, 3040)},
-    buffer_count= 6,
+    main={'format': 'RGB888', "size": (4056, 3040)},
+    buffer_count= 10,
     )
 
 picam.configure(config)
