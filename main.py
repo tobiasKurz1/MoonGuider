@@ -119,6 +119,7 @@ perform_relay_test()
 
 testimg = picam.capture_array()
 shape = testimg.shape
+print(shape)
 
 #Center Point of the Image in (X,Y) Coordinates
 image_center = (int(shape[1]//2), int(shape[0]//2)) 
