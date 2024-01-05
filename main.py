@@ -24,7 +24,6 @@ import calc as clc
 import cv2 as cv
 import cam_feed as cam
 from picamera2 import Picamera2
-from libcamera import ColorSpace
 import time
 import relay_handling as relay
 
