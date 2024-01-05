@@ -100,13 +100,13 @@ class guide:
                 self.sbx = []
                 self.sby = []
             """
-            if self.sbx[0] < self.sbx[-1]:
+            if self.sbx[0] < self.sbx[-1] and max(self.sbx) > 15:
                 self.pulse(0)
                 self.pulse(1)
                 self.sbx = []
                 self.sby = []
                 
-            if self.sby[0] < self.sby[-1]:
+            if self.sby[0] < self.sby[-1] and max(self.sby) > 15:
                 self.pulse(2)
                 self.pulse(3)
                 self.sbx = []
