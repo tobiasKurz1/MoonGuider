@@ -106,7 +106,7 @@ time.sleep(1)
 
 picam = Picamera2()
 
-cam.setup(picam)
+# cam.setup(picam)
 
 #config = picam.create_video_configuration()
 #config = picam.create_still_configuration()
