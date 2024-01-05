@@ -101,14 +101,14 @@ class guide:
                 self.sby = []
             """
             if self.sbx[0] < self.sbx[-1] and max(self.sbx) > 15:
-                self.pulse(0)
-                self.pulse(1)
+                self.pulse(self.relay_pins[0])
+                self.pulse(self.relay_pins[1])
                 self.sbx = []
                 self.sby = []
                 
             if self.sby[0] < self.sby[-1] and max(self.sby) > 15:
-                self.pulse(2)
-                self.pulse(3)
+                self.pulse(self.relay_pins[2])
+                self.pulse(self.relay_pins[3])
                 self.sbx = []
                 self.sby = []
                 
@@ -118,9 +118,9 @@ class guide:
     
     def pulse(self, pin, count = 2):
         for i in range(count):
-            GPIO.output(self.relay_pins[pin], GPIO.LOW)
+            GPIO.output(pin, GPIO.LOW)
             time.sleep(0.1)
-            GPIO.output(self.relay_pins[pin], GPIO.HIGH)
+            GPIO.output(pin, GPIO.HIGH)
             time.sleep(0.1)
                         
         return
