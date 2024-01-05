@@ -10,7 +10,7 @@ import time
     
 
 class guide:
-    def __init__(self, relay_pins = [19, 13, 6, 26], button_pin = 16, margin = 0, sticky_buffer = 6, cloud_mode = None, record_buffer = 20, rotate = 0):
+    def __init__(self, relay_pins = [19, 13, 6, 26], button_pin = 16, margin = 0, sticky_buffer = 0, cloud_mode = None, record_buffer = 20, rotate = 0):
         
 
         self.margin = margin
@@ -75,9 +75,13 @@ class guide:
             self.sbx.pop(0)
             self.sby.pop(0)
         
+            """ Use this if you want the sticky pulse to activate only when 
+            every change is with increasing deviation:
+                
             err_x = 0
             err_y = 0
             
+
             for i in range(1,len(self.sbx)):
                 if self.sbx[i] > self.sbx[i-1]:
                     err_x = err_x + 1
@@ -95,7 +99,20 @@ class guide:
                 self.pulse(3)
                 self.sbx = []
                 self.sby = []
+            """
+            if self.sbx[0] < self.sbx[-1]:
+                self.pulse(0)
+                self.pulse(1)
+                self.sbx = []
+                self.sby = []
                 
+            if self.sby[0] < self.sby[-1]:
+                self.pulse(2)
+                self.pulse(3)
+                self.sbx = []
+                self.sby = []
+                
+            
         return
     
     
@@ -214,7 +231,7 @@ class guide:
             xdev = self.active_deviation[0]
             ydev = self.active_deviation[1]
             
-            self.check_sticky(xdev, ydev)
+            if self.sticky_buffer: self.check_sticky(xdev, ydev)
             
             # Activate the pins in the direction of positive deviation, 
             # deactivate everything else
