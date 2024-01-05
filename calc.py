@@ -45,9 +45,6 @@ def adjust_font_size(text, font, target_height, target_width, thickness, max_fon
     return current_font_scale
 
 def preprocessing(img, grey = True, threshold = 0, blur = 3):
-        
-    # Turn image into rgb
-    img = cv.cvtColor(img, cv.COLOR_YUV2BGR_I420)
     # Turn image into grey version (1 channel)
     img = cv.cvtColor(img, cv.COLOR_BGR2GRAY) if grey else img
     
@@ -187,9 +184,9 @@ def moonposition(processed_img):
         processed_img,       # Input image
         cv.HOUGH_GRADIENT,   # Detection method
         dp=1,                # Inverse ratio of the accumulator resolution to the image resolution
-        minDist=50,          # Minimum distance between detected centers
-        param1=100,          # Higher threshold for edge detection
-        param2=30,           # Accumulator threshold for circle detection
+        minDist=processed_img.shape[0],          # Minimum distance between detected centers
+        param1=200,          # Higher threshold for edge detection
+        param2=50,           # Accumulator threshold for circle detection
         minRadius = 50,        # Minimum circle radius 120
         maxRadius=160        # Maximum circle radius 160
     )
