@@ -167,14 +167,15 @@ while True:
     end_frame = time.time()
     
     duration = end_frame - start_frame
-      
-    
+         
     key = cv.waitKey(1)
     
     if key != -1:
         break
 
-    
+    if guide.button_is_pressed() and not None in (avrg_target_x, avrg_target_y):
+        (reference_x, reference_y) = (avrg_target_x, avrg_target_y)
+
 
 cv.destroyAllWindows()
 guide.stop()
