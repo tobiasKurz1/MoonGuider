@@ -34,7 +34,7 @@ press_counter = 0
 targetvalues = []
 targetvalues.append(["Time", "target_x", "target_y", "target_radius", "x_deviation"," y_deviation", "Active Relays"])
 
-buffer = clc.buffer(buffer_length = 3)
+buffer = clc.buffer(buffer_length = 10)
 
 guide = relay.guide(relay_pins = [19, 13, 6, 26], margin = 1.5, sticky_buffer= 0,rotate = 90, cloud_mode = None)
 
