@@ -71,7 +71,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
     line_color = (0, 0, 255)  # Red in BGR format
     
     # Define the thickness of the lines
-    line_thickness = 7
+    line_thickness =10
     
     if None in deviation: # No target is tracked
         
@@ -104,6 +104,10 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
         scl_target_radius = int(target_radius * scale)
         scl_ref_x = int(ref_x * scale)
         scl_ref_y =int(ref_y * scale)
+        
+        # Draw reference Point
+        cv.line(img, (0, scl_target_y), (width, scl_target_y), line_color, line_thickness)
+        cv.line(img, (scl_target_x, 0), (scl_target_x, height), line_color, line_thickness)
         
         # Draw deviation Arrow
         cv.arrowedLine(img, (scl_ref_x, scl_ref_y), (scl_target_x, scl_target_y), (0, 255, 0), line_thickness, tipLength=0.2)
