@@ -104,12 +104,12 @@ class guide:
                 self.sby = []
             """         
 
-            if self.sbx[0] < self.sbx[-1] and max(self.sbx) > 15:
+            if self.sbx[0] < self.sbx[-1] and max(self.sbx) > 10:
                 self.pulse(self.relay_pins[0])
                 self.pulse(self.relay_pins[1])
                 self.sbx = []
                                 
-            if self.sby[0] < self.sby[-1] and max(self.sby) > 15:
+            if self.sby[0] < self.sby[-1] and max(self.sby) > 10:
                 self.pulse(self.relay_pins[2])
                 self.pulse(self.relay_pins[3])
                 self.sbx = []
