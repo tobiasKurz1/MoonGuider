@@ -99,7 +99,7 @@ class guide:
         return
     
     
-    def pulse(self, pin, count = 3):
+    def pulse(self, pin, count = 2):
         for i in range(count):
             GPIO.output(self.relay_pins[pin], GPIO.LOW)
             time.sleep(0.1)
