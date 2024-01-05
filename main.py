@@ -107,8 +107,8 @@ picam = Picamera2()
 
 cam.setup(picam)
 
-#config = picam.create_video_configuration()
-config = picam.create_still_configuration()
+config = picam.create_video_configuration()
+#config = picam.create_still_configuration()
 picam.configure(config)
 
 picam.start()
