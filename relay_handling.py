@@ -104,7 +104,11 @@ class guide:
                 self.sby = []
             """
 
-            
+            print(self.sbx)
+            print(len(self.sbx))
+            print(self.sby)
+            print(len(self.sby))            
+
             if self.sbx[0] < self.sbx[-1] and max(self.sbx) > 15:
                 self.pulse(self.relay_pins[0])
                 self.pulse(self.relay_pins[1])
