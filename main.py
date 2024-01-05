@@ -36,7 +36,7 @@ targetvalues.append(["Time", "target_x", "target_y", "target_radius", "x_deviati
 
 buffer = clc.buffer(buffer_length = 3)
 
-guide = relay.guide(relay_pins = [19, 13, 6, 26], margin = 1.5, sticky_buffer= 5,rotate = 0, cloud_mode = None)
+guide = relay.guide(relay_pins = [19, 13, 6, 26], margin = 1.5, sticky_buffer= 10,rotate = 90, cloud_mode = None)
 
 def perform_relay_test():
     deviations = []
