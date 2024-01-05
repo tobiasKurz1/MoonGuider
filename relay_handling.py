@@ -68,6 +68,9 @@ class guide:
         if not self.mode_info == "Active Guiding":
             return
         
+        if None in (xdev, ydev):
+            return
+        
         self.sbx.append(abs(xdev))
         self.sby.append(abs(ydev))
                         
@@ -100,6 +103,8 @@ class guide:
                 self.sbx = []
                 self.sby = []
             """
+
+            
             if self.sbx[0] < self.sbx[-1] and max(self.sbx) > 15:
                 self.pulse(self.relay_pins[0])
                 self.pulse(self.relay_pins[1])
