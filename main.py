@@ -109,7 +109,7 @@ cam.setup(picam)
 
 #config = picam.create_video_configuration()
 #config = picam.create_still_configuration()
-config = {'main': {'format': 'RGB888', 'size': (4056, 3040)}, 'buffer_count': 6}
+config = {'main': {'format': 'BGR888', 'size': (4056, 3040)}, 'buffer_count': 6}
 
 picam.configure(config)
 
