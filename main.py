@@ -29,6 +29,7 @@ import relay_handling as relay
 
 
 duration = 1
+press_counter = 0
 
 targetvalues = []
 targetvalues.append(["Time", "target_x", "target_y", "target_radius", "x_deviation"," y_deviation", "Active Relays"])
@@ -175,6 +176,11 @@ while True:
 
     if guide.button_is_pressed() and not None in (avrg_target_x, avrg_target_y):
         (reference_x, reference_y) = (avrg_target_x, avrg_target_y)
+        press_counter += 1
+        if press_counter >= 3:
+            (reference_x, reference_y) = image_center            
+    else:
+        press_counter = 0
 
 
 cv.destroyAllWindows()
