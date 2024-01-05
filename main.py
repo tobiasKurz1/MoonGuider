@@ -109,7 +109,7 @@ cam.setup(picam)
 
 #config = picam.create_video_configuration()
 #config = picam.create_still_configuration()
-config = {'main': {'size': (4056, 3040)}, 'buffer_count': 6}
+config = {'main': {'format': 'YUV420', 'size': (4056, 3040)}, 'buffer_count': 6}
 
 picam.configure(config)
 
