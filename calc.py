@@ -227,14 +227,17 @@ def export(config, data, filename):
         if temp in ["N","n","No","NO","nein","Nein","NEIN"]:
             print("Data has not been saved")
             return
-        
+    note = input("Add a Note. Press enter when done.\n")
+    config.append("")
+    config.append("NOTE: " + note)    
     filename = temp
     
     df1 = pd.DataFrame(data)
-    df1.to_excel(f"Logs/{filename}.xlsx",sheet_name=f'{time.ctime()[0:10]}', index=False, header=False)
     df2 = pd.DataFrame(config)
-    df2.to_excel(f"Logs/{filename}.xlsx",sheet_name='Configuration', index=False, header=False)
     
+    with pd.ExcelWriter(f"Logs/{filename}.xlsx", engine='openpyxl') as writer:
+        df1.to_excel(writer, sheet_name=f'{time.ctime()[0:10]}', index=False, header=False)
+        df2.to_excel(writer, sheet_name='Configuration', index=False, header=False)  
     print(f"Exported to Excelfile '{filename}.xlsx'")
 
     
