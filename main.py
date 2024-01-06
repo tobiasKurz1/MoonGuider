@@ -30,23 +30,29 @@ import relay_handling as relay
 ##### Variables #####
 
 # Guider:
-relay_pins    = [19, 13, 6, 26]
-button_pin    = 16
-margin        = 0
-sticky_buffer = 10
-cloud_mode    = None
-record_buffer = 20
-rotate        = 90
+relay_pins      = [19, 13, 6, 26]
+button_pin      = 16
+margin          = 0
+sticky_buffer   = 10
+cloud_mode      = None
+record_buffer   = 20
+rotate          = 90
 
 # Camera:
-image_size    = (4056/1.8, 3040/1.8) 
-image_buffer  = 7
+image_size      = (4056/1.8, 3040/1.8) 
+image_buffer    = 7
 
 # Image Processing:
-threshold     = 0
-blur          = 5
+threshold       = 0
+blur            = 5
 
-
+# General:
+buffer_length   = 10
+overlay         = True
+scale           = 0.5  
+show_cam_feed   = True
+do_relay_test   = True
+export_to_excel = True
 
 
 
@@ -57,7 +63,7 @@ press_counter = 0
 targetvalues = []
 targetvalues.append(["Time", "target_x", "target_y", "target_radius", "x_deviation"," y_deviation", "Active Relays"])
 
-buffer = clc.buffer(buffer_length = 10)
+buffer = clc.buffer(buffer_length)
 
 guide = relay.guide(relay_pins, margin, sticky_buffer, cloud_mode, record_buffer, rotate)
 
@@ -122,13 +128,14 @@ def perform_relay_test():
         print(f"Detected deviation: {deviation}")
         
     input("\nPress Enter to continue")
+    time.sleep(1)
     return
 
-time.sleep(1)
+
 
 picam = Picamera2()
 
-# cam.setup(picam)
+cam.setup(picam)
 
 #config = picam.create_video_configuration()
 #config = picam.create_still_configuration()
@@ -137,7 +144,7 @@ config = picam.create_video_configuration(
     buffer_count = image_buffer,
     )
 
-picam.configure(config)
+if show_cam_feed: picam.configure(config)
 
 picam.start()
     
@@ -145,7 +152,7 @@ testimg = picam.capture_array()
 shape = testimg.shape
 print(shape)
 
-perform_relay_test()
+if do_relay_test: perform_relay_test()
 
 #Center Point of the Image in (X,Y) Coordinates
 image_center = (int(shape[1]//2), int(shape[0]//2)) 
@@ -198,7 +205,7 @@ while True:
         org_image,
         handover_value = f"{1/duration:.2f} FpS, active relays: {guide.showactive()},\nValid target positions: {buffer.get_valid()}",
         overlay = True,
-        scale = 0.1        
+        scale = 0.5        
         )
     
     
@@ -217,7 +224,7 @@ while True:
 cv.destroyAllWindows()
 guide.stop()
 
-clc.export(targetvalues, "Log")   
+if export_to_excel: clc.export(targetvalues, "Log")   
 
         
 
