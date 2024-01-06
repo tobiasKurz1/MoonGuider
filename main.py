@@ -133,8 +133,6 @@ picam.start()
     
 testimg = picam.capture_array()
 shape = testimg.shape
-print(config.image_size)
-print(shape)
 
 if config.do_relay_test: perform_relay_test()
 
