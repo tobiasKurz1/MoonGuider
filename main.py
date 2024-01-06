@@ -27,6 +27,29 @@ from picamera2 import Picamera2
 import time
 import relay_handling as relay
 
+##### Variables #####
+
+# Guider:
+relay_pins    = [19, 13, 6, 26]
+button_pin    = 16
+margin        = 0
+sticky_buffer = 10
+cloud_mode    = None
+record_buffer = 20
+rotate        = 90
+
+# Camera:
+image_size    = (4056/1.8, 3040/1.8) 
+image_buffer  = 7
+
+# Image Processing:
+threshold     = 0
+blur          = 5
+
+
+
+
+
 
 duration = 1
 press_counter = 0
@@ -36,7 +59,7 @@ targetvalues.append(["Time", "target_x", "target_y", "target_radius", "x_deviati
 
 buffer = clc.buffer(buffer_length = 10)
 
-guide = relay.guide(relay_pins = [19, 13, 6, 26], margin = 0.5, sticky_buffer= 10,rotate = 90, cloud_mode = None)
+guide = relay.guide(relay_pins, margin, sticky_buffer, cloud_mode, record_buffer, rotate)
 
 for pin in guide.relay_pins:
     guide.pulse(pin, 2)
@@ -110,8 +133,8 @@ picam = Picamera2()
 #config = picam.create_video_configuration()
 #config = picam.create_still_configuration()
 config = picam.create_video_configuration(
-    main={'format': 'RGB888', "size": (int(4056/1.8),int( 3040/1.8))},
-    buffer_count= 7,
+    main={'format': 'RGB888', "size": (int(image_size[0]),int(image_size[1]))},
+    buffer_count = image_buffer,
     )
 
 picam.configure(config)
