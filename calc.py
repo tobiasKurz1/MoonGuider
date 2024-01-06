@@ -227,10 +227,13 @@ def export(config, data, filename):
         if temp in ["N","n","No","NO","nein","Nein","NEIN"]:
             print("Data has not been saved")
             return
+        filename = temp
+        
     note = input("Add a Note. Press enter when done.\n")
     config.append("")
     config.append("NOTE: " + note)    
-    filename = temp
+    
+    
     
     df1 = pd.DataFrame(data)
     df2 = pd.DataFrame(config)
