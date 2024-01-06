@@ -105,13 +105,13 @@ class guide:
                 self.sby = []
             """         
 
-            if self.sbx[0] < self.sbx[-1] and max(self.sbx) > 10:
+            if self.sbx[0] < self.sbx[-1] and len(self.sbx) == self.sticky_buffer and max(self.sbx) > 10:
                 self.pulse(self.relay_pins[0])
                 self.pulse(self.relay_pins[1])
                 self.sbx = []
                 self.pulsed[0] = True
                                 
-            if self.sby[0] < self.sby[-1] and max(self.sby) > 10:
+            if self.sby[0] < self.sby[-1] and len(self.sby) == self.sticky_buffer and max(self.sby) > 10:
                 self.pulse(self.relay_pins[2])
                 self.pulse(self.relay_pins[3])
                 self.sbx = []
@@ -207,6 +207,8 @@ class guide:
                 
             elif self.cloud_mode == "repeat":
                 self.mode_info = f"Repeating last {self.record_buffer} deviations"
+                
+                #cycle through list:
                 self.active_deviation = self.deviation_records[0]
                 self.deviation_records.append(self.deviation_records[0])
                 self.deviation_records.pop(0)
