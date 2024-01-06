@@ -64,18 +64,18 @@ class configuration:
         
         ### Image Processing and Moon Detection ###
         self.threshold        = int(self.config[self.profile]['threshold'])
-        self.grey             = bool(self.config[self.profile]['grey'])
+        self.grey             = eval(self.config[self.profile]['grey'])
         self.blur             = int(self.config[self.profile]['blur'])
         self.param1		      = int(self.config[self.profile]['param1'])
         self.param2		      = int(self.config[self.profile]['param2'])
                 
         ### General ###
         self.buffer_length   = int(self.config[self.profile]['buffer_length'])
-        self.overlay         = bool(self.config[self.profile]['overlay'])
+        self.overlay         = eval(self.config[self.profile]['overlay'])
         self.scale           = float(self.config[self.profile]['scale'])
-        self.show_cam_feed   = bool(self.config[self.profile]['show_cam_feed'])
-        self.do_relay_test   = bool(self.config[self.profile]['do_relay_test'])
-        self.export_to_excel = bool(self.config[self.profile]['export_to_excel'])
+        self.show_cam_feed   = eval(self.config[self.profile]['show_cam_feed'])
+        self.do_relay_test   = eval(self.config[self.profile]['do_relay_test'])
+        self.export_to_excel = eval(self.config[self.profile]['export_to_excel'])
        
         
         
