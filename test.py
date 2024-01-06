@@ -7,6 +7,9 @@ config = load.configuration()
 
 #config.print_config()
 
+if config.export_to_excel:
+    print("lol")
+
 
 
 

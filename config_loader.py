@@ -37,8 +37,10 @@ class configuration:
                     print("Wrong input.")
         else:
             self.profile = sections[0]
+        
               
-                
+        print(f"Profile '{self.profile}' loaded.")
+        
         ### Guider ###
         self.relay_pins       = [int(self.config[self.profile]['pin_right']),
                                  int(self.config[self.profile]['pin_left']),
