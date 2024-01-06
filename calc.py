@@ -231,7 +231,7 @@ def export(config, data, filename):
         
     note = input("Add a Note. Press enter when done.\n")
     config.append("")
-    config.append("NOTE: " + note)    
+    config.append(["NOTE", note])    
     
     
     
