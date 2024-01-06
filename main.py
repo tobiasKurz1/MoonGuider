@@ -104,7 +104,7 @@ def perform_relay_test():
         
         org_image = picam.capture_array()
         processed = clc.preprocessing(org_image, config.grey, config.threshold, config.blur)
-        (x, y, _) = clc.moonposition(processed)
+        (x, y, _) = clc.moonposition(processed, config.param1, config.param2)
         deviation = clc.get_deviation((x, y), (target_x, target_y))
         deviations.append(deviation)
         print(f"Detected deviation: {deviation}")
