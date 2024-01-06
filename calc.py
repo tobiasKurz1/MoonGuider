@@ -77,7 +77,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
     line_color = (0, 0, 255)  # Red in BGR format
     
     # Define the thickness of the lines
-    line_thickness = 2 #int(10 * scale)
+    line_thickness = int(10 * scale)
     
     if None in deviation: # No target is tracked
         
@@ -150,7 +150,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
         
         text_lines = bar_text.split('\n')
         max_font_scale = 10
-        thickness = 7
+        thickness = line_thickness
         
         # Adjust the font size to fit within the bar
         font_scale = adjust_font_size(bar_text, font, bar_height,width, thickness, max_font_scale)
