@@ -68,6 +68,7 @@ class configuration:
         self.blur             = int(self.config[self.profile]['blur'])
         self.param1		      = int(self.config[self.profile]['param1'])
         self.param2		      = int(self.config[self.profile]['param2'])
+        self.dp 		      = int(self.config[self.profile]['dp'])
                 
         ### General ###
         self.buffer_length   = int(self.config[self.profile]['buffer_length'])

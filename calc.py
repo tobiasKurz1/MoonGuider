@@ -28,8 +28,6 @@ import time
 import pandas as pd
 
 
-
-
 def calculate_text_size(text, font, font_scale, thickness):
     return cv.getTextSize(text, font, font_scale, thickness)[0]
 
@@ -181,12 +179,12 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
         
     return(img)
 
-def moonposition(processed_img, p1, p2, scale):
+def moonposition(processed_img,dp_, p1, p2, scale):
     
     circles = cv.HoughCircles(
         processed_img,       # Input image
         cv.HOUGH_GRADIENT,   # Detection method
-        dp=1,                # Inverse ratio of the accumulator resolution to the image resolution
+        dp=dp_,                # Inverse ratio of the accumulator resolution to the image resolution
         minDist=processed_img.shape[0],          # Minimum distance between detected centers
         param1 = p1,          # Higher threshold for edge detection
         param2 = p2,           # Accumulator threshold for circle detection
