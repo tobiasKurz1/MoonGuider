@@ -49,9 +49,6 @@ class guide:
         else:
             self.cloud_mode = None
             
-        
-        
-        print(f"Activation Margin set to {margin} px")
         GPIO.setmode(GPIO.BCM)
         
         GPIO.setup(self.button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)

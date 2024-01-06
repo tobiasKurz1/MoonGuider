@@ -207,7 +207,7 @@ while True:
 cv.destroyAllWindows()
 guide.stop()
 
-config.print_config()
+print(config.export_to_excel)
 if config.export_to_excel: clc.export(targetvalues, "Log")   
 
         

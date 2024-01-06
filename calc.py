@@ -241,7 +241,6 @@ class buffer:
     def __init__(self, buffer_length = 1):
         self.values = {}
         self.buffer_length = buffer_length
-        print(f"Target averaging buffer set to {buffer_length}")
 
     def errorcheck(self, name = None):
         if name not in self.values:
