@@ -76,6 +76,7 @@ class guide:
              
         if len(self.sbx) > self.sticky_buffer:
             self.sbx.pop(0)
+        if len(self.sby) > self.sticky_buffer:
             self.sby.pop(0)
         
             """ Use this if you want the sticky pulse to activate only when 
