@@ -80,7 +80,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
     line_color = (0, 0, 255)  # Red in BGR format
     
     # Define the thickness of the lines
-    line_thickness = int(8 * scale) if int(8 * scale) >= 1 else 1
+    line_thickness = int(10 * scale) if int(10 * scale) >= 1 else 1
     
     if None in deviation: # No target is tracked
         
