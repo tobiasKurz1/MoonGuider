@@ -206,7 +206,7 @@ class guide:
                 return
                 
             elif self.cloud_mode == "repeat":
-                self.mode_info = f"Repeating last {self.record_buffer} deviations"
+                self.mode_info = f"Repeating last {len(self.deviation_records)} deviations"
                 
                 #cycle through list:
                 self.active_deviation = self.deviation_records[0]
