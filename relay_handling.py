@@ -209,7 +209,7 @@ class guide:
                 return
                 
             elif self.cloud_mode == "repeat":
-                self.mode_info = f"Guiding by repeating last {len(self.record_buffer)} deviations"
+                self.mode_info = f"Repeating last {self.record_buffer} deviations"
                 self.active_deviation = self.deviation_records[0]
                 self.deviation_records.append(self.deviation_records[0])
                 self.deviation_records.pop(0)
