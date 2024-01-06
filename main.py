@@ -61,7 +61,7 @@ def perform_relay_test():
         cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
         
         org_image = picam.capture_array()
-        processed = clc.preprocessing(org_image, threshold = 0, blur = 5)
+        processed = clc.preprocessing(org_image, config.threshold, config.blur)
         
         (target_x, target_y, _) = clc.moonposition(processed)
                 
@@ -187,8 +187,8 @@ while True:
         guide.active_deviation,
         org_image,
         handover_value = f"{1/duration:.2f} FpS, active relays: {guide.showactive()},\nValid target positions: {buffer.get_valid()}",
-        config.overlay,
-        config.scale        
+        overlay = config.overlay,
+        scale = config.scale        
         )
     
     
