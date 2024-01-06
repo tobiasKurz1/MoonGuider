@@ -190,7 +190,7 @@ def moonposition(processed_img, p1, p2):
         minDist=processed_img.shape[0],          # Minimum distance between detected centers
         param1 = p1,          # Higher threshold for edge detection
         param2 = p2,           # Accumulator threshold for circle detection
-        minRadius = 120,        # Minimum circle radius 120
+        minRadius = 10,        # Minimum circle radius 120
         maxRadius=160        # Maximum circle radius 160
     )
 
