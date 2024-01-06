@@ -180,7 +180,7 @@ class guide:
             act.append("Up")
             
         if self.pulsed[0]:
-            act.apped("X-Sticky")
+            act.append("X-Sticky")
         if self.pulsed[1]:
             act.append("Y-Sticky")
             
