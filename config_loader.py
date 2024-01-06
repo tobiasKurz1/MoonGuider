@@ -62,6 +62,7 @@ class configuration:
         
         ### Image Processing and Moon Detection ###
         self.threshold        = int(self.config[self.profile]['threshold'])
+        self.grey             = bool(self.config[self.profile]['grey'])
         self.blur             = int(self.config[self.profile]['blur'])
         self.param1		      = int(self.config[self.profile]['param1'])
         self.param2		      = int(self.config[self.profile]['param2'])
