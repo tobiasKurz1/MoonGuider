@@ -219,7 +219,7 @@ def get_deviation(target, ref):
 
         return dev
 
-def export(data, filename):
+def export(config, data, filename):
     
     print(f"Nr. of Datapoints: {len(data)-1}")
     temp = input("Save Logged data as ...? Press Enter for default 'Log.xlsx' ")
@@ -230,9 +230,10 @@ def export(data, filename):
         
         filename = temp
     
-    df = pd.DataFrame(data)
-    df.to_excel(f"Logs/{filename}.xlsx",sheet_name=f'{time.ctime()[0:10]}', index=False, header=False)
-
+    df1 = pd.DataFrame(data)
+    df1.to_excel(f"Logs/{filename}.xlsx",sheet_name=f'{time.ctime()[0:10]}', index=False, header=False)
+    df2 = pd.DataFrame(config)
+    df2.to_excel(f"Logs/{filename}.xlsx",sheet_name='Configuration', index=False, header=False)
     
     print(f"Exported to Excelfile '{filename}.xlsx'")
 

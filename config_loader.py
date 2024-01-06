@@ -79,10 +79,11 @@ class configuration:
        
         
         
-    def print_config(self):
+    def get_config(self):
+        temp = []
         for key in self.config[self.profile]:
-            print(f"{key} = {self.config[self.profile][key]}")
-        return
+            temp.append(f"{key} = {self.config[self.profile][key]}")
+        return temp
          
         
 
