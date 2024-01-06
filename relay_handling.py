@@ -15,6 +15,7 @@ class guide:
 
         self.margin = margin
         self.active = [False, False, False, False]
+        self.pulsed = [False, False]
         self.button_pin = button_pin
         self.mode_info = None
         
@@ -61,6 +62,7 @@ class guide:
         return GPIO.input(self.button_pin) == GPIO.LOW
     
     def check_sticky(self, xdev, ydev):
+        self.pulsed = [False, False]  
         
         if not self.mode_info == "Active Guiding":
             return
@@ -70,7 +72,8 @@ class guide:
         
         self.sbx.append(abs(xdev))
         self.sby.append(abs(ydev))
-                        
+        
+             
         if len(self.sbx) > self.sticky_buffer:
             self.sbx.pop(0)
             self.sby.pop(0)
@@ -105,11 +108,13 @@ class guide:
                 self.pulse(self.relay_pins[0])
                 self.pulse(self.relay_pins[1])
                 self.sbx = []
+                self.pulsed[0] = True
                                 
             if self.sby[0] < self.sby[-1] and max(self.sby) > 10:
                 self.pulse(self.relay_pins[2])
                 self.pulse(self.relay_pins[3])
                 self.sbx = []
+                self.pulsed[1] = True
                 
             
         return
@@ -173,6 +178,11 @@ class guide:
             act.append("Down")
         if self.active[3]:
             act.append("Up")
+            
+        if self.pulsed[0]:
+            act.apped("X-Sticky")
+        if self.pulsed[1]:
+            act.append("Y-Sticky")
             
         act.append(self.mode_info)
             
