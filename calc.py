@@ -228,7 +228,7 @@ def export(config, data, filename):
             print("Data has not been saved")
             return
         
-        filename = temp
+    filename = temp
     
     df1 = pd.DataFrame(data)
     df1.to_excel(f"Logs/{filename}.xlsx",sheet_name=f'{time.ctime()[0:10]}', index=False, header=False)
