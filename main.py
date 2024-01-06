@@ -26,33 +26,9 @@ import cam_feed as cam
 from picamera2 import Picamera2
 import time
 import relay_handling as relay
+import config_loader as load
 
-##### Variables #####
-
-# Guider:
-relay_pins      = [19, 13, 6, 26]
-button_pin      = 16
-margin          = 0
-sticky_buffer   = 10
-cloud_mode      = None
-record_buffer   = 20
-rotate          = 90
-
-# Camera:
-image_size      = (4056/1.8, 3040/1.8) 
-image_buffer    = 7
-
-# Image Processing:
-threshold       = 0
-blur            = 5
-
-# General:
-buffer_length   = 10
-overlay         = True
-scale           = 0.5  
-show_cam_feed   = True
-do_relay_test   = True
-export_to_excel = False
+config = load.configuration()
 
 
 
@@ -63,9 +39,15 @@ press_counter = 0
 targetvalues = []
 targetvalues.append(["Time", "target_x", "target_y", "target_radius", "x_deviation"," y_deviation", "Active Relays"])
 
-buffer = clc.buffer(buffer_length)
+buffer = clc.buffer(config.buffer_length)
 
-guide = relay.guide(relay_pins, margin, sticky_buffer, cloud_mode, record_buffer, rotate)
+guide = relay.guide(config.relay_pins, 
+                    config.button_pin, 
+                    config.margin, 
+                    config.sticky_buffer, 
+                    config.cloud_mode, 
+                    config.record_buffer, 
+                    config.rotate)
 
 for pin in guide.relay_pins:
     guide.pulse(pin, 2)
@@ -135,16 +117,17 @@ def perform_relay_test():
 
 picam = Picamera2()
 
-cam.setup(picam)
+if config.show_cam_feed: cam.setup(picam)
 
-#config = picam.create_video_configuration()
-#config = picam.create_still_configuration()
-config = picam.create_video_configuration(
-    main={'format': 'RGB888', "size": (int(image_size[0]),int(image_size[1]))},
-    buffer_count = image_buffer,
+#camera_config = picam.create_video_configuration()
+#camera_config = picam.create_still_configuration()
+camera_config = picam.create_video_configuration(
+    main={'format': 'RGB888', "size": config.image_size},
+    buffer_count = config.image_buffer,
     )
 
-if show_cam_feed: picam.configure(config)
+
+picam.configure(camera_config)
 
 picam.start()
     
@@ -152,7 +135,7 @@ testimg = picam.capture_array()
 shape = testimg.shape
 print(shape)
 
-if do_relay_test: perform_relay_test()
+if config.do_relay_test: perform_relay_test()
 
 #Center Point of the Image in (X,Y) Coordinates
 image_center = (int(shape[1]//2), int(shape[0]//2)) 
@@ -170,9 +153,9 @@ while True:
     
     org_image = picam.capture_array()
     
-    processed = clc.preprocessing(org_image, threshold = 0, blur = 5)
+    processed = clc.preprocessing(org_image, config.threshold = 0, config.blur = 5)
     
-    (target_x, target_y, target_radius) = clc.moonposition(processed)
+    (target_x, target_y, target_radius) = clc.moonposition(processed, config.param1, config.param2)
     
     buffer.add(target_x, "target_x")
     buffer.add(target_y, "target_y")
@@ -204,8 +187,8 @@ while True:
         guide.active_deviation,
         org_image,
         handover_value = f"{1/duration:.2f} FpS, active relays: {guide.showactive()},\nValid target positions: {buffer.get_valid()}",
-        overlay = True,
-        scale = 0.5        
+        config.overlay,
+        config.scale        
         )
     
     
@@ -224,7 +207,7 @@ while True:
 cv.destroyAllWindows()
 guide.stop()
 
-if export_to_excel: clc.export(targetvalues, "Log")   
+if config.export_to_excel: clc.export(targetvalues, "Log")   
 
         
 

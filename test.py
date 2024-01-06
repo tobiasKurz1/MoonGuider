@@ -1,5 +1,21 @@
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 
+
+import config_loader as load
+
+config = load.configuration()
+
+#config.print_config()
+
+
+
+
+
+
+
+
+
+"""
 # Set up GPIO
 GPIO.setmode(GPIO.BCM)
 button_pin = 16  # Change this to the actual GPIO pin you've connected the button to
@@ -23,3 +39,4 @@ except KeyboardInterrupt:
 finally:
     # Clean up GPIO on exit
     GPIO.cleanup()
+"""
