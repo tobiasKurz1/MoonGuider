@@ -63,7 +63,7 @@ def perform_relay_test():
         org_image = picam.capture_array()
         processed = clc.preprocessing(org_image, config.threshold, config.blur)
         
-        (target_x, target_y, _) = clc.moonposition(processed)
+        (target_x, target_y, _) = clc.moonposition(processed, config.param1, config.param2)
                 
         marked = clc.targetmarkers(
             target_x,
@@ -94,7 +94,7 @@ def perform_relay_test():
         org_image = picam.capture_array()
         processed = clc.preprocessing(org_image, config.threshold, config.blur)
         
-        (target_x, target_y, _) = clc.moonposition(processed)
+        (target_x, target_y, _) = clc.moonposition(processed, config.param1, config.param2)
         
         print(f"Testing pin {pin} ({direction})...")
         
