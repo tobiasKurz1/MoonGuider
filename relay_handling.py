@@ -26,10 +26,10 @@ class guide:
         
         self.active_deviation = (None, None)
         self.last_deviation = (None, None)
-        self.deviation_records = []
+        self.deviation_records = [(0,0)]
         
         self.record_buffer = record_buffer
-
+        
 
         # Pin order is RIGHT, LEFT, DOWN, UP
         self.relay_pins = relay_pins
@@ -193,9 +193,6 @@ class guide:
         
         if not None in self.active_deviation:
             
-            if not self.mode_info == "Active Guiding": # Reset the recorded list when moon is spotted
-                self.deviation_records = []
-                
             self.record(self.active_deviation)
             self.last_deviation = self.active_deviation
             self.mode_info = "Active Guiding"
@@ -226,7 +223,7 @@ class guide:
         
         if len(self.deviation_records) > self.record_buffer:
             self.deviation_records.pop(0)
-
+        return
     
     def to(self, deviation = (None, None)):
         self.active_deviation = deviation
