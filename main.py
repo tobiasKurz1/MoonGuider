@@ -198,7 +198,7 @@ while True:
         org_image,
         handover_value = f"{1/duration:.2f} FpS, active relays: {guide.showactive()},\nValid target positions: {buffer.get_valid()}",
         overlay = True,
-        scale = 1        
+        scale = 0.5        
         )
     
     
