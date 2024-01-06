@@ -63,7 +63,7 @@ def perform_relay_test():
         org_image = picam.capture_array()
         processed = clc.preprocessing(org_image, config.grey, config.threshold, config.blur)
         
-        (target_x, target_y, _) = clc.moonposition(processed, config.param1, config.param2)
+        (target_x, target_y, _) = clc.moonposition(processed, config.param1, config.param2, config.image_scale)
                 
         marked = clc.targetmarkers(
             target_x,
@@ -94,7 +94,7 @@ def perform_relay_test():
         org_image = picam.capture_array()
         processed = clc.preprocessing(org_image, config.grey, config.threshold, config.blur)
         
-        (target_x, target_y, _) = clc.moonposition(processed, config.param1, config.param2)
+        (target_x, target_y, _) = clc.moonposition(processed, config.param1, config.param2, config.image_scale)
         
         print(f"Testing pin {pin} ({direction})...")
         
@@ -104,7 +104,7 @@ def perform_relay_test():
         
         org_image = picam.capture_array()
         processed = clc.preprocessing(org_image, config.grey, config.threshold, config.blur)
-        (x, y, _) = clc.moonposition(processed, config.param1, config.param2)
+        (x, y, _) = clc.moonposition(processed, config.param1, config.param2, config.image_scale)
         deviation = clc.get_deviation((x, y), (target_x, target_y))
         deviations.append(deviation)
         print(f"Detected deviation: {deviation}")
@@ -154,7 +154,7 @@ while True:
     
     processed = clc.preprocessing(org_image, config.grey, config.threshold, config.blur)
     
-    (target_x, target_y, target_radius) = clc.moonposition(processed, config.param1, config.param2)
+    (target_x, target_y, target_radius) = clc.moonposition(processed, config.param1, config.param2, config.image_scale)
     
     buffer.add(target_x, "target_x")
     buffer.add(target_y, "target_y")

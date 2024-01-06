@@ -181,7 +181,7 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
         
     return(img)
 
-def moonposition(processed_img, p1, p2):
+def moonposition(processed_img, p1, p2, scale):
     
     circles = cv.HoughCircles(
         processed_img,       # Input image
@@ -190,8 +190,8 @@ def moonposition(processed_img, p1, p2):
         minDist=processed_img.shape[0],          # Minimum distance between detected centers
         param1 = p1,          # Higher threshold for edge detection
         param2 = p2,           # Accumulator threshold for circle detection
-        minRadius = 10,        # Minimum circle radius 120
-        maxRadius=160        # Maximum circle radius 160
+        minRadius = 120 * scale ,        # Minimum circle radius 120
+        maxRadius=160 * scale        # Maximum circle radius 160
     )
 
     if circles is not None:
