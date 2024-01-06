@@ -52,7 +52,7 @@ overlay         = True
 scale           = 0.5  
 show_cam_feed   = True
 do_relay_test   = True
-export_to_excel = True
+export_to_excel = False
 
 
 
