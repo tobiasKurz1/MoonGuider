@@ -92,7 +92,7 @@ def perform_relay_test():
     
     for pin, direction in zip(guide.relay_pins, ["right","left","down","up"]):
         org_image = picam.capture_array()
-        processed = clc.preprocessing(org_image, threshold = 0, blur = 5)
+        processed = clc.preprocessing(org_image, config.threshold, config.blur)
         
         (target_x, target_y, _) = clc.moonposition(processed)
         
@@ -103,7 +103,7 @@ def perform_relay_test():
         guide.activate()
         
         org_image = picam.capture_array()
-        processed = clc.preprocessing(org_image, threshold = 0, blur = 5)
+        processed = clc.preprocessing(org_image, config.threshold, config.blur)
         (x, y, _) = clc.moonposition(processed)
         deviation = clc.get_deviation((x, y), (target_x, target_y))
         deviations.append(deviation)
@@ -153,7 +153,7 @@ while True:
     
     org_image = picam.capture_array()
     
-    processed = clc.preprocessing(org_image, config.threshold = 0, config.blur = 5)
+    processed = clc.preprocessing(org_image, config.threshold, config.blur)
     
     (target_x, target_y, target_radius) = clc.moonposition(processed, config.param1, config.param2)
     
