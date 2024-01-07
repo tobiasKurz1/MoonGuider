@@ -10,7 +10,14 @@ import time
     
 
 class guide:
-    def __init__(self, relay_pins = [19, 13, 6, 26], button_pin = 16, margin = 0, sticky_buffer = 0, cloud_mode = None, record_buffer = 20, rotate = 0):
+    def __init__(self, 
+                 relay_pins = [19, 13, 6, 26], 
+                 button_pin = 16, 
+                 margin = 0, 
+                 sticky_buffer = 0, 
+                 cloud_mode = None, 
+                 record_buffer = 20, 
+                 rotate = 0):
         
 
         self.margin = margin

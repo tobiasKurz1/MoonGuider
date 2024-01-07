@@ -60,7 +60,16 @@ def preprocessing(img, grey = True, threshold = 0, blur = 3):
     
     return(img)
 
-def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, img, handover_value, overlay = True, scale = 1):
+def targetmarkers(target_x, 
+                  target_y, 
+                  target_radius, 
+                  ref_x, 
+                  ref_y, 
+                  deviation, 
+                  img, 
+                  handover_value, 
+                  overlay = True, 
+                  scale = 1):
     
     if len(img.shape) == 2:
         img = cv.cvtColor(img, cv.COLOR_GRAY2BGR)
@@ -99,7 +108,11 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
             scl_ref_y = int(ref_y * scale)
             
             # Draw deviation Arrow
-            cv.arrowedLine(img, (scl_ref_x, scl_ref_y), (scl_ref_x + scl_devx, scl_ref_y + scl_devy), (0, 0, 255), line_thickness, tipLength=0.2)
+            cv.arrowedLine(img, (scl_ref_x, scl_ref_y), 
+                           (scl_ref_x + scl_devx, scl_ref_y + scl_devy), 
+                           (0, 0, 255), 
+                           line_thickness, 
+                           tipLength=0.2)
         except: pass
     
     else:   # Both target and deviation are valid
@@ -117,16 +130,33 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
         cv.line(img, (scl_ref_x, 0), (scl_ref_x, height), line_color, line_thickness)
         
         # Draw deviation Arrow
-        cv.arrowedLine(img, (scl_ref_x, scl_ref_y), (scl_target_x, scl_target_y), (0, 255, 0), line_thickness, tipLength=0.2)
+        cv.arrowedLine(img, 
+                       (scl_ref_x, scl_ref_y), 
+                       (scl_target_x, scl_target_y), 
+                       (0, 255, 0), 
+                       line_thickness, 
+                       tipLength=0.2)
     
         # Draw horizontal line
-        cv.line(img, (scl_target_x - scl_target_radius, scl_target_y), (scl_target_x + scl_target_radius, scl_target_y), line_color, line_thickness)
+        cv.line(img, 
+                (scl_target_x - scl_target_radius, scl_target_y), 
+                (scl_target_x + scl_target_radius, scl_target_y), 
+                line_color, 
+                line_thickness)
     
         # Draw vertical line
-        cv.line(img, (scl_target_x, scl_target_y - scl_target_radius), (scl_target_x, scl_target_y + scl_target_radius), line_color, line_thickness)
+        cv.line(img, 
+                (scl_target_x, scl_target_y - scl_target_radius), 
+                (scl_target_x, scl_target_y + scl_target_radius), 
+                line_color, 
+                line_thickness)
         
         #Draw the circle
-        cv.circle(img, (scl_target_x, scl_target_y), scl_target_radius, line_color, line_thickness)
+        cv.circle(img, 
+                  (scl_target_x, scl_target_y), 
+                  scl_target_radius, 
+                  line_color, 
+                  line_thickness)
     
     if overlay:
         
@@ -137,7 +167,8 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
             target_x = f"{target_x:.2f}"
             target_y = f"{target_y:.2f}"
         
-        bar_text = f"Target at {target_x}, {target_y}; Deviation: {deviation[0]}, {deviation[1]};\n{handover_value}"
+        bar_text = f"Target at {target_x}, {target_y}; Deviation: \
+            {deviation[0]}, {deviation[1]};\n{handover_value}"
         
         # Define the height of the black bar (you can adjust this value)
         bar_height = int(height * 0.2)
@@ -154,10 +185,16 @@ def targetmarkers(target_x, target_y, target_radius, ref_x, ref_y, deviation, im
         thickness = line_thickness
         
         # Adjust the font size to fit within the bar
-        font_scale = adjust_font_size(bar_text, font, bar_height,width, thickness, max_font_scale)
+        font_scale = adjust_font_size(bar_text, 
+                                      font, 
+                                      bar_height,
+                                      width, 
+                                      thickness, 
+                                      max_font_scale)
 
         # Calculate starting position for the first line
-        y_position = (bar_height - calculate_text_size(text_lines[0], font, font_scale, thickness)[1] * len(text_lines)) // 2
+        y_position = (bar_height - calculate_text_size(text_lines[0], font, font_scale, thickness)[1] 
+                      * len(text_lines)) // 2
 
         # Draw each line of text
         for line in text_lines:
