@@ -90,26 +90,6 @@ def perform_relay_test():
             time.sleep(1)
             break
     
-    for pin, direction in zip(guide.relay_pins, ["right","left","down","up"]):
-        org_image = picam.capture_array()
-        processed = clc.preprocessing(org_image, config.grey, config.threshold, config.blur)
-        
-        (target_x, target_y, _) = clc.moonposition(processed, config.dp, config.param1, config.param2, config.image_scale)
-        
-        print(f"Testing pin {pin} ({direction})...")
-        
-        guide.activate_pin(pin)
-        time.sleep(10)
-        guide.activate()
-        
-        org_image = picam.capture_array()
-        processed = clc.preprocessing(org_image, config.grey, config.threshold, config.blur)
-        (x, y, _) = clc.moonposition(processed, config.dp, config.param1, config.param2, config.image_scale)
-        deviation = clc.get_deviation((x, y), (target_x, target_y))
-        deviations.append(deviation)
-        print(f"Detected deviation: {deviation}")
-        
-    input("\nPress Enter to continue")
     
     for pin, direction in zip(guide.relay_pins, ["right","left","down","up"]):
         org_image = picam.capture_array()
@@ -137,6 +117,30 @@ def perform_relay_test():
         print(f"Detected deviation: {deviation}")
         
     input("\nPress Enter to continue")
+    
+    
+    for pin, direction in zip(guide.relay_pins, ["right","left","down","up"]):
+        org_image = picam.capture_array()
+        processed = clc.preprocessing(org_image, config.grey, config.threshold, config.blur)
+        
+        (target_x, target_y, _) = clc.moonposition(processed, config.dp, config.param1, config.param2, config.image_scale)
+        
+        print(f"Testing pin {pin} ({direction})...")
+        
+        guide.activate_pin(pin)
+        time.sleep(10)
+        guide.activate()
+        
+        org_image = picam.capture_array()
+        processed = clc.preprocessing(org_image, config.grey, config.threshold, config.blur)
+        (x, y, _) = clc.moonposition(processed, config.dp, config.param1, config.param2, config.image_scale)
+        deviation = clc.get_deviation((x, y), (target_x, target_y))
+        deviations.append(deviation)
+        print(f"Detected deviation: {deviation}")
+        
+    input("\nPress Enter to continue")
+    
+
     time.sleep(1)
     return
 
