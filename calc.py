@@ -254,14 +254,14 @@ def get_deviation(target, ref):
         return dev
 
 def export(config, data, filename):
-    
+    filename = filename  + "_" + time.strftime('%y-%m-%d_%H-%M', time.localtime())
     print(f"Nr. of Datapoints: {len(data)-1}")
     temp = input("Save Logged data as ...? Press Enter for default 'log_Y-M-D_H-M.xlsx' ")
     if temp: 
         if temp in ["N","n","No","NO","nein","Nein","NEIN"]:
             print("Data has not been saved")
             return
-        filename = temp + "_" + time.strftime('%y-%m-%d_%H-%M', time.localtime())
+        filename = temp
         
     note = input("Add a Note. Press enter when done.\n")
     config.append([f'{time.ctime()}',""])
