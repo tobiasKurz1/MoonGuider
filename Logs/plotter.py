@@ -41,6 +41,13 @@ y_data2 = df.iloc[:, 3]  # Fourth column for the second graph
 y_data3 = df.iloc[:, 2]  # Third column for the third graph
 y_data4 = df.iloc[:, 4]  # Fifth column for the fourth graph
 
+lst = x_data
+# Calculate average fps
+average_time = (sum(abs(lst[i] - lst[i - 1]) for i in range(1, len(lst)))) / (len(lst) - 1)
+fps = 1 / average_time
+
+
+
 # Plot the first graph on the top subplot
 ax1.plot(x_data, y_data1, label=headers[1])
 ax1.plot(x_data, y_data2, label=headers[3])
@@ -66,7 +73,7 @@ fig.suptitle(file_name + ".xlsx", fontsize=16)
 
 # Use the third subplot ax3 for the text box, remove its axes
 ax3.axis('off')
-ax3.text(0.5, 0.5, str(note_cell), ha='center', va='center', fontsize=12, wrap=True)
+ax3.text(0.5, 0.5, str(note_cell) + f"\nAverage FPS:{fps:.2f}", ha='center', va='center', fontsize=12, wrap=True)
 
 # Adjust spacing between subplots
 plt.tight_layout(rect=[0, 0.03, 1, 0.95])  # Adjust the rect as necessary
