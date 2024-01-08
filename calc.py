@@ -261,11 +261,11 @@ def export(config, data, filename):
         if temp in ["N","n","No","NO","nein","Nein","NEIN"]:
             print("Data has not been saved")
             return
-        filename = temp
+        filename = temp + "_" + time.strftime('%y-%m-%d_%H-%M', time.localtime())
         
     note = input("Add a Note. Press enter when done.\n")
     config.append([f'{time.ctime()}',""])
-    config.append(["NOTE", note])    
+    config.append(["NOTE", note + ""])    
     
     
     
