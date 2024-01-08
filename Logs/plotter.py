@@ -57,7 +57,7 @@ ax1.set_ylim(min(min(y_data1), min(y_data2)), max(max(y_data1), max(y_data2)))
 ax2.set_ylim(min(min(y_data3), min(y_data4)), max(max(y_data3), max(y_data4)))
 
 # Set the title for the entire sheet
-fig.suptitle(file_name, fontsize=16)
+fig.suptitle(file_name+".xlsx", fontsize=16)
 
 # Adjust spacing between subplots
 plt.tight_layout()
