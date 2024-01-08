@@ -256,6 +256,7 @@ def get_deviation(target, ref):
 def export(config, data, filename):
     filename = filename  + "_" + time.strftime('%y-%m-%d_%H-%M', time.localtime())
     print(f"Nr. of Datapoints: {len(data)-1}")
+    print(f"Config Profile: {config[0][0]}")
     temp = input("Save Logged data as ...? Press Enter for default 'log_Y-M-D_H-M.xlsx' ")
     if temp: 
         if temp in ["N","n","No","NO","nein","Nein","NEIN"]:
