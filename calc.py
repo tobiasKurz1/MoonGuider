@@ -117,7 +117,7 @@ def targetmarkers(target_x,
     
     else:   # Both target and deviation are valid
     
-        #print(f"Target at unscaled Coordinates: {target_x}, {target_y}")
+        print(f"Target at unscaled Coordinates: {target_x}, {target_y}")
               
         scl_target_x = int(target_x * scale)
         scl_target_y = int(target_y * scale)
@@ -237,7 +237,7 @@ def moonposition(processed_img,dp_, p1, p2, scale):
         radius = circle[2]
 
         num_circles = len(circles[0])
-        #print(f"Number of circles detected: {num_circles}. Marked largest radius.")
+        print(f"Number of circles detected: {num_circles}. Marked largest radius.")
         return(center_x, center_y ,radius)
         
     else: 
