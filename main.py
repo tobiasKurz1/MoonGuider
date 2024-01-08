@@ -86,8 +86,7 @@ def perform_relay_test():
             target_y,
             (0,0),
             org_image,
-            handover_value = "Press any key to skip relay test.\n\
-                Press Button if correct stationary Target is found.",
+            handover_value = "Press any key to skip relay test.\nPress Button if correct stationary Target is found.",
             overlay = True,
             scale = 1        
             )
@@ -242,8 +241,7 @@ while True:
         reference_y,
         guide.active_deviation,
         org_image,
-        handover_value = f"{1/duration:.2f} FpS, active relays: {guide.showactive()},\n\
-            Valid target positions: {buffer.get_valid()}",
+        handover_value = f"{1/duration:.2f} FpS, active relays: {guide.showactive()},\nValid target positions: {buffer.get_valid()}",
         overlay = config.overlay,
         scale = config.scale        
         )
