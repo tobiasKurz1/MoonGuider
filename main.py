@@ -186,7 +186,7 @@ image_center = (int(shape[1]//2), int(shape[0]//2))
 
 (reference_x, reference_y) = image_center
 
-
+start_time = time.time()
 # MAIN CAPTURE LOOP:
     
 while True:
@@ -260,7 +260,9 @@ while True:
     
     if key != -1:
         break
-
+    
+    if time.time()-start_time > 120: #nach 120s abbrechen ####################################################### test
+        break
 
 cv.destroyAllWindows()
 guide.stop()
