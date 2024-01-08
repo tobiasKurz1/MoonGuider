@@ -22,13 +22,17 @@ else:
 file_name = os.path.splitext(os.path.basename(excel_file))[0]
 
 # Read the selected Excel file into a DataFrame
-df = pd.read_excel(excel_file, engine='openpyxl')
+df = pd.read_excel(excel_file, sheet_name=0, engine='openpyxl')  # First sheet for the data
+
+# Get the text from the "NOTE" cell in the second sheet
+notes_df = pd.read_excel(excel_file, sheet_name=1, engine='openpyxl')  # Second sheet for the note
+note_cell = notes_df.loc[notes_df.iloc[:, 0] == "NOTE"].iloc[0, 1]
 
 # Get the column headers
 headers = list(df.columns)
 
-# Create a single figure with two subplots
-fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(15, 10), sharex=True)
+# Create a single figure with three subplots (the third one is for the text box)
+fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(15, 12), gridspec_kw={'height_ratios': [1, 1, 0.2]})
 
 # Extract data from columns 2, 3, 4, and 5
 x_data = df.iloc[:, 0] - df.iloc[0, 0]  # First column as x-axis
@@ -44,7 +48,7 @@ ax1.set_ylabel("Pixels")
 ax1.legend()
 ax1.grid()
 
-# Plot the second graph on the bottom subplot
+# Plot the second graph on the middle subplot
 ax2.plot(x_data, y_data3, label=headers[2])
 ax2.plot(x_data, y_data4, label=headers[4])
 ax2.set_xlabel(headers[0] + " [s]")
@@ -58,10 +62,14 @@ ax2.set_ylim(min(min(y_data3), min(y_data4)), max(max(y_data3), max(y_data4)))
 ax1.set_xlim(min(x_data), max(x_data))
 
 # Set the title for the entire sheet
-fig.suptitle(file_name+".xlsx", fontsize=16)
+fig.suptitle(file_name + ".xlsx", fontsize=16)
+
+# Use the third subplot ax3 for the text box, remove its axes
+ax3.axis('off')
+ax3.text(0.5, 0.5, str(note_cell), ha='center', va='center', fontsize=12, wrap=True)
 
 # Adjust spacing between subplots
-plt.tight_layout()
+plt.tight_layout(rect=[0, 0.03, 1, 0.95])  # Adjust the rect as necessary
 
 # Save the entire sheet plot to a file with the same name as the Excel file
 plt.savefig(os.path.join(script_directory, f"{file_name}.png"))
