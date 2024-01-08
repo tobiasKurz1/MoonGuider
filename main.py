@@ -266,7 +266,8 @@ cv.destroyAllWindows()
 guide.stop()
 
 
-if config.export_to_excel: clc.export(config.get_config(), targetvalues, "Log")   
+if config.export_to_excel: clc.export(config.get_config(), targetvalues, 
+                                      f"log_{time.strftime('%y-%m-%d_%H-%M', time.localtime())}")   
 
         
 
