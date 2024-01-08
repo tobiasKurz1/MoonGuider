@@ -264,7 +264,7 @@ def export(config, data, filename):
         filename = temp
         
     note = input("Add a Note. Press enter when done.\n")
-    config.append(f'{time.ctime()}')
+    config.append([f'{time.ctime()}',""])
     config.append(["NOTE", note])    
     
     
