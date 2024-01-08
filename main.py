@@ -40,7 +40,8 @@ targetvalues = []
 targetvalues.append(["Time", 
                      "target_x", 
                      "target_y", 
-                     "target_radius", 
+                     "target_x_average", 
+                     "target_y_average",
                      "x_deviation",
                      " y_deviation", 
                      "Active Relays"])
@@ -227,8 +228,10 @@ while True:
     guide.to(deviation)
     
     targetvalues.append([str(time.time())[6:13],
-                         target_x, target_y, 
-                         target_radius, 
+                         target_x, 
+                         target_y, 
+                         avrg_target_x,
+                         avrg_target_y,
                          deviation[0], 
                          deviation[1], 
                          guide.showactive()])  
