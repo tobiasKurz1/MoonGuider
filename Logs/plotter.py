@@ -27,30 +27,28 @@ df = pd.read_excel(excel_file, engine='openpyxl')
 # Get the column headers
 headers = list(df.columns)
 
+# Create a single figure with two subplots
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(15, 10), sharex=True)
+
 # Extract data from columns 2, 3, 4, and 5
-x_data = df.iloc[:, 0]  # First column as x-axis
+x_data = df.iloc[:, 0] - df.iloc[0, 0]  # First column as x-axis
 y_data1 = df.iloc[:, 1]  # Second column for the first graph
 y_data2 = df.iloc[:, 3]  # Fourth column for the second graph
 y_data3 = df.iloc[:, 2]  # Third column for the third graph
 y_data4 = df.iloc[:, 4]  # Fifth column for the fourth graph
 
-# Create a single figure with two subplots
-fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10), sharex=True)
-
 # Plot the first graph on the top subplot
 ax1.plot(x_data, y_data1, label=headers[1])
 ax1.plot(x_data, y_data2, label=headers[3])
-ax1.set_ylabel("Value")
-ax1.set_title(f"{file_name} - First and Second Graph")
+ax1.set_ylabel("Pixels")
 ax1.legend()
 ax1.grid()
 
 # Plot the second graph on the bottom subplot
 ax2.plot(x_data, y_data3, label=headers[2])
 ax2.plot(x_data, y_data4, label=headers[4])
-ax2.set_xlabel(headers[0])
-ax2.set_ylabel("Value")
-ax2.set_title(f"{file_name} - Third and Fourth Graph")
+ax2.set_xlabel(headers[0] + " [s]")
+ax2.set_ylabel("Pixels")
 ax2.legend()
 ax2.grid()
 
@@ -58,8 +56,14 @@ ax2.grid()
 ax1.set_ylim(min(min(y_data1), min(y_data2)), max(max(y_data1), max(y_data2)))
 ax2.set_ylim(min(min(y_data3), min(y_data4)), max(max(y_data3), max(y_data4)))
 
+# Set the title for the entire sheet
+fig.suptitle(file_name, fontsize=16)
+
 # Adjust spacing between subplots
 plt.tight_layout()
+
+# Save the entire sheet plot to a file with the same name as the Excel file
+plt.savefig(os.path.join(script_directory, f"{file_name}.png"))
 
 # Show the plot
 plt.show()
