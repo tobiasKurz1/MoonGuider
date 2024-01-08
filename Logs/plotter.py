@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 # Get the current working directory where the script is located
 script_directory = os.path.dirname(os.path.realpath(__file__))
 
+"""
 # Get a list of all Excel files in the script's directory
 excel_files = [file for file in os.listdir(script_directory) if file.endswith(".xlsx")]
 
@@ -20,6 +21,18 @@ else:
 
 # Extract the file name (without extension) from the excel_file path
 file_name = os.path.splitext(os.path.basename(excel_file))[0]
+"""
+
+
+
+####
+file_name = "log_24-01-08_23-11"
+excel_file = file_name + ".xlsx"
+
+####
+
+
+
 
 # Read the selected Excel file into a DataFrame
 df = pd.read_excel(excel_file, sheet_name=0, engine='openpyxl')  # First sheet for the data
@@ -42,9 +55,14 @@ y_data3 = df.iloc[:, 2]  # Third column for the third graph
 y_data4 = df.iloc[:, 4]  # Fifth column for the fourth graph
 
 lst = x_data
-# Calculate average fps
+# Calculate info like average fps and max and min
 average_time = (sum(abs(lst[i] - lst[i - 1]) for i in range(1, len(lst)))) / (len(lst) - 1)
 fps = 1 / average_time
+data_range = []
+for data in [y_data1, y_data2, y_data3, y_data4]:
+    data_range.append(max(data[int(len(data)//-2):]) - min(data[int(len(data)//-2):]))
+
+infotext = f"Range {headers[1]}: {data_range[0]}; Range {headers[2]}: {data_range[2]}\nRange {headers[3]}: {data_range[1]:.2f}; Range {headers[4]}: {data_range[3]:.2f}\nAverage FPS:{fps:.2f}"
 
 
 
@@ -74,7 +92,7 @@ fig.suptitle(file_name + ".xlsx", fontsize=16)
 
 # Use the third subplot ax3 for the text box, remove its axes
 ax3.axis('off')
-ax3.text(0.5, 0.5, str(note_cell) + f"\nAverage FPS:{fps:.2f}", ha='center', va='center', fontsize=12, wrap=True)
+ax3.text(0.5, 0.5, str(note_cell) + f"\n{infotext}", ha='center', va='center', fontsize=12, wrap=True)
 
 # Adjust spacing between subplots
 plt.tight_layout(rect=[0, 0.03, 1, 0.95])  # Adjust the rect as necessary
