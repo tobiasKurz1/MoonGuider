@@ -26,7 +26,7 @@ import cv2 as cv
 import numpy as np
 import time
 import pandas as pd
-import config_loader as cl
+import main
 
 
 def calculate_text_size(text, font, font_scale, thickness):
@@ -275,7 +275,7 @@ class log:
             
     def export(self):
         filename = "log_" + time.strftime('%y-%m-%d_%H-%M', time.localtime())
-        self.sheets['Configuration'] = cl.configuration.get_config()
+        self.sheets['Configuration'] = main.config.get_config()
         
         print(f"Nr. of Datapoints: {len(self.sheets['Target'])-1}")
         print(f"Config Profile: {self.sheets['Configuration'][0][0]}")

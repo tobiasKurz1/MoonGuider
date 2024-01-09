@@ -31,7 +31,7 @@ import config_loader as load
 config = load.configuration()
 
 log = clc.log()
-log.add('Configuration', config.get_config())
+
 log.add('Target',["Time", "target_x", "target_y", "target_x_average", "target_y_average", 
                   "x_deviation", " y_deviation"])
 
