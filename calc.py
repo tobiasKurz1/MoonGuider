@@ -26,7 +26,6 @@ import cv2 as cv
 import numpy as np
 import time
 import pandas as pd
-import main
 
 
 def calculate_text_size(text, font, font_scale, thickness):
