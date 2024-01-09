@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 # Get the current working directory where the script is located
 script_directory = os.path.dirname(os.path.realpath(__file__))
 
-"""
+
 # Get a list of all Excel files in the script's directory
 excel_files = [file for file in os.listdir(script_directory) if file.endswith(".xlsx")]
 
@@ -21,9 +21,9 @@ else:
 
 # Extract the file name (without extension) from the excel_file path
 file_name = os.path.splitext(os.path.basename(excel_file))[0]
+
+
 """
-
-
 
 ####
 file_name = "log_24-01-09_15-05"
@@ -31,7 +31,7 @@ excel_file = file_name + ".xlsx"
 
 ####
 
-
+"""
 
 
 # Read the selected Excel file into a DataFrame
