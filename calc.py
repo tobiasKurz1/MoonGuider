@@ -254,7 +254,7 @@ def get_deviation(target, ref):
         return dev
 
 class log:
-    def __ini__(self):
+    def __init__(self):
         self.sheets = {}
         
         self.sheets["Target"] = []
