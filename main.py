@@ -261,7 +261,7 @@ while True:
     if key != -1:
         break
     
-    if time.time()-start_time > 120: #nach 120s abbrechen ####################################################### test
+    if time.time()-start_time > 60 * 5 : #nach 5 min abbrechen ####################################################### test
         break
 
 cv.destroyAllWindows()
