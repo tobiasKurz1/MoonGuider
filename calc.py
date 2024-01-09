@@ -275,6 +275,8 @@ class log:
             
     def export(self):
         filename = "log_" + time.strftime('%y-%m-%d_%H-%M', time.localtime())
+        self.sheets['Configuration'] = cl.configuration.get_config()
+        
         print(f"Nr. of Datapoints: {len(self.sheets['Target'])-1}")
         print(f"Config Profile: {self.sheets['Configuration'][0][0]}")
         temp = input("Save Logged data as ...? Press Enter for default 'log_Y-M-D_H-M.xlsx' ")
@@ -286,7 +288,7 @@ class log:
             
         note = input("Add a Note. Press enter when done.\n")
         
-        self.sheets['Configuration'] = cl.configuration.get_config()
+       
         self.sheets['Configuration'].append([f'{time.ctime()}',""])
         self.sheets['Configuration'].append(["NOTE", note + ""])    
         
