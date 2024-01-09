@@ -244,7 +244,7 @@ while True:
         reference_y,
         guide.active_deviation,
         org_image,
-        handover_value = f"{int(time.time()-start_time)}{1/duration:.2f} FpS, active relays: {guide.showactive()},\nValid target positions: {buffer.get_valid()}",
+        handover_value = f"{1/duration:.2f} FpS, active relays: {guide.showactive()},\nValid target positions: {buffer.get_valid()}, {int(time.time()-start_time)}",
         overlay = config.overlay,
         scale = config.scale        
         )
