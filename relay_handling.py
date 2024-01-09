@@ -174,7 +174,7 @@ class guide:
         
         
         ### TEST ###
-        time.sleep(0.1)
+        time.sleep(0.2)
         for pin in self.relay_pins: GPIO.output(pin, GPIO.HIGH)
         return
 
