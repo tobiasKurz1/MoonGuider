@@ -273,9 +273,9 @@ class log:
                 raise ValueError(f"Sheet {sheetname} does not exist.")
         else: return self.sheets[sheetname]
             
-    def export(self):
+    def export(self, config):
         filename = "log_" + time.strftime('%y-%m-%d_%H-%M', time.localtime())
-        self.sheets['Configuration'] = main.config.get_config()
+        self.sheets['Configuration'] = config
         
         print(f"Nr. of Datapoints: {len(self.sheets['Target'])-1}")
         print(f"Config Profile: {self.sheets['Configuration'][0][0]}")
