@@ -227,7 +227,7 @@ while True:
   
     guide.to(deviation)
     
-    targetvalues.append([str(time.time())[6:13],
+    targetvalues.append([time.time(),
                          target_x, 
                          target_y, 
                          avrg_target_x,
