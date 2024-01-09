@@ -26,6 +26,7 @@ import cv2 as cv
 import numpy as np
 import time
 import pandas as pd
+import config_loader as cl
 
 
 def calculate_text_size(text, font, font_scale, thickness):
@@ -284,6 +285,8 @@ class log:
             filename = temp
             
         note = input("Add a Note. Press enter when done.\n")
+        
+        self.sheets['Configuration'] = cl.configuration.get_config()
         self.sheets['Configuration'].append([f'{time.ctime()}',""])
         self.sheets['Configuration'].append(["NOTE", note + ""])    
         
