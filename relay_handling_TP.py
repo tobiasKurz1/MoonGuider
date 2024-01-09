@@ -1,11 +1,19 @@
 # -*- coding: utf-8 -*-
 """
+Created on Tue Jan  9 22:41:42 2024
+
+@author: Tobias Kurz
+"""
+
+# -*- coding: utf-8 -*-
+"""
 Created on Mon Nov 20 21:59:14 2023
 
 @author: Tobias Kurz
 """
 import RPi.GPIO as GPIO
 import time
+import threading
 
     
 
@@ -19,6 +27,18 @@ class guide:
                  record_buffer = 20, 
                  rotate = 0):
         
+        # Create a lock for thread synchronization
+        self.thread_ra = threading.Lock()
+        self.thread_dec = threading.Lock()
+
+        # Create a thread for relay activation
+        self.activate_thread_ra = threading.Thread(target=self.activate_ra)
+        self.activate_thread_ra.daemon = True  # Allow the thread to exit when the program exits
+        self.activate_thread_ra.start()
+        
+        self.activate_thread_dec = threading.Thread(target=self.activate_dec)
+        self.activate_thread_dec.daemon = True  # Allow the thread to exit when the program exits
+        self.activate_thread_dec.start()
 
         self.margin = margin
         self.active = [False, False, False, False]
@@ -31,6 +51,7 @@ class guide:
         self.sbx = []
         self.sby = []
         
+
         self.active_deviation = (None, None)
         self.last_deviation = (None, None)
         self.deviation_records = [(0,0)]
@@ -65,6 +86,28 @@ class guide:
             GPIO.setup(pin, GPIO.OUT)
             GPIO.output(pin, GPIO.HIGH)
     
+    def activate_ra(self):
+        while True:
+            # calculate pulse time
+            time = abs(self.active_deviation)
+            
+            
+            # Check if any of the pins need to be activated
+            with self.thread_ra:
+                if self.active[0]:
+                    
+                elif self.active[1]:
+                    self.activate(*self.active)
+                time.sleep(0.1)  # Adjust the sleep time as needed
+                
+    def activate_dec(self):
+        while True:
+            # Check if any of the pins need to be activated
+            with self.thread_lock:
+                if any(self.active):
+                    self.activate(*self.active)
+                time.sleep(0.1)  # Adjust the sleep time as needed
+                
     def button_is_pressed(self):
         return GPIO.input(self.button_pin) == GPIO.LOW
     
@@ -145,37 +188,36 @@ class guide:
         """ Activates the Pins which are set to True, deactivates the Rest """
          
         if right:
-            GPIO.output(self.relay_pins[0], GPIO.LOW)
+            #GPIO.output(self.relay_pins[0], GPIO.LOW)
             self.active[0] = True
         else:
-            GPIO.output(self.relay_pins[0], GPIO.HIGH)
+            #GPIO.output(self.relay_pins[0], GPIO.HIGH)
             self.active[0] = False            
             
         if left:
-            GPIO.output(self.relay_pins[1], GPIO.LOW)
+            #GPIO.output(self.relay_pins[1], GPIO.LOW)
             self.active[1] = True
         else:
-            GPIO.output(self.relay_pins[1], GPIO.HIGH)
+            #GPIO.output(self.relay_pins[1], GPIO.HIGH)
             self.active[1] = False
             
         if down:
-            GPIO.output(self.relay_pins[2], GPIO.LOW)
+            #GPIO.output(self.relay_pins[2], GPIO.LOW)
             self.active[2] = True
         else:
-            GPIO.output(self.relay_pins[2], GPIO.HIGH)
+            #GPIO.output(self.relay_pins[2], GPIO.HIGH)
             self.active[2] = False
             
         if up:
-            GPIO.output(self.relay_pins[3], GPIO.LOW)
+            #GPIO.output(self.relay_pins[3], GPIO.LOW)
             self.active[3] = True
         else:
-            GPIO.output(self.relay_pins[3], GPIO.HIGH)
+            #GPIO.output(self.relay_pins[3], GPIO.HIGH)
             self.active[3] = False
         
         
         ### TEST ###
-        time.sleep(0.2)
-        for pin in self.relay_pins: GPIO.output(pin, GPIO.HIGH)
+
         return
 
     

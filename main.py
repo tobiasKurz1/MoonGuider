@@ -30,21 +30,15 @@ import config_loader as load
 
 config = load.configuration()
 
-
+log = clc.log()
+log.add('Configuration', config.get_config())
+log.add('Target',["Time", "target_x", "target_y", "target_x_average", "target_y_average", 
+                  "x_deviation", " y_deviation"])
 
 
 duration = 1
 press_counter = 0
 
-targetvalues = []
-targetvalues.append(["Time", 
-                     "target_x", 
-                     "target_y", 
-                     "target_x_average", 
-                     "target_y_average",
-                     "x_deviation",
-                     " y_deviation", 
-                     "Active Relays"])
 
 buffer = clc.buffer(config.buffer_length)
 
@@ -56,8 +50,7 @@ guide = relay.guide(config.relay_pins,
                     config.record_buffer, 
                     config.rotate)
 
-for pin in guide.relay_pins:
-    guide.pulse(pin, 2)
+for pin in guide.relay_pins: guide.pulse(pin)
     
 
 def perform_relay_test():
@@ -227,15 +220,9 @@ while True:
   
     guide.to(deviation)
     
-    targetvalues.append([time.time(),
-                         target_x, 
-                         target_y, 
-                         avrg_target_x,
-                         avrg_target_y,
-                         deviation[0], 
-                         deviation[1], 
-                         guide.showactive()])  
-    
+    log.add("Target", [time.time(), target_x, target_y, avrg_target_x, avrg_target_y,
+                       deviation[0], deviation[1]])
+    log.add("Activity", [time.time(), guide.showactive()])
     marked = clc.targetmarkers(
         avrg_target_x,
         avrg_target_y,
@@ -268,7 +255,7 @@ cv.destroyAllWindows()
 guide.stop()
 
 
-if config.export_to_excel: clc.export(config.get_config(), targetvalues, "log")   
+if config.export_to_excel: log.export()   
 
         
 

@@ -41,7 +41,7 @@ excel_file = file_name + ".xlsx"
 df = pd.read_excel(excel_file, sheet_name=0, engine='openpyxl')  # First sheet for the data
 
 # Get the text from the "NOTE" cell in the second sheet
-notes_df = pd.read_excel(excel_file, sheet_name=1, engine='openpyxl')  # Second sheet for the note
+notes_df = pd.read_excel(excel_file, sheet_name=2, engine='openpyxl')  # Second sheet for the note
 note_cell = notes_df.loc[notes_df.iloc[:, 0] == "NOTE"].iloc[0, 1]
 
 # Get the column headers

@@ -253,30 +253,52 @@ def get_deviation(target, ref):
 
         return dev
 
-def export(config, data, filename):
-    filename = filename  + "_" + time.strftime('%y-%m-%d_%H-%M', time.localtime())
-    print(f"Nr. of Datapoints: {len(data)-1}")
-    print(f"Config Profile: {config[0][0]}")
-    temp = input("Save Logged data as ...? Press Enter for default 'log_Y-M-D_H-M.xlsx' ")
-    if temp: 
-        if temp in ["N","n","No","NO","nein","Nein","NEIN"]:
-            print("Data has not been saved")
-            return
-        filename = temp
+class log:
+    def __ini__(self):
+        self.sheets = {}
         
-    note = input("Add a Note. Press enter when done.\n")
-    config.append([f'{time.ctime()}',""])
-    config.append(["NOTE", note + ""])    
-    
-    
-    
-    df1 = pd.DataFrame(data)
-    df2 = pd.DataFrame(config)
-    
-    with pd.ExcelWriter(f"Logs/{filename}.xlsx", engine='openpyxl') as writer:
-        df1.to_excel(writer, sheet_name=f'{time.ctime()[0:10]}', index=False, header=False)
-        df2.to_excel(writer, sheet_name='Configuration', index=False, header=False)  
-    print(f"Exported to Excelfile '{filename}.xlsx'")
+        self.sheets["Target"] = []
+        self.sheets["Activity"] = []
+        self.sheets["Configuration"] = []
+        
+    def add(self, sheetname, data):
+        if sheetname not in self.sheets:
+                raise ValueError(f"Sheet {sheetname} does not exist.")
+        else: self.sheets[sheetname].append(data)
+        return
+            
+    def get(self, sheetname):
+        if sheetname not in self.sheets:
+                raise ValueError(f"Sheet {sheetname} does not exist.")
+        else: return self.sheets[sheetname]
+            
+    def export(self):
+        filename = "log_" + time.strftime('%y-%m-%d_%H-%M', time.localtime())
+        print(f"Nr. of Datapoints: {len(self.sheets['Target'])-1}")
+        print(f"Config Profile: {self.sheets['Configuration'][0][0]}")
+        temp = input("Save Logged data as ...? Press Enter for default 'log_Y-M-D_H-M.xlsx' ")
+        if temp: 
+            if temp in ["N","n","No","NO","nein","Nein","NEIN"]:
+                print("Data has not been saved")
+                return
+            filename = temp
+            
+        note = input("Add a Note. Press enter when done.\n")
+        self.sheets['Configuration'].append([f'{time.ctime()}',""])
+        self.sheets['Configuration'].append(["NOTE", note + ""])    
+        
+        
+        
+        df1 = pd.DataFrame(self.sheets["Target"])
+        df2 = pd.DataFrame(self.sheets["Activity"])
+        df3 = pd.DataFrame(self.sheets["Configuration"])
+ 
+        
+        with pd.ExcelWriter(f"Logs/{filename}.xlsx", engine='openpyxl') as writer:
+            df1.to_excel(writer, sheet_name='Target', index=False, header=False)
+            df2.to_excel(writer, sheet_name='Activity', index=False, header=False)
+            df3.to_excel(writer, sheet_name='Configuration', index=False, header=False)  
+        print(f"Exported to Excelfile '{filename}.xlsx'")
 
     
 class buffer:
