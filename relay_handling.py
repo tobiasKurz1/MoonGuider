@@ -173,7 +173,7 @@ class guide:
             GPIO.output(self.relay_pins[3], GPIO.HIGH)
             self.active[3] = False
         
-        self.log.add("Activity", [time.time, right, left, down, up])
+        self.log.add("Activity", [time.time(), right, left, down, up])
         return
 
     
