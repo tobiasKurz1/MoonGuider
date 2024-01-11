@@ -285,6 +285,9 @@ class guide:
     
     def stop(self):
         
+        self.activate_thread_ra.join()
+        self.activate_thread_dec.join()
+        
         self.switch_pin_off([True, True, True, True])
          
         GPIO.cleanup()
