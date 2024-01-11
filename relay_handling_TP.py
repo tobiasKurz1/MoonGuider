@@ -99,14 +99,15 @@ class guide:
         
         for pin in self.relay_pins:
             self.pulse(pin, 1)
-            
-        self.activate_thread_ra.start()
-        self.activate_thread_dec.start()
-    
+                
     def to(self, deviation = (None, None)):
-        with self.active_deviation_lock:
-            self.active_deviation = deviation
+
+        self.active_deviation = deviation
         
+        if not self.activate_thread_ra.is_alive():
+            self.activate_thread_ra.start()
+        if not self.activate_thread_dec.is_alice():
+            self.activate_thread_dec.start()
         #self.cloud_handling()
         
 
@@ -116,39 +117,37 @@ class guide:
           
     
     def activate_ra(self): # left right
-        while not self.stop_threads:
-            with self.active_deviation_lock:
-                ad = self.active_deviation
+        if not self.stop_threads:
+            ad = self.active_deviation
             margin = self.margin
             if not None in ad:
-                xdev = ad[0]              
-                if abs(xdev) <= margin: pass
-                else:
-                    (right, left) = (xdev > margin, xdev < margin * -1)
-                                               
-                    # calculate pulse time
-                    temp = (abs(xdev)-margin) * 0.1
-                    duration = temp if temp < 2 else 2
-                    
-                    with self.active_lock:
-                         self.active[0] = right
-                         self.active[1] = left
-                    
-                    direction = 'right' if right else 'left'
-                    
-                    with self.log_lock:
-                        self.log.add('Activity',[time.time(), duration, direction])
-                       
-                    self.switch_pin_on([right, left, False, False])   
-                    time.sleep(duration)
-                    self.switch_pin_off([right, left, False, False])
+                    xdev = ad[0]              
+                    if abs(xdev) <= margin: pass
+                    else:
+                        (right, left) = (xdev > margin, xdev < margin * -1)
+                                                   
+                        # calculate pulse time
+                        temp = (abs(xdev)-margin) * 0.1
+                        duration = temp if temp < 2 else 2
+                        
+                        with self.active_lock:
+                             self.active[0] = right
+                             self.active[1] = left
+                        
+                        direction = 'right' if right else 'left'
+                        
+                        with self.log_lock:
+                            self.log.add('Activity',[time.time(), duration, direction])
+                           
+                        self.switch_pin_on([right, left, False, False])   
+                        time.sleep(duration)
+                        self.switch_pin_off([right, left, False, False])
 
                     
                          
     def activate_dec(self): # up down
-        while not self.stop_threads:
-            with self.active_deviation_lock:
-                ad = self.active_deviation
+        if not self.stop_threads:
+            ad = self.active_deviation
             margin = self.margin
             if not None in ad:
                 ydev = ad[1]
