@@ -109,8 +109,11 @@ class guide:
     
     def activate_ra(self): # left right
         while True:
-            if not None in self.active_deviation:
-                xdev = self.active_deviation[0]              
+            with self.active_deviation_lock:
+                ad = self.active_deviation
+                
+            if not None in ad:
+                xdev = ad[0]              
                 
                 (right, left) = (xdev > self.margin, xdev < self.margin * -1)
                                            
@@ -131,8 +134,10 @@ class guide:
                 
     def activate_dec(self): # up down
         while True:
-            if not None in self.active_deviation:
-                ydev = self.active_deviation[1]              
+            with self.active_deviation_lock:
+                ad = self.active_deviation
+            if not None in ad:
+                ydev = ad[1]              
                 
                 (down, up) = (ydev > self.margin, ydev < self.margin * -1)
                                                
