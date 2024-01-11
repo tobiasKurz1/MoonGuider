@@ -35,6 +35,7 @@ class guide:
         
         self.active_deviation = (None, None)
         
+        self.stop_threads = False
         # Create a lock for thread synchronization
         self.thread_ra = threading.Lock()
         self.thread_dec = threading.Lock()
@@ -110,7 +111,7 @@ class guide:
           
     
     def activate_ra(self): # left right
-        while True:
+        while not self.stop_threads:
             with self.active_deviation_lock:
                 ad = self.active_deviation
                 
@@ -135,7 +136,7 @@ class guide:
 
                 
     def activate_dec(self): # up down
-        while True:
+        while not self.stop_threads:
             with self.active_deviation_lock:
                 ad = self.active_deviation
             if not None in ad:
@@ -285,6 +286,7 @@ class guide:
     
     def stop(self):
         
+        self.stop_threads = True
         self.activate_thread_ra.join()
         self.activate_thread_dec.join()
         
