@@ -162,7 +162,7 @@ class guide:
                     temp = (abs(ydev)-margin) * 0.1
                     duration = temp if temp < 2 else 2
                     
-                    with self.thread_dec:
+                    with self.active_lock:
                          self.active[2] = down
                          self.active[3] = up
                          
