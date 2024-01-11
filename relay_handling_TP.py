@@ -114,45 +114,57 @@ class guide:
         while not self.stop_threads:
             with self.active_deviation_lock:
                 ad = self.active_deviation
-                
             if not None in ad and not any(self.active[:2]):
                 xdev = ad[0]              
-                
-                (right, left) = (xdev > self.margin, xdev < self.margin * -1)
-                                           
-                # calculate pulse time
-                duration = abs(xdev) * 0.05
-                
-                with self.thread_ra:
-                    self.active[0] = right
-                    self.active[1] = left
-                    self.log.add('Activity',[time.time(), duration, right, left, False, False])
+                if abs(xdev < self.margin): pass
+                else:
+                    (right, left) = (xdev > self.margin, xdev < self.margin * -1)
+                                               
+                    # calculate pulse time
+                    temp = abs(xdev-self.margin) * 0.1
+                    duration = temp if temp < 2 else 2
                     
-                self.switch_pin_on([right, left, False, False])   
-                time.sleep(duration)
-                self.switch_pin_off([right, left, False, False])
+                    with self.thread_ra:
+                         self.active[0] = right
+                         self.active[1] = left
+                         self.log.add('Activity',[time.time(), duration, self.active])
+                       
+                    self.switch_pin_on([right, left, False, False])   
+                    time.sleep(duration)
+                    self.switch_pin_off([right, left, False, False])
 
-                
+                    with self.thread_ra:
+                         self.active[0] = False
+                         self.active[1] = False
+                         self.log.add('Activity',[time.time(), duration, self.active])
+                         
     def activate_dec(self): # up down
         while not self.stop_threads:
             with self.active_deviation_lock:
                 ad = self.active_deviation
             if not None in ad and not any(self.active[2:]):
-                ydev = ad[1]              
-                
-                (down, up) = (ydev > self.margin, ydev < self.margin * -1)
-                                               
-                # calculate pulse time
-                duration = abs(ydev) * 0.05
-                
-                with self.thread_dec:
-                    self.active[2] = down
-                    self.active[3] = up
-                    self.log.add('Activity',[time.time(), duration, False, False, down, up])
-                
-                self.switch_pin_on([False, False, down, up])
-                time.sleep(duration)
-                self.switch_pin_off([False, False, down, up])
+                ydev = ad[1]
+                if abs(ydev < self.margin): pass
+                else:    
+                    (down, up) = (ydev > self.margin, ydev < self.margin * -1)
+                                                   
+                    # calculate pulse time
+                    temp = abs(ydev-self.margin) * 0.1
+                    duration = temp if temp < 2 else 2
+                    
+                    with self.thread_dec:
+                         self.active[2] = down
+                         self.active[3] = up
+                         self.log.add('Activity',[time.time(), duration, self.active])
+                    
+                    self.switch_pin_on([False, False, down, up])
+                    time.sleep(duration)
+                    self.switch_pin_off([False, False, down, up])
+                    
+                    with self.thread_dec:
+                         self.active[2] = False
+                         self.active[3] = False
+                         self.log.add('Activity',[time.time(), duration, self.active])
 
     
     
