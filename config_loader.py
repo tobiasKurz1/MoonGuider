@@ -12,7 +12,6 @@ import sys
 class configuration:
     def __init__(self, log):
         
-        self.log = log
         self.config = configparser.ConfigParser()
         
         try:
@@ -79,7 +78,11 @@ class configuration:
         self.do_relay_test   = eval(self.config[self.profile]['do_relay_test'])
         self.export_to_excel = eval(self.config[self.profile]['export_to_excel'])
        
-        
+        # Log Config to excel
+        log.add("Configuration", [self.profile, ""])
+        for key in self.config[self.profile]:
+            log.add("Configuration",[key, self.config[self.profile][key]])
+            
         
     def get_config(self):
         temp = []
@@ -87,12 +90,8 @@ class configuration:
         for key in self.config[self.profile]:
             temp.append([key, self.config[self.profile][key]])
         return temp
-         
-    def log_config(self):
+                
         
-        self.log.add("Configuration", [self.profile, ""])
-        for key in self.config[self.profile]:
-            self.log.add("Configuration",[key, self.config[self.profile][key]])
 
 
 
