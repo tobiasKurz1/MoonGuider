@@ -143,7 +143,7 @@ class guide:
                 (down, up) = (ydev > self.margin, ydev < self.margin * -1)
                                                
                 # calculate pulse time
-                duration = abs(ydev) * 0.5
+                duration = abs(ydev) * 0.05
                 
                 with self.thread_dec:
                     self.active[2] = down
