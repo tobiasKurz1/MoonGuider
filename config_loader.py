@@ -90,7 +90,7 @@ class configuration:
          
     def log_config(self):
         
-        self.log.add([self.profile, ""])
+        self.log.add("Configuration", [self.profile, ""])
         for key in self.config[self.profile]:
             self.log.add("Configuration",[key, self.config[self.profile][key]])
 
