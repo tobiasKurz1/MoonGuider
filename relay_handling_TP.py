@@ -98,24 +98,9 @@ class guide:
         if None in self.active_deviation:
             self.activate(False, False, False, False)                
             return
-        
-        else:
-            xdev = self.active_deviation[0]
-            ydev = self.active_deviation[1]
-            
-            #if self.sticky_buffer: self.check_sticky(xdev, ydev)
-            
-            # Activate the pins in the direction of positive deviation, 
-            # deactivate everything else
-            
-            # direction = (Right, Left, Down, Up)
-            (right, left, down, up) = (xdev > self.margin,
-                                       xdev < self.margin * -1,
-                                       ydev > self.margin,
-                                       ydev < self.margin * -1)
-            
-            self.activate(right,left,down,up)
-            
+
+        #####
+             
         return
           
     
