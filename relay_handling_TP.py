@@ -34,6 +34,8 @@ class guide:
         self.log.add('Activity',["Time", "Duration", "RIGHT", "LEFT", "DOWN", "UP"])
         
         self.active_deviation = (None, None)
+        self.margin = margin
+        self.active = [False, False, False, False]
         
         self.stop_threads = False
         # Create a lock for thread synchronization
@@ -43,13 +45,13 @@ class guide:
 
         # Create a thread for relay activation
         self.activate_thread_ra = threading.Thread(target=self.activate_ra, daemon = True)
-        self.activate_thread_ra.start()
+
         
         self.activate_thread_dec = threading.Thread(target=self.activate_dec, daemon = True)
-        self.activate_thread_dec.start()
 
-        self.margin = margin
-        self.active = [False, False, False, False]
+
+
+
         self.pulsed = [False, False]
         self.button_pin = button_pin
         self.mode_info = None
@@ -93,7 +95,9 @@ class guide:
         for pin in self.relay_pins:
             GPIO.setup(pin, GPIO.OUT)
             GPIO.output(pin, GPIO.HIGH)
-    
+        
+        self.activate_thread_ra.start()
+        self.activate_thread_dec.start()
 
     def to(self, deviation = (None, None)):
         with self.active_deviation_lock:
