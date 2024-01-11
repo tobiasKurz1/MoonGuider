@@ -14,8 +14,10 @@ Created on Mon Nov 20 21:59:14 2023
 import RPi.GPIO as GPIO
 import time
 import threading
+from main.py import log as log
 
-    
+
+
 
 class guide:
     def __init__(self, 
@@ -32,12 +34,10 @@ class guide:
         self.thread_dec = threading.Lock()
 
         # Create a thread for relay activation
-        self.activate_thread_ra = threading.Thread(target=self.activate_ra)
-        self.activate_thread_ra.daemon = True  # Allow the thread to exit when the program exits
+        self.activate_thread_ra = threading.Thread(target=self.activate_ra, daemon = True)
         self.activate_thread_ra.start()
         
-        self.activate_thread_dec = threading.Thread(target=self.activate_dec)
-        self.activate_thread_dec.daemon = True  # Allow the thread to exit when the program exits
+        self.activate_thread_dec = threading.Thread(target=self.activate_dec, daemon = True)
         self.activate_thread_dec.start()
 
         self.margin = margin
@@ -51,7 +51,6 @@ class guide:
         self.sbx = []
         self.sby = []
         
-
         self.active_deviation = (None, None)
         self.last_deviation = (None, None)
         self.deviation_records = [(0,0)]
@@ -86,28 +85,96 @@ class guide:
             GPIO.setup(pin, GPIO.OUT)
             GPIO.output(pin, GPIO.HIGH)
     
-    def activate_ra(self):
+    
+    
+    def to(self, deviation = (None, None)):
+        self.active_deviation = deviation
+        
+        #self.cloud_handling()
+        
+        if None in self.active_deviation:
+            self.activate(False, False, False, False)                
+            return
+        
+        else:
+            xdev = self.active_deviation[0]
+            ydev = self.active_deviation[1]
+            
+            if self.sticky_buffer: self.check_sticky(xdev, ydev)
+            
+            # Activate the pins in the direction of positive deviation, 
+            # deactivate everything else
+            
+            # direction = (Right, Left, Down, Up)
+            (right, left, down, up) = (xdev > self.margin,
+                                       xdev < self.margin * -1,
+                                       ydev > self.margin,
+                                       ydev < self.margin * -1)
+            
+            self.activate(right,left,down,up)
+            
+        return
+    
+    
+    
+    
+
+        
+    
+    def activate_ra(self): # left right
         while True:
-            # calculate pulse time
-            time = abs(self.active_deviation)
-            
-            
-            # Check if any of the pins need to be activated
-            with self.thread_ra:
-                if self.active[0]:
+            if not None in self.active_deviation:
+                xdev = self.active_deviation[0]              
+                
+                (right, left) = (xdev > self.margin, xdev < self.margin * -1)
+                                           
+                # calculate pulse time
+                time = abs(xdev) * 0.1
+                
+                self.switch_pin_on([right, left, False, False])
+                
+                
+                with self.thread_ra:
+                    self.active[0] = right
+                    self.active[1] = left
                     
-                elif self.active[1]:
-                    self.activate(*self.active)
-                time.sleep(0.1)  # Adjust the sleep time as needed
+                time.sleep(time)
+                self.switch_pin_off([right, left, False, False])
+
                 
-    def activate_dec(self):
+    def activate_dec(self): # up down
         while True:
-            # Check if any of the pins need to be activated
-            with self.thread_lock:
-                if any(self.active):
-                    self.activate(*self.active)
-                time.sleep(0.1)  # Adjust the sleep time as needed
+            if not None in self.active_deviation:
+                ydev = self.active_deviation[1]              
                 
+                (down, up) = (ydev > self.margin, ydev < self.margin * -1)
+                                           
+                # calculate pulse time
+                time = abs(ydev) * 0.1
+                
+                self.switch_pin_on([False, False, down, up])
+                
+                with self.thread_ra:
+                    self.active[2] = down
+                    self.active[3] = up
+                    
+                time.sleep(time)
+                self.switch_pin_off([False, False, down, up])
+
+    
+    
+    def switch_pin_on(self, directions = ['Right', 'Left', 'Down', 'Up']):
+        for pin, direction in zip(self.relay_pins, directions):
+            if direction: GPIO.output(pin, GPIO.LOW)
+        return
+    
+    def switch_pin_off(self, directions = ['Right', 'Left', 'Down', 'Up']):
+        for pin, direction in zip(self.relay_pins, directions):
+            if direction: GPIO.output(pin, GPIO.HIGH)
+        return
+        
+        
+        
     def button_is_pressed(self):
         return GPIO.input(self.button_pin) == GPIO.LOW
     
@@ -129,31 +196,6 @@ class guide:
         if len(self.sby) > self.sticky_buffer:
             self.sby.pop(0)
         
-            """ Use this if you want the sticky pulse to activate only when 
-            every change is with increasing deviation:
-                
-            err_x = 0
-            err_y = 0
-            
-
-            for i in range(1,len(self.sbx)):
-                if self.sbx[i] > self.sbx[i-1]:
-                    err_x = err_x + 1
-                if self.sby[i] > self.sby[i-1]:
-                    err_y = err_y + 1
-            
-            if err_x >= self.sticky_buffer - 1:
-                self.pulse(0)
-                self.pulse(1)
-                self.sbx = []
-                self.sby = []
-                
-            if err_y >= self.sticky_buffer - 1:
-                self.pulse(2)
-                self.pulse(3)
-                self.sbx = []
-                self.sby = []
-            """         
 
             if (self.sbx[0] < self.sbx[-1]) and (len(self.sbx) == self.sticky_buffer) and (max(self.sbx) > 10):
                 self.pulse(self.relay_pins[0])
@@ -184,42 +226,6 @@ class guide:
         GPIO.output(pin, GPIO.LOW)
         return
     
-    def activate(self, right = False, left = False, down = False, up = False):
-        """ Activates the Pins which are set to True, deactivates the Rest """
-         
-        if right:
-            #GPIO.output(self.relay_pins[0], GPIO.LOW)
-            self.active[0] = True
-        else:
-            #GPIO.output(self.relay_pins[0], GPIO.HIGH)
-            self.active[0] = False            
-            
-        if left:
-            #GPIO.output(self.relay_pins[1], GPIO.LOW)
-            self.active[1] = True
-        else:
-            #GPIO.output(self.relay_pins[1], GPIO.HIGH)
-            self.active[1] = False
-            
-        if down:
-            #GPIO.output(self.relay_pins[2], GPIO.LOW)
-            self.active[2] = True
-        else:
-            #GPIO.output(self.relay_pins[2], GPIO.HIGH)
-            self.active[2] = False
-            
-        if up:
-            #GPIO.output(self.relay_pins[3], GPIO.LOW)
-            self.active[3] = True
-        else:
-            #GPIO.output(self.relay_pins[3], GPIO.HIGH)
-            self.active[3] = False
-        
-        
-        ### TEST ###
-
-        return
-
     
     def showactive(self):
         act = []
@@ -280,33 +286,7 @@ class guide:
             self.deviation_records.pop(0)
         return
     
-    def to(self, deviation = (None, None)):
-        self.active_deviation = deviation
-        
-        self.cloud_handling()
-        
-        if None in self.active_deviation:
-            self.activate(False, False, False, False)                
-            return
-        
-        else:
-            xdev = self.active_deviation[0]
-            ydev = self.active_deviation[1]
-            
-            if self.sticky_buffer: self.check_sticky(xdev, ydev)
-            
-            # Activate the pins in the direction of positive deviation, 
-            # deactivate everything else
-            
-            # direction = (Right, Left, Down, Up)
-            (right, left, down, up) = (xdev > self.margin,
-                                       xdev < self.margin * -1,
-                                       ydev > self.margin,
-                                       ydev < self.margin * -1)
-            
-            self.activate(right,left,down,up)
-            
-        return
+    
     
     def stop(self):
         self.activate()            

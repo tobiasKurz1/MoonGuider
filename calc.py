@@ -272,9 +272,8 @@ class log:
                 raise ValueError(f"Sheet {sheetname} does not exist.")
         else: return self.sheets[sheetname]
             
-    def export(self, config):
+    def export(self):
         filename = "log_" + time.strftime('%y-%m-%d_%H-%M', time.localtime())
-        self.sheets['Configuration'] = config
         
         print(f"Nr. of Datapoints: {len(self.sheets['Target'])-1}")
         print(f"Config Profile: {self.sheets['Configuration'][0][0]}")
@@ -290,7 +289,6 @@ class log:
        
         self.sheets['Configuration'].append([f'{time.ctime()}',""])
         self.sheets['Configuration'].append(["NOTE", note + ""])    
-        
         
         
         df1 = pd.DataFrame(self.sheets["Target"])

@@ -255,7 +255,7 @@ cv.destroyAllWindows()
 guide.stop()
 
 
-if config.export_to_excel: log.export(config.get_config())   
+if config.export_to_excel: log.export()   
 
         
 
