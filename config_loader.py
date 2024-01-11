@@ -7,11 +7,12 @@ Created on Sat Jan  6 15:07:41 2024
 
 import configparser
 import sys
-from calc import log as log
+
 
 class configuration:
     def __init__(self, log):
         
+        self.log = log
         self.config = configparser.ConfigParser()
         
         try:
@@ -92,7 +93,7 @@ class configuration:
         temp.append([self.profile, ""])
         for key in self.config[self.profile]:
             temp.append([key, self.config[self.profile][key]])
-        self.log.add("Conifguration", temp)
+        self.log.add("Configuration", temp)
 
 
 

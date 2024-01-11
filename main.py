@@ -28,9 +28,11 @@ import time
 import relay_handling as relay
 import config_loader as load
 
-config = load.configuration()
-
 log = clc.log()
+
+config = load.configuration(log)
+
+
 
 log.add('Target',["Time", "target_x", "target_y", "target_x_average", "target_y_average", 
                   "x_deviation", " y_deviation"])
