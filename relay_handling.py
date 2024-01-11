@@ -68,7 +68,9 @@ class guide:
         for pin in self.relay_pins:
             GPIO.setup(pin, GPIO.OUT)
             GPIO.output(pin, GPIO.HIGH)
-    
+        for pin in self.relay_pins:
+            self.pulse(pin, 1)
+                
     def button_is_pressed(self):
         return GPIO.input(self.button_pin) == GPIO.LOW
     

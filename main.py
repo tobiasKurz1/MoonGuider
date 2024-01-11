@@ -54,7 +54,6 @@ guide = relay.guide(log,
                     config.record_buffer, 
                     config.rotate)
 
-for pin in guide.relay_pins: guide.pulse(pin)
     
 
 def perform_relay_test():

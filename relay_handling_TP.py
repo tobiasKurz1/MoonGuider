@@ -39,8 +39,9 @@ class guide:
         
         self.stop_threads = False
         # Create a lock for thread synchronization
-        self.thread_ra = threading.Lock()
-        self.thread_dec = threading.Lock()
+        self.gpio_lock = threading.Lock()
+        self.log_lock = threading.Lock()
+        self.active_lock = threading.Lock()
         self.active_deviation_lock = threading.Lock()
 
         # Create a thread for relay activation
@@ -96,9 +97,12 @@ class guide:
             GPIO.setup(pin, GPIO.OUT)
             GPIO.output(pin, GPIO.HIGH)
         
+        for pin in self.relay_pins:
+            self.pulse(pin, 1)
+            
         self.activate_thread_ra.start()
         self.activate_thread_dec.start()
-
+    
     def to(self, deviation = (None, None)):
         with self.active_deviation_lock:
             self.active_deviation = deviation
@@ -113,70 +117,75 @@ class guide:
     
     def activate_ra(self): # left right
         while not self.stop_threads:
-            ad = self.active_deviation
+            with self.active_deviation_lock:
+                ad = self.active_deviation
             margin = self.margin
             if not None in ad:
                 xdev = ad[0]              
-                if abs(xdev) < margin: pass
+                if abs(xdev) <= margin: pass
                 else:
                     (right, left) = (xdev > margin, xdev < margin * -1)
                                                
                     # calculate pulse time
-                    temp = abs(xdev)-self.margin * 0.1
+                    temp = abs(xdev)-margin * 0.1
                     duration = temp if temp < 2 else 2
                     
-                    with self.thread_ra:
+                    with self.active_lock:
                          self.active[0] = right
                          self.active[1] = left
-                    self.log.add('Activity',[time.time(), duration, self.active])
+                    
+                    direction = 'right' if right else 'left'
+                    
+                    with self.log_lock:
+                        self.log.add('Activity',[time.time(), duration, direction])
                        
                     self.switch_pin_on([right, left, False, False])   
                     time.sleep(duration)
                     self.switch_pin_off([right, left, False, False])
 
-                    with self.thread_ra:
-                         self.active[0] = False
-                         self.active[1] = False
-                    self.log.add('Activity',[time.time(), duration, self.active])
+                    
                          
     def activate_dec(self): # up down
         while not self.stop_threads:
-            ad = self.active_deviation
+            with self.sctive_deviation_lock:
+                ad = self.active_deviation
             margin = self.margin
             if not None in ad:
                 ydev = ad[1]
-                if abs(ydev) < margin: pass
+                if abs(ydev) <= margin: pass
                 else:    
                     (down, up) = (ydev > margin, ydev < margin * -1)
                                                    
                     # calculate pulse time
-                    temp = abs(ydev)-self.margin * 0.1
+                    temp = abs(ydev)-margin * 0.1
                     duration = temp if temp < 2 else 2
                     
                     with self.thread_dec:
                          self.active[2] = down
                          self.active[3] = up
-                    self.log.add('Activity',[time.time(), duration, self.active])
+                         
+                    direction = 'down' if down else 'up'  
+                    
+                    with self.log_lock:
+                        self.log.add('Activity',[time.time(), duration, direction])
                     
                     self.switch_pin_on([False, False, down, up])
                     time.sleep(duration)
                     self.switch_pin_off([False, False, down, up])
                     
-                    with self.thread_dec:
-                         self.active[2] = False
-                         self.active[3] = False
-                    self.log.add('Activity',[time.time(), duration, self.active])
 
     
     
     def switch_pin_on(self, directions = ['Right', 'Left', 'Down', 'Up']):
-        for pin, direction in zip(self.relay_pins, directions):
-            if direction: GPIO.output(pin, GPIO.LOW)
+        with self.gpio_lock:
+            for pin, direction in zip(self.relay_pins, directions):
+                if direction: GPIO.output(pin, GPIO.LOW)
         return
     
     def switch_pin_off(self, directions = ['Right', 'Left', 'Down', 'Up']):
-        for pin, direction in zip(self.relay_pins, directions):
-            if direction: GPIO.output(pin, GPIO.HIGH)
+        with self.gpio_lock:
+            for pin, direction in zip(self.relay_pins, directions):
+                if direction: GPIO.output(pin, GPIO.HIGH)
         return
         
         
