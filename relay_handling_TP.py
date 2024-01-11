@@ -146,7 +146,7 @@ class guide:
                 
                 self.switch_pin_on([False, False, down, up])
                 
-                with self.thread_ra:
+                with self.thread_dec:
                     self.active[2] = down
                     self.active[3] = up
                     self.log.add('Activity',[time.time(), duration, False, False, down, up])
