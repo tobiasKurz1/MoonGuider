@@ -276,7 +276,6 @@ class log:
         filename = "log_" + time.strftime('%y-%m-%d_%H-%M', time.localtime())
         
         print(f"Nr. of Datapoints: {len(self.sheets['Target'])-1}")
-        print(f"Config Profile: {self.sheets['Configuration']}")
         print(f"Config Profile: {self.sheets['Configuration'][0][0]}")
         temp = input("Save Logged data as ...? Press Enter for default 'log_Y-M-D_H-M.xlsx' ")
         if temp: 
