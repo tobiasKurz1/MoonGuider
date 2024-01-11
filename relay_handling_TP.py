@@ -31,6 +31,8 @@ class guide:
                  rotate = 0):
         
         self.log = log
+        self.log.add('Activity',["Time", "Duration", "RIGHT", "LEFT", "DOWN", "UP"])
+        
         # Create a lock for thread synchronization
         self.thread_ra = threading.Lock()
         self.thread_dec = threading.Lock()
@@ -87,8 +89,7 @@ class guide:
             GPIO.setup(pin, GPIO.OUT)
             GPIO.output(pin, GPIO.HIGH)
     
-    
-    
+
     def to(self, deviation = (None, None)):
         self.active_deviation = deviation
         
@@ -102,7 +103,7 @@ class guide:
             xdev = self.active_deviation[0]
             ydev = self.active_deviation[1]
             
-            if self.sticky_buffer: self.check_sticky(xdev, ydev)
+            #if self.sticky_buffer: self.check_sticky(xdev, ydev)
             
             # Activate the pins in the direction of positive deviation, 
             # deactivate everything else
@@ -116,12 +117,7 @@ class guide:
             self.activate(right,left,down,up)
             
         return
-    
-    
-    
-    
-
-        
+          
     
     def activate_ra(self): # left right
         while True:
@@ -131,7 +127,7 @@ class guide:
                 (right, left) = (xdev > self.margin, xdev < self.margin * -1)
                                            
                 # calculate pulse time
-                time = abs(xdev) * 0.1
+                duration = abs(xdev) * 0.1
                 
                 self.switch_pin_on([right, left, False, False])
                 
@@ -139,8 +135,9 @@ class guide:
                 with self.thread_ra:
                     self.active[0] = right
                     self.active[1] = left
+                    self.log.add('Activity',[time.time(), duration, right, left, False, False])
                     
-                time.sleep(time)
+                time.sleep(duration)
                 self.switch_pin_off([right, left, False, False])
 
                 
@@ -152,15 +149,16 @@ class guide:
                 (down, up) = (ydev > self.margin, ydev < self.margin * -1)
                                            
                 # calculate pulse time
-                time = abs(ydev) * 0.1
+                duration = abs(ydev) * 0.1
                 
                 self.switch_pin_on([False, False, down, up])
                 
                 with self.thread_ra:
                     self.active[2] = down
                     self.active[3] = up
+                    self.log.add('Activity',[time.time(), duration, False, False, down, up])
                     
-                time.sleep(time)
+                time.sleep(duration)
                 self.switch_pin_off([False, False, down, up])
 
     

@@ -21,6 +21,9 @@ class guide:
                  rotate = 0):
         
         self.log = log
+        
+        self.log.add('Activity',["Time", "RIGHT", "LEFT", "DOWN", "UP"])
+        
         self.margin = margin
         self.active = [False, False, False, False]
         self.pulsed = [False, False]

@@ -25,7 +25,7 @@ import cv2 as cv
 import cam_feed as cam
 from picamera2 import Picamera2
 import time
-import relay_handling as relay
+import relay_handling_TP as relay
 import config_loader as load
 
 log = clc.log()
@@ -36,7 +36,7 @@ config = load.configuration(log)
 
 log.add('Target',["Time", "target_x", "target_y", "target_x_average", "target_y_average", 
                   "x_deviation", " y_deviation"])
-log.add('Activity',["Time", "RIGHT", "LEFT", "DOWN", "UP"])
+
 
 
 duration = 1
