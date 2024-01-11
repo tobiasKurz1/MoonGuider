@@ -36,6 +36,7 @@ class guide:
         # Create a lock for thread synchronization
         self.thread_ra = threading.Lock()
         self.thread_dec = threading.Lock()
+        self.active_deviation_lock = threading.Lock()
 
         # Create a thread for relay activation
         self.activate_thread_ra = threading.Thread(target=self.activate_ra, daemon = True)
@@ -56,6 +57,7 @@ class guide:
         self.sby = []
         
         self.active_deviation = (None, None)
+        
         self.last_deviation = (None, None)
         self.deviation_records = [(0,0)]
         
@@ -91,7 +93,8 @@ class guide:
     
 
     def to(self, deviation = (None, None)):
-        self.active_deviation = deviation
+        with self.active_deviation_lock:
+            self.active_deviation = deviation
         
         #self.cloud_handling()
         
@@ -132,7 +135,7 @@ class guide:
                 ydev = self.active_deviation[1]              
                 
                 (down, up) = (ydev > self.margin, ydev < self.margin * -1)
-                                           
+                                               
                 # calculate pulse time
                 duration = abs(ydev) * 0.1
                 
