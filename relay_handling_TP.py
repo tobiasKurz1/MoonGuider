@@ -101,9 +101,6 @@ class guide:
         
         #self.cloud_handling()
         
-        if None in self.active_deviation:
-            self.activate(False, False, False, False)                
-            return
 
         #####
              
