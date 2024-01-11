@@ -36,6 +36,7 @@ config = load.configuration(log)
 
 log.add('Target',["Time", "target_x", "target_y", "target_x_average", "target_y_average", 
                   "x_deviation", " y_deviation"])
+log.add('Activity',["Time", "RIGHT", "LEFT", "DOWN", "UP"])
 
 
 duration = 1
