@@ -89,11 +89,11 @@ class configuration:
         return temp
          
     def log_config(self):
-        temp = []
-        temp.append([self.profile, ""])
+        
+        self.log.add([self.profile, ""])
         for key in self.config[self.profile]:
-            temp.append([key, self.config[self.profile][key]])
-        self.log.add("Configuration", temp)
+            self.log.add("Configuration",[key, self.config[self.profile][key]])
+
 
 
 
