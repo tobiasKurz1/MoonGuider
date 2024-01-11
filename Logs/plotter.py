@@ -7,7 +7,7 @@ script_directory = os.path.dirname(os.path.realpath(__file__))
 
 #####
 
-
+"""
 
 # Get a list of all Excel files in the script's directory
 excel_files = [file for file in os.listdir(script_directory) if file.endswith(".xlsx")]
@@ -29,12 +29,12 @@ file_name = os.path.splitext(os.path.basename(excel_file))[0]
 """
 
 ####
-file_name = "log_24-01-09_20-02"
+file_name = "log_24-01-11_15-50"
 excel_file = file_name + ".xlsx"
 
 ####
 
-"""
+
 
 
 # Read the selected Excel file into a DataFrame

@@ -114,14 +114,15 @@ class guide:
         while not self.stop_threads:
             with self.active_deviation_lock:
                 ad = self.active_deviation
+                margin = self.margin
             if not None in ad and not any(self.active[:2]):
                 xdev = ad[0]              
-                if abs(xdev < self.margin): pass
+                if abs(xdev) < margin: pass
                 else:
-                    (right, left) = (xdev > self.margin, xdev < self.margin * -1)
+                    (right, left) = (xdev > margin, xdev < margin * -1)
                                                
                     # calculate pulse time
-                    temp = abs(xdev-self.margin) * 0.1
+                    temp = abs(xdev)-self.margin * 0.1
                     duration = temp if temp < 2 else 2
                     
                     with self.thread_ra:
@@ -142,14 +143,15 @@ class guide:
         while not self.stop_threads:
             with self.active_deviation_lock:
                 ad = self.active_deviation
+                margin = self.margin
             if not None in ad and not any(self.active[2:]):
                 ydev = ad[1]
-                if abs(ydev < self.margin): pass
+                if abs(ydev) < margin: pass
                 else:    
-                    (down, up) = (ydev > self.margin, ydev < self.margin * -1)
+                    (down, up) = (ydev > margin, ydev < margin * -1)
                                                    
                     # calculate pulse time
-                    temp = abs(ydev-self.margin) * 0.1
+                    temp = abs(ydev)-self.margin * 0.1
                     duration = temp if temp < 2 else 2
                     
                     with self.thread_dec:
