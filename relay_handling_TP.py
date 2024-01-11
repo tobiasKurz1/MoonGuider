@@ -45,9 +45,7 @@ class guide:
         self.active_deviation_lock = threading.Lock()
 
         # Create a thread for relay activation
-        self.activate_thread_ra = threading.Thread(target=self.activate_ra, daemon = True)
-
-        
+        self.activate_thread_ra = threading.Thread(target=self.activate_ra, daemon = True)        
         self.activate_thread_dec = threading.Thread(target=self.activate_dec, daemon = True)
 
 
@@ -104,9 +102,14 @@ class guide:
 
         self.active_deviation = deviation
         
+        
+                
+        
         if not self.activate_thread_ra.is_alive():
+            self.activate_thread_ra = threading.Thread(target=self.activate_ra, daemon = True)
             self.activate_thread_ra.start()
         if not self.activate_thread_dec.is_alive():
+            self.activate_thread_dec = threading.Thread(target=self.activate_dec, daemon = True)
             self.activate_thread_dec.start()
         #self.cloud_handling()
         
