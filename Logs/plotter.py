@@ -7,7 +7,7 @@ script_directory = os.path.dirname(os.path.realpath(__file__))
 
 #####
 
-"""
+
 
 # Get a list of all Excel files in the script's directory
 excel_files = [file for file in os.listdir(script_directory) if file.endswith(".xlsx")]
@@ -33,7 +33,7 @@ file_name = "log_24-01-11_15-50"
 excel_file = file_name + ".xlsx"
 
 ####
-
+"""
 
 
 
