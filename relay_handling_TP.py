@@ -147,7 +147,7 @@ class guide:
                          
     def activate_dec(self): # up down
         while not self.stop_threads:
-            with self.sctive_deviation_lock:
+            with self.active_deviation_lock:
                 ad = self.active_deviation
             margin = self.margin
             if not None in ad:
