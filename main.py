@@ -44,7 +44,8 @@ press_counter = 0
 
 buffer = clc.buffer(config.buffer_length)
 
-guide = relay.guide(config.relay_pins, 
+guide = relay.guide(log,
+                    config.relay_pins, 
                     config.button_pin, 
                     config.margin, 
                     config.sticky_buffer, 
@@ -224,7 +225,7 @@ while True:
     
     log.add("Target", [time.time(), target_x, target_y, avrg_target_x, avrg_target_y,
                        deviation[0], deviation[1]])
-    log.add("Activity", [time.time(), guide.showactive()])
+    
     marked = clc.targetmarkers(
         avrg_target_x,
         avrg_target_y,
@@ -255,6 +256,7 @@ while True:
 
 cv.destroyAllWindows()
 guide.stop()
+
 
 
 if config.export_to_excel: log.export()   

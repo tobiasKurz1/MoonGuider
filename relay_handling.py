@@ -11,6 +11,7 @@ import time
 
 class guide:
     def __init__(self, 
+                 log,
                  relay_pins = [19, 13, 6, 26], 
                  button_pin = 16, 
                  margin = 0, 
@@ -19,7 +20,7 @@ class guide:
                  record_buffer = 20, 
                  rotate = 0):
         
-
+        self.log = log
         self.margin = margin
         self.active = [False, False, False, False]
         self.pulsed = [False, False]
@@ -172,10 +173,7 @@ class guide:
             GPIO.output(self.relay_pins[3], GPIO.HIGH)
             self.active[3] = False
         
-        
-        ### TEST ###
-        time.sleep(0.2)
-        for pin in self.relay_pins: GPIO.output(pin, GPIO.HIGH)
+        self.log.add("Activity", [time.time, right, left, down, up])
         return
 
     

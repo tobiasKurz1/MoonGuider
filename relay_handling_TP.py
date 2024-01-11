@@ -14,13 +14,14 @@ Created on Mon Nov 20 21:59:14 2023
 import RPi.GPIO as GPIO
 import time
 import threading
-from main.py import log as log
+
 
 
 
 
 class guide:
     def __init__(self, 
+                 log,
                  relay_pins = [19, 13, 6, 26], 
                  button_pin = 16, 
                  margin = 0, 
@@ -29,6 +30,7 @@ class guide:
                  record_buffer = 20, 
                  rotate = 0):
         
+        self.log = log
         # Create a lock for thread synchronization
         self.thread_ra = threading.Lock()
         self.thread_dec = threading.Lock()
