@@ -126,8 +126,8 @@ def targetmarkers(target_x,
         scl_ref_y =int(ref_y * scale)
         
         # Draw reference Point
-        cv.line(img, (0, scl_ref_y), (width, scl_ref_y), line_color, line_thickness)
-        cv.line(img, (scl_ref_x, 0), (scl_ref_x, height), line_color, line_thickness)
+        cv.line(img, (0, scl_ref_y), (width, scl_ref_y), line_color, line_thickness * 2)
+        cv.line(img, (scl_ref_x, 0), (scl_ref_x, height), line_color, line_thickness * 2)
         
         # Draw deviation Arrow
         cv.arrowedLine(img, 
