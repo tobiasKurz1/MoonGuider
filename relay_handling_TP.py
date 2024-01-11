@@ -31,7 +31,7 @@ class guide:
                  rotate = 0):
         
         self.log = log
-        self.log.add('Activity',["Time", "Duration", "RIGHT", "LEFT", "DOWN", "UP"])
+        self.log.add('Activity',["Time", "Duration", "Direction"])
         
         self.active_deviation = (None, None)
         self.margin = margin
