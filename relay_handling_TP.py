@@ -33,6 +33,8 @@ class guide:
         self.log = log
         self.log.add('Activity',["Time", "Duration", "RIGHT", "LEFT", "DOWN", "UP"])
         
+        self.active_deviation = (None, None)
+        
         # Create a lock for thread synchronization
         self.thread_ra = threading.Lock()
         self.thread_dec = threading.Lock()
@@ -56,7 +58,7 @@ class guide:
         self.sbx = []
         self.sby = []
         
-        self.active_deviation = (None, None)
+
         
         self.last_deviation = (None, None)
         self.deviation_records = [(0,0)]
