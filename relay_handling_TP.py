@@ -113,10 +113,9 @@ class guide:
     
     def activate_ra(self): # left right
         while not self.stop_threads:
-            with self.active_deviation_lock:
-                ad = self.active_deviation
-                margin = self.margin
-            if not None in ad and not any(self.active[:2]):
+            ad = self.active_deviation
+            margin = self.margin
+            if not None in ad:
                 xdev = ad[0]              
                 if abs(xdev) < margin: pass
                 else:
@@ -129,7 +128,7 @@ class guide:
                     with self.thread_ra:
                          self.active[0] = right
                          self.active[1] = left
-                         self.log.add('Activity',[time.time(), duration, self.active])
+                    self.log.add('Activity',[time.time(), duration, self.active])
                        
                     self.switch_pin_on([right, left, False, False])   
                     time.sleep(duration)
@@ -138,14 +137,13 @@ class guide:
                     with self.thread_ra:
                          self.active[0] = False
                          self.active[1] = False
-                         self.log.add('Activity',[time.time(), duration, self.active])
+                    self.log.add('Activity',[time.time(), duration, self.active])
                          
     def activate_dec(self): # up down
         while not self.stop_threads:
-            with self.active_deviation_lock:
-                ad = self.active_deviation
-                margin = self.margin
-            if not None in ad and not any(self.active[2:]):
+            ad = self.active_deviation
+            margin = self.margin
+            if not None in ad:
                 ydev = ad[1]
                 if abs(ydev) < margin: pass
                 else:    
@@ -158,7 +156,7 @@ class guide:
                     with self.thread_dec:
                          self.active[2] = down
                          self.active[3] = up
-                         self.log.add('Activity',[time.time(), duration, self.active])
+                    self.log.add('Activity',[time.time(), duration, self.active])
                     
                     self.switch_pin_on([False, False, down, up])
                     time.sleep(duration)
@@ -167,7 +165,7 @@ class guide:
                     with self.thread_dec:
                          self.active[2] = False
                          self.active[3] = False
-                         self.log.add('Activity',[time.time(), duration, self.active])
+                    self.log.add('Activity',[time.time(), duration, self.active])
 
     
     
