@@ -130,8 +130,8 @@ class guide:
                         (right, left) = (xdev > margin, xdev < margin * -1)
                                                    
                         # calculate pulse time
-                        temp = (abs(xdev)-margin) * 0.1
-                        duration = temp if temp < 2 else 2
+                        temp = (abs(xdev)-margin) * 0.2
+                        duration = temp if temp < 3 else 3
                         
                         with self.active_lock:
                              self.active[0] = right
@@ -159,8 +159,8 @@ class guide:
                     (down, up) = (ydev > margin, ydev < margin * -1)
                                                    
                     # calculate pulse time
-                    temp = (abs(ydev)-margin) * 0.1
-                    duration = temp if temp < 2 else 2
+                    temp = (abs(ydev)-margin) * 0.2
+                    duration = temp if temp < 3 else 3
                     
                     with self.active_lock:
                          self.active[2] = down
