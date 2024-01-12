@@ -26,7 +26,7 @@ import cv2 as cv
 import numpy as np
 import time
 import pandas as pd
-from main import config
+
 
 
 
@@ -47,7 +47,7 @@ def adjust_font_size(text, font, target_height, target_width, thickness, max_fon
             current_font_scale -= 0.1
     return current_font_scale
 
-def preprocessing(img):
+def preprocessing(img, config):
     grey = config.grey
     blur = config.blur
     threshold = config.threshold
@@ -72,6 +72,7 @@ def targetmarkers(target_x,
                   ref_y, 
                   deviation, 
                   img, 
+                  config,
                   handover_value):
     
     overlay = config.overlay
@@ -221,7 +222,7 @@ def targetmarkers(target_x,
         
     return(img)
 
-def moonposition(processed_img):
+def moonposition(processed_img, config):
     
     circles = cv.HoughCircles(
         processed_img,       # Input image
