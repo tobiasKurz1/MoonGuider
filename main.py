@@ -157,7 +157,7 @@ while True:
     
     processed = clc.preprocessing(org_image, config)
     
-    (target_x, target_y, target_radius) = clc.moonposition(processed)
+    (target_x, target_y, target_radius) = clc.moonposition(processed, config)
     
     buffer.add(target_x, "target_x")
     buffer.add(target_y, "target_y")
