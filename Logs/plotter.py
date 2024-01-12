@@ -27,10 +27,10 @@ file_name = os.path.splitext(os.path.basename(excel_file))[0]
 
 
 """
-namelist = ["log_24-01-12_15-43",
-            "log_24-01-12_15-36",
-            "log_24-01-12_15-24",
-            "log_24-01-12_15-18"]
+namelist = ["log_24-01-12_17-30",
+            "log_24-01-12_17-36",
+            "log_24-01-12_17-42",
+            "log_24-01-12_17-48"]
 
 for file_name in namelist:
 
@@ -57,8 +57,8 @@ for file_name in namelist:
     headers2 = list(df2.columns)
     
     # Create a single figure with three subplots (the third one is for the text box)
-    fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, 1, figsize=(19, 18), gridspec_kw={'height_ratios': [1, 0.3, 1, 0.3, 0.2]})
-    bar_width = 0.1
+    fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, 1, figsize=(22, 15), gridspec_kw={'height_ratios': [1, 0.3, 1, 0.3, 0.2]})
+    bar_width = 0.25
     
     
     # Extract data from columns 2, 3, 4, and 5

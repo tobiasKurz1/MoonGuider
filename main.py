@@ -41,6 +41,8 @@ log.add('Target',["Time", "target_x", "target_y", "target_x_average", "target_y_
 
 duration = 1
 press_counter = 0
+avrg_target_x = None
+avrg_target_y = None
 
 
 buffer = clc.buffer(config.buffer_length)
@@ -158,6 +160,10 @@ while True:
     processed = clc.preprocessing(org_image, config)
     
     (target_x, target_y, target_radius) = clc.moonposition(processed, config)
+    
+    if not None in (target_x, target_y):
+        if max(abs(target_x - avrg_target_x), abs(target_y - avrg_target_y)) > 100:
+            (target_x, target_y, target_radius) = (None, None, None)
     
     buffer.add(target_x, "target_x")
     buffer.add(target_y, "target_y")

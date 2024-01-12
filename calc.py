@@ -313,7 +313,12 @@ class log:
 class buffer:
     def __init__(self, buffer_length = 1):
         self.values = {}
+        self.values['target_x'] = []
+        self.values['target_y'] = []
+        self.values['target_radius'] = []
+        
         self.buffer_length = buffer_length
+
 
     def errorcheck(self, name = None):
         if name not in self.values:
@@ -332,8 +337,7 @@ class buffer:
         
     def add(self, value, name=None):
 
-        if (name not in self.values and name is not None):
-            self.values[name] = []
+        self.errorcheck(name)
                 
         self.values[name].append(value)
                         
@@ -341,14 +345,12 @@ class buffer:
                 self.values[name].pop(0)
                 
     def average(self, name):
-        if name is not None:
-            
-            self.errorcheck(name)
-            
-            if not self.values[name]:
-                return None
-            temp =  list(filter(lambda x: x is not None, self.values[name]))
-            
-            return float(sum(temp) / len(temp)) if temp else None
-        else:
+        
+        self.errorcheck(name)
+                 
+        if not self.values[name]:
             return None
+        temp =  list(filter(lambda x: x is not None, self.values[name]))
+        
+        return float(sum(temp) / len(temp)) if temp else None
+
