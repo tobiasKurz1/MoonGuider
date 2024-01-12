@@ -42,24 +42,6 @@ class calculation:
         self.minRadius = 120
         self.maxRadius = 160
         
-
-
-    def calculate_text_size(text, font, font_scale, thickness):
-        return cv.getTextSize(text, font, font_scale, thickness)[0]
-    
-    def adjust_font_size(self, text, font, target_height, target_width, thickness, max_font_scale=5):
-        current_font_scale = max_font_scale
-        lines = text.split('\n')
-    
-        while current_font_scale > 0.1:
-            text_size = self.calculate_text_size(text, font, current_font_scale, 2)
-            total_text_height = text_size[1] * len(lines)
-            max_width = max(self.calculate_text_size(line, font, current_font_scale, thickness)[0] for line in lines)
-            if total_text_height <= target_height and max_width  <= target_width:
-                return current_font_scale
-            else:
-                current_font_scale -= 0.1
-        return current_font_scale
     
     def preprocessing(self, img):
 
@@ -201,29 +183,16 @@ class calculation:
             font = cv.FONT_HERSHEY_SIMPLEX      
             
             text_lines = bar_text.split('\n')
-            max_font_scale = 10
             thickness = line_thickness
             
-            # Adjust the font size to fit within the bar
-            font_scale = self.adjust_font_size(bar_text, 
-                                          font, 
-                                          bar_height,
-                                          width, 
-                                          thickness, 
-                                          max_font_scale)
-    
-            # Calculate starting position for the first line
-            y_position = (bar_height - self.calculate_text_size(text_lines[0], font, font_scale, thickness)[1] 
-                          * len(text_lines)) // 2
-            print(f'y-position: {y_position}')
-            print(f'font_scale: {font_scale}')
-            # Draw each line of text
+            
+            font_scale = 0.5
+            text_position = 20
             for line in text_lines:
-                text_position = ((width - self.calculate_text_size(line, font, font_scale, 2)[0]) // 2, y_position)
-                cv.putText(bar, line, text_position, font, font_scale, (0, 0, 0), thickness, cv.LINE_AA)
-                y_position += self.calculate_text_size(line, font, font_scale, thickness)[1]
-    
-    
+                cv.putText(bar, line, (5,text_position), font, font_scale, (0, 0, 0), thickness, cv.LINE_AA)
+                text_position += 20
+            
+           
          
             # Stack the black bar on top of the original image
             # If Moon would be under the bar at the bottom, put bar on top
