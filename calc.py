@@ -284,7 +284,7 @@ class log:
         
         print(f"Nr. of Datapoints: {len(self.sheets['Target'])-1}")
         print(f"Config Profile: {self.sheets['Configuration'][0][0]}")
-        temp = input("Save Logged data as ...? Press Enter for default 'log_Y-M-D_H-M.xlsx' ")
+        temp = input("Save Logged data as ...? Press Enter for default 'log_Y-M-D_H-M.xlsx', type 'n' or 'no' to skip. ")
         if temp: 
             if temp in ["N","n","No","NO","nein","Nein","NEIN"]:
                 print("Data has not been saved")
