@@ -20,7 +20,7 @@ Ensure 'picamera2', 'cv2' (OpenCV), 'calc', and 'cam_feed' modules are
 available to run this script.
 """
 
-import calc as clc 
+import calc as clc
 import cv2 as cv
 import cam_feed as cam
 from picamera2 import Picamera2
@@ -28,9 +28,12 @@ import time
 import relay_handling_TP as relay
 import config_loader as load
 
+
+
 log = clc.log()
 
 config = load.configuration(log)
+clc.calculation(config)
 
 
 
@@ -58,9 +61,9 @@ def perform_relay_test():
         cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
         
         org_image = picam.capture_array()
-        processed = clc.preprocessing(org_image, config)
+        processed = clc.preprocessing(org_image)
         
-        (target_x, target_y, _) = clc.moonposition(processed, config)
+        (target_x, target_y, _) = clc.moonposition(processed)
                 
         marked = clc.targetmarkers(
             target_x,
@@ -70,7 +73,6 @@ def perform_relay_test():
             target_y,
             (0,0),
             org_image,
-            config,
             handover_value = "Press any key to skip relay test.\nPress Button if correct stationary Target is found.")
                 
         cv.imshow('Camera Output',marked)
@@ -88,15 +90,15 @@ def perform_relay_test():
     
     for pin, direction in zip(guide.relay_pins, ["right","left","down","up"]):
         org_image = picam.capture_array()
-        processed = clc.preprocessing(org_image, config)
+        processed = clc.preprocessing(org_image)
         
-        (target_x, target_y, _) = clc.moonposition(processed, config)
+        (target_x, target_y, _) = clc.moonposition(processed)
 
     
     
     for pin, direction in zip(guide.relay_pins, ["right","left","down","up"]):
         org_image = picam.capture_array()
-        processed = clc.preprocessing(org_image, config)
+        processed = clc.preprocessing(org_image)
         
         (target_x, target_y, _) = clc.moonposition(processed)
         
@@ -107,8 +109,8 @@ def perform_relay_test():
         guide.activate()
         
         org_image = picam.capture_array()
-        processed = clc.preprocessing(org_image, config)
-        (x, y, _) = clc.moonposition(processed, config)
+        processed = clc.preprocessing(org_image)
+        (x, y, _) = clc.moonposition(processed)
         deviation = clc.get_deviation((x, y), (target_x, target_y))
         deviations.append(deviation)
         print(f"Detected deviation: {deviation}")
@@ -119,6 +121,71 @@ def perform_relay_test():
     time.sleep(1)
     return
 
+def lock_moon_size():
+    while True:
+        cv.namedWindow('Camera Output', cv.WINDOW_NORMAL)
+        cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
+        
+        org_image = picam.capture_array()
+        processed = clc.preprocessing(org_image)
+        
+        (target_x, target_y, _) = clc.moonposition(processed)
+                
+        marked = clc.targetmarkers(
+            target_x,
+            target_y,
+            _,
+            target_x,
+            target_y,
+            (0,0),
+            org_image,
+            handover_value = "Press any key to skip.\nPress Button to lock current moon size")
+                
+        cv.imshow('Camera Output',marked)
+        key = cv.waitKey(1)
+        
+        if key != -1:
+            return
+        
+        time.sleep(1)
+        
+        if guide.button_is_pressed():
+            
+            break
+    
+    
+    for pin, direction in zip(guide.relay_pins, ["right","left","down","up"]):
+        org_image = picam.capture_array()
+        processed = clc.preprocessing(org_image)
+        
+        (target_x, target_y, _) = clc.moonposition(processed)
+
+    
+    
+    for pin, direction in zip(guide.relay_pins, ["right","left","down","up"]):
+        org_image = picam.capture_array()
+        processed = clc.preprocessing(org_image)
+        
+        (target_x, target_y, _) = clc.moonposition(processed)
+        
+        print(f"Testing pin {pin} ({direction})...")
+        
+        guide.activate_pin(pin)
+        time.sleep(10)
+        guide.activate()
+        
+        org_image = picam.capture_array()
+        processed = clc.preprocessing(org_image)
+        (x, y, _) = clc.moonposition(processed)
+        deviation = clc.get_deviation((x, y), (target_x, target_y))
+
+        print(f"Detected deviation: {deviation}")
+        
+    input("\nPress Enter to continue")
+    
+
+    time.sleep(1)
+    return
 
 picam = Picamera2()
 
@@ -157,9 +224,9 @@ while True:
     
     org_image = picam.capture_array()
     
-    processed = clc.preprocessing(org_image, config)
+    processed = clc.preprocessing(org_image)
     
-    (target_x, target_y, target_radius) = clc.moonposition(processed, config)
+    (target_x, target_y, target_radius) = clc.moonposition(processed)
     
     if not None in (target_x, target_y, avrg_target_x, avrg_target_y):
         if max(abs(target_x - avrg_target_x), abs(target_y - avrg_target_y)) > 100:
@@ -195,7 +262,6 @@ while True:
         reference_y,
         guide.active_deviation,
         org_image,
-        config,
         handover_value = f"{1/duration:.2f} FpS, active relays: {guide.showactive()},\nValid target positions: {buffer.get_valid()}, {int(time.time()-start_time)}")
     
     
