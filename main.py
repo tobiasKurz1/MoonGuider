@@ -122,6 +122,7 @@ def perform_relay_test():
     return
 
 def lock_moon_size():
+
     while True:
         cv.namedWindow('Camera Output', cv.WINDOW_NORMAL)
         cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
@@ -129,12 +130,12 @@ def lock_moon_size():
         org_image = picam.capture_array()
         processed = clc.preprocessing(org_image)
         
-        (target_x, target_y, _) = clc.moonposition(processed)
+        (target_x, target_y, target_radius) = clc.moonposition(processed)
                 
         marked = clc.targetmarkers(
             target_x,
             target_y,
-            _,
+            target_radius,
             target_x,
             target_y,
             (0,0),
@@ -143,48 +144,25 @@ def lock_moon_size():
                 
         cv.imshow('Camera Output',marked)
         key = cv.waitKey(1)
-        
         if key != -1:
-            return
-        
+            return      
         time.sleep(1)
         
         if guide.button_is_pressed():
-            
+            clc.minRadius = target_radius - 1
+            clc.maxRadius = target_radius + 1
+            marked = clc.targetmarkers(
+                target_x,
+                target_y,
+                target_radius,
+                target_x,
+                target_y,
+                (0,0),
+                org_image,
+                handover_value = "Target Radius set to:\n{target_radius}")
+            cv.destroyAllWindows()          
             break
-    
-    
-    for pin, direction in zip(guide.relay_pins, ["right","left","down","up"]):
-        org_image = picam.capture_array()
-        processed = clc.preprocessing(org_image)
-        
-        (target_x, target_y, _) = clc.moonposition(processed)
 
-    
-    
-    for pin, direction in zip(guide.relay_pins, ["right","left","down","up"]):
-        org_image = picam.capture_array()
-        processed = clc.preprocessing(org_image)
-        
-        (target_x, target_y, _) = clc.moonposition(processed)
-        
-        print(f"Testing pin {pin} ({direction})...")
-        
-        guide.activate_pin(pin)
-        time.sleep(10)
-        guide.activate()
-        
-        org_image = picam.capture_array()
-        processed = clc.preprocessing(org_image)
-        (x, y, _) = clc.moonposition(processed)
-        deviation = clc.get_deviation((x, y), (target_x, target_y))
-
-        print(f"Detected deviation: {deviation}")
-        
-    input("\nPress Enter to continue")
-    
-
-    time.sleep(1)
     return
 
 picam = Picamera2()
