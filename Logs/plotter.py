@@ -51,7 +51,7 @@ headers = list(df.columns)
 headers2 = list(df2.columns)
 
 # Create a single figure with three subplots (the third one is for the text box)
-fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, 1, figsize=(19, 17), gridspec_kw={'height_ratios': [1, 0.3, 1, 0.3, 0.2]})
+fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, 1, figsize=(19, 18), gridspec_kw={'height_ratios': [1, 0.3, 1, 0.3, 0.2]})
 bar_width = 0.1
 
 
@@ -72,7 +72,7 @@ data_range = []
 for data in [y_data1, y_data2, y_data3, y_data4]:
     data_range.append(max(data[int(len(data)//-2):]) - min(data[int(len(data)//-2):]))
 
-infotext = f"Range {headers[1]}: {data_range[0]}; Range {headers[2]}: {data_range[2]}\nRange {headers[3]}: {data_range[1]:.2f}; Range {headers[4]}: {data_range[3]:.2f}\nAverage FPS:{fps:.2f}"
+
 
 # get activity data
 x_data2 = df2.iloc[:, 0] - df2.iloc[0, 0] # x-Axis of activity data
@@ -94,12 +94,22 @@ for x, y_dur, y_dir in zip(x_data2, y_duration, y_direction):
         ud_x.append(x)
         ud_duration.append(y_dur)
         ud_direction.append(y_dir)
+
+avrg_x = sum(x_dev[int(len(x_dev)//-2):]) / int(len(x_dev)//2)
+avrg_y = sum(y_dev[int(len(y_dev)//-2):]) / int(len(y_dev)//2)
+
+infotext = f"Range {headers[1]}: {data_range[0]}; Range {headers[2]}: {data_range[2]};\n\
+Range {headers[3]}: {data_range[1]:.2f}; Range {headers[4]}: {data_range[3]:.2f};\n\
+Average X-Deviation: {avrg_x:.2f}, Average Y-Deviation: {avrg_y:.2f};\n\
+Average FPS: {fps:.2f}"
         
 
 # Plot the first graph on the top subplot
 ax1.plot(x_data, y_data1, label=headers[1], alpha = 0.3)
 ax1.plot(x_data, y_data2, label=headers[3])
 ax1.set_ylabel("Pixels")
+ax1.set_xlabel(headers[0] + " [s]")
+ax1.grid(axis='x')
 
 max_abs_y = max(abs(min(min(list(x_dev),list(y_dev)))), abs(max(max(list(x_dev), list(y_dev)))))
 ax6 = ax1.twinx()
@@ -109,7 +119,7 @@ ax6.set_ylim(-max_abs_y, max_abs_y)
 ax6.set_yscale('symlog')
 
 ax1.legend()
-ax6.grid()
+ax6.grid(axis='y')
 
 # Plot the first activity graph
 bars1 = ax2.bar(rl_x, rl_duration, width=bar_width, color=['red' if d == 'right' else 'blue' for d in rl_direction])
@@ -120,7 +130,6 @@ legend_elements1 = [
     plt.Line2D([0], [0], color='blue', lw=4, label='Left')]
 ax2.legend(handles=legend_elements1)
 ax2.grid()
-ax2.grid(axis='x')
 
 #ax2.set_title('Custom Width Bar Chart for ax2')
 
@@ -132,7 +141,7 @@ legend_elements2 = [
     plt.Line2D([0], [0], color='red', lw=4, label='Down'),
     plt.Line2D([0], [0], color='blue', lw=4, label='Up')]
 ax4.legend(handles=legend_elements2)
-ax4.grid(axis='x')
+ax4.grid()
 #ax4.set_title('Custom Width Bar Chart for ax2')
 
 
@@ -141,6 +150,7 @@ ax3.plot(x_data, y_data3, label=headers[2], alpha = 0.3)
 ax3.plot(x_data, y_data4, label=headers[4])
 ax3.set_xlabel(headers[0] + " [s]")
 ax3.set_ylabel("Pixels")
+ax3.grid(axis='x')
 
 ax7 = ax3.twinx()
 ax7.plot(x_data, y_dev, label=headers[6])
@@ -150,7 +160,7 @@ ax7.set_yscale('symlog')
 
 
 ax3.legend()
-ax7.grid()
+ax7.grid(axis='y')
 
 # Automatically adjust y-axis limits for both subplots
 ax1.set_ylim(min(min(y_data1), min(y_data2)), max(max(y_data1), max(y_data2)))

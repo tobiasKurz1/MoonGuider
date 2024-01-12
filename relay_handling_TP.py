@@ -20,21 +20,14 @@ import threading
 
 
 class guide:
-    def __init__(self, 
-                 log,
-                 relay_pins = [19, 13, 6, 26], 
-                 button_pin = 16, 
-                 margin = 0, 
-                 sticky_buffer = 0, 
-                 cloud_mode = None, 
-                 record_buffer = 20, 
-                 rotate = 0):
+    def __init__(self, log, config):
+
         
         self.log = log
         self.log.add('Activity',["Time", "Duration", "Direction"])
         
         self.active_deviation = (None, None)
-        self.margin = margin
+        self.margin = config.margin
         self.active = [False, False, False, False]
         
         self.stop_threads = False
@@ -52,10 +45,10 @@ class guide:
 
 
         self.pulsed = [False, False]
-        self.button_pin = button_pin
+        self.button_pin = config.button_pin
         self.mode_info = None
         
-        self.sticky_buffer = sticky_buffer
+        self.sticky_buffer = config.sticky_buffer
         
         self.sbx = []
         self.sby = []
@@ -65,12 +58,14 @@ class guide:
         self.last_deviation = (None, None)
         self.deviation_records = [(0,0)]
         
-        self.record_buffer = record_buffer
+        self.record_buffer = config.record_buffer
         
 
         # Pin order is RIGHT, LEFT, DOWN, UP
-        self.relay_pins = relay_pins
-    
+        relay_pins = config.relay_pins
+        
+        rotate = config.rotate
+        
         if rotate == 90:
             self.relay_pins = [relay_pins[3], relay_pins[2], relay_pins[0], relay_pins[1]]
         elif rotate == 180:
@@ -78,10 +73,12 @@ class guide:
         elif rotate == 270:
             self.relay_pins = [relay_pins[2], relay_pins[3], relay_pins[1], relay_pins[0]]
         else:
+            self.relay_pins = relay_pins
             if rotate != 0:
                 raise ValueError("Only camera rotations of 0, 90, 180 or 270 Degree supported.")
             
-                 
+        cloud_mode = config.cloud_mode
+            
         if cloud_mode == "guide_last" or cloud_mode == "repeat":
             self.cloud_mode = cloud_mode
         else:

@@ -26,6 +26,8 @@ import cv2 as cv
 import numpy as np
 import time
 import pandas as pd
+from main import config
+
 
 
 def calculate_text_size(text, font, font_scale, thickness):
@@ -45,7 +47,10 @@ def adjust_font_size(text, font, target_height, target_width, thickness, max_fon
             current_font_scale -= 0.1
     return current_font_scale
 
-def preprocessing(img, grey = True, threshold = 0, blur = 3):
+def preprocessing(img):
+    grey = config.grey
+    blur = config.blur
+    threshold = config.threshold
     # Turn image into grey version (1 channel)
     img = cv.cvtColor(img, cv.COLOR_BGR2GRAY) if grey else img
     
@@ -67,9 +72,10 @@ def targetmarkers(target_x,
                   ref_y, 
                   deviation, 
                   img, 
-                  handover_value, 
-                  overlay = True, 
-                  scale = 1):
+                  handover_value):
+    
+    overlay = config.overlay
+    scale = config.overlay
     
     if len(img.shape) == 2:
         img = cv.cvtColor(img, cv.COLOR_GRAY2BGR)
@@ -215,17 +221,17 @@ def targetmarkers(target_x,
         
     return(img)
 
-def moonposition(processed_img,dp_, p1, p2, scale):
+def moonposition(processed_img):
     
     circles = cv.HoughCircles(
         processed_img,       # Input image
         cv.HOUGH_GRADIENT,   # Detection method
-        dp=dp_,                # Inverse ratio of the accumulator resolution to the image resolution
+        dp=config.dp,                # Inverse ratio of the accumulator resolution to the image resolution
         minDist=processed_img.shape[0],          # Minimum distance between detected centers
-        param1 = p1,          # Higher threshold for edge detection
-        param2 = p2,           # Accumulator threshold for circle detection
-        minRadius = int(120 * scale) ,        # Minimum circle radius 120
-        maxRadius= int(160 * scale)        # Maximum circle radius 160
+        param1 = config.param1,          # Higher threshold for edge detection
+        param2 = config.param2,           # Accumulator threshold for circle detection
+        minRadius = int(120 * config.image_scale) ,        # Minimum circle radius 120
+        maxRadius= int(160 * config.image_scale)        # Maximum circle radius 160
     )
 
     if circles is not None:
