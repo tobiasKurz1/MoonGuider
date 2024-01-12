@@ -56,7 +56,7 @@ class configuration:
         self.rotate           = int(self.config[self.profile]['rotate'])
                
         ### Camera ###
-        self.image_scale      = float(self.config[self.profile]['image_scale'])
+        self.in_scale         = float(self.config[self.profile]['input_scale'])
         self.image_size       = (int(int(self.config[self.profile]['image_width']) 
                                          * self.image_scale),
                                  int(int(self.config[self.profile]['image_height']) 
@@ -74,7 +74,7 @@ class configuration:
         ### General ###
         self.buffer_length   = int(self.config[self.profile]['buffer_length'])
         self.overlay         = eval(self.config[self.profile]['overlay'])
-        self.scale           = float(self.config[self.profile]['scale'])
+        self.out_scale       = float(self.config[self.profile]['output_scale'])
         self.show_cam_feed   = eval(self.config[self.profile]['show_cam_feed'])
         self.do_relay_test   = eval(self.config[self.profile]['do_relay_test'])
         self.export_to_excel = eval(self.config[self.profile]['export_to_excel'])

@@ -33,10 +33,11 @@ class calculation:
         self.blur = config.blur
         self.threshold = config.threshold
         self.overlay = config.overlay
-        self.scale = config.image_scale
+        self.input_scale = config.input_scale
         self.dp = config.dp
         self.param1 = config.param1
         self.param2 = config.param2
+        self.in_scale = config.in_scale
         
         self.minRadius = 120
         self.maxRadius = 160
@@ -90,7 +91,7 @@ class calculation:
         if len(img.shape) == 2:
             img = cv.cvtColor(img, cv.COLOR_GRAY2BGR)
     
-        img = cv.resize(img, None, fx=self.scale, fy=self.scale, interpolation= cv.INTER_LINEAR)
+        img = cv.resize(img, None, fx=self.out_scale, fy=self.out_scale, interpolation= cv.INTER_LINEAR)
         
         if img.shape[2] == 4:
             # Split the image into its channels
@@ -103,7 +104,7 @@ class calculation:
         line_color = (0, 0, 255)  # Red in BGR format
         
         # Define the thickness of the lines
-        line_thickness = int(8 * self.scale) if int(8 * self.scale) >= 1 else 1
+        line_thickness = int(8 * self.out_scale) if int(8 * self.out_scale) >= 1 else 1
         
         if None in deviation: # No target is tracked
             
@@ -111,21 +112,21 @@ class calculation:
             cv.line(img, (0, height), (width, 0), line_color, line_thickness)
             
             cv.circle(img, (width // 2, height // 2), 
-                      int(self.minRadius * self.scale), 
+                      int(self.minRadius * self.out_scale), 
                       line_color, line_thickness)
             cv.circle(img, (width // 2, height // 2), 
-                      int(self.maxRadius * self.scale), 
+                      int(self.maxRadius * self.out_scale), 
                       line_color, line_thickness)
             
         elif None in (target_x, target_y): 
             
             # Target is not found but deviation is generated through prediction
             # or last deviation
-            scl_devx = int(deviation[0] * self.scale)
-            scl_devy = int(deviation[1] * self.scale)
+            scl_devx = int(deviation[0] * self.out_scale)
+            scl_devy = int(deviation[1] * self.out_scale)
             try:
-                scl_ref_x = int(ref_x * self.scale)
-                scl_ref_y = int(ref_y * self.scale)
+                scl_ref_x = int(ref_x * self.out_scale)
+                scl_ref_y = int(ref_y * self.out_scale)
                 
                 # Draw deviation Arrow
                 cv.arrowedLine(img, (scl_ref_x, scl_ref_y), 
@@ -139,11 +140,11 @@ class calculation:
         
             print(f"Target at unscaled Coordinates: {target_x}, {target_y}")
                   
-            scl_target_x = int(target_x * self.scale)
-            scl_target_y = int(target_y * self.scale)
-            scl_target_radius = int(target_radius * self.scale)
-            scl_ref_x = int(ref_x * self.scale)
-            scl_ref_y =int(ref_y * self.scale)
+            scl_target_x = int(target_x * self.out_scale)
+            scl_target_y = int(target_y * self.out_scale)
+            scl_target_radius = int(target_radius * self.out_scale)
+            scl_ref_x = int(ref_x * self.out_scale)
+            scl_ref_y =int(ref_y * self.out_scale)
             
             # Draw reference Point
             cv.line(img, (0, scl_ref_y), (width, scl_ref_y), line_color, line_thickness * 2)
@@ -245,8 +246,8 @@ class calculation:
             minDist=processed_img.shape[0],          # Minimum distance between detected centers
             param1 = self.param1,          # Higher threshold for edge detection
             param2 = self.param2,           # Accumulator threshold for circle detection
-            minRadius = int(self.minRadius * self.image_scale) ,        # Minimum circle radius 120
-            maxRadius= int(self.maxRadius * self.image_scale)        # Maximum circle radius 160
+            minRadius = int(self.minRadius * self.in_scale) ,        # Minimum circle radius 120
+            maxRadius= int(self.maxRadius * self.in_scale)        # Maximum circle radius 160
         )
     
         if circles is not None:
