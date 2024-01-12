@@ -149,8 +149,8 @@ def lock_moon_size():
         time.sleep(1)
         
         if guide.button_is_pressed():
-            clc.minRadius = target_radius - 1
-            clc.maxRadius = target_radius + 1
+            clc.minRadius = target_radius - 10
+            clc.maxRadius = target_radius + 10
             marked = clc.targetmarkers(
                 target_x,
                 target_y,
@@ -188,8 +188,6 @@ if config.do_relay_test: perform_relay_test()
 
 lock_moon_size()
 
-print(clc.minRadius)
-print(clc.maxRadius)
 
 #Center Point of the Image in (X,Y) Coordinates
 image_center = (int(shape[1]//2), int(shape[0]//2)) 
