@@ -161,7 +161,7 @@ while True:
     
     (target_x, target_y, target_radius) = clc.moonposition(processed, config)
     
-    if not None in (target_x, target_y):
+    if not None in (target_x, target_y, avrg_target_x, avrg_target_y):
         if max(abs(target_x - avrg_target_x), abs(target_y - avrg_target_y)) > 100:
             (target_x, target_y, target_radius) = (None, None, None)
     
