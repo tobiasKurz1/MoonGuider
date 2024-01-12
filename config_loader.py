@@ -58,9 +58,9 @@ class configuration:
         ### Camera ###
         self.in_scale         = float(self.config[self.profile]['in_scale'])
         self.image_size       = (int(int(self.config[self.profile]['image_width']) 
-                                         * self.image_scale),
+                                         * self.in_scale),
                                  int(int(self.config[self.profile]['image_height']) 
-                                         * self.image_scale))
+                                         * self.in_scale))
         self.image_buffer     = int(self.config[self.profile]['image_buffer'])
         
         ### Image Processing and Moon Detection ###
