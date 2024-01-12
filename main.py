@@ -20,7 +20,7 @@ Ensure 'picamera2', 'cv2' (OpenCV), 'calc', and 'cam_feed' modules are
 available to run this script.
 """
 
-import calc as clc
+import calc
 import cv2 as cv
 import cam_feed as cam
 from picamera2 import Picamera2
@@ -30,10 +30,10 @@ import config_loader as load
 
 
 
-log = clc.log()
+log = calc.log()
 
 config = load.configuration(log)
-clc.calculation(config)
+clc = calc.calculation(config)
 
 
 
@@ -48,7 +48,7 @@ avrg_target_x = None
 avrg_target_y = None
 
 
-buffer = clc.buffer(config.buffer_length)
+buffer = calc.buffer(config.buffer_length)
 
 guide = relay.guide(log, config)
     
