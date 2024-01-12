@@ -33,11 +33,11 @@ class calculation:
         self.blur = config.blur
         self.threshold = config.threshold
         self.overlay = config.overlay
-        self.input_scale = config.input_scale
+        self.in_scale = config.in_scale
         self.dp = config.dp
         self.param1 = config.param1
         self.param2 = config.param2
-        self.in_scale = config.in_scale
+        self.out_scale = config.out_scale
         
         self.minRadius = 120
         self.maxRadius = 160
