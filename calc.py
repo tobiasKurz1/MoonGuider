@@ -76,7 +76,7 @@ def targetmarkers(target_x,
                   handover_value):
     
     overlay = config.overlay
-    scale = config.overlay
+    scale = config.image_scale
     
     if len(img.shape) == 2:
         img = cv.cvtColor(img, cv.COLOR_GRAY2BGR)
