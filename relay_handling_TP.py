@@ -26,6 +26,7 @@ class guide:
         self.log = log
         self.log.add('Activity',["Time", "Duration", "Direction"])
         
+        self.pulse_multiplier = config.pulse_multiplier
         self.active_deviation = (None, None)
         self.margin = config.margin
         self.active = [False, False, False, False]
@@ -127,7 +128,7 @@ class guide:
                         (right, left) = (xdev > margin, xdev < margin * -1)
                                                    
                         # calculate pulse time
-                        temp = (abs(xdev)-margin) * 0.2
+                        temp = (abs(xdev)-margin) * self.pulse_multiplier
                         duration = temp if temp < 3 else 3
                         
                         with self.active_lock:
@@ -156,7 +157,7 @@ class guide:
                     (down, up) = (ydev > margin, ydev < margin * -1)
                                                    
                     # calculate pulse time
-                    temp = (abs(ydev)-margin) * 0.2
+                    temp = (abs(ydev)-margin) * self.pulse_multiplier
                     duration = temp if temp < 3 else 3
                     
                     with self.active_lock:
