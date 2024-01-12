@@ -186,6 +186,11 @@ shape = testimg.shape
 
 if config.do_relay_test: perform_relay_test()
 
+lock_moon_size()
+
+print(clc.minRadius)
+print(clc.maxRadius)
+
 #Center Point of the Image in (X,Y) Coordinates
 image_center = (int(shape[1]//2), int(shape[0]//2)) 
 
