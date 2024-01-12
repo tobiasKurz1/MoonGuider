@@ -234,7 +234,7 @@ class calculation:
         else: 
             return(None,None,None)  
     
-    def get_deviation(target, ref):
+    def get_deviation(self, target, ref):
         if None in ref or None in target:
             return (None, None)
         
