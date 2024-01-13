@@ -27,10 +27,7 @@ file_name = os.path.splitext(os.path.basename(excel_file))[0]
 
 
 """
-namelist = ["log_24-01-12_17-30",
-            "log_24-01-12_17-36",
-            "log_24-01-12_17-42",
-            "log_24-01-12_17-48"]
+namelist = ["log_24-01-13_12-59"]
 
 for file_name in namelist:
 
