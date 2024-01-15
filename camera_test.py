@@ -11,12 +11,7 @@ import time
 import os
 
 
-"""
-anz = int(input("Anzahl der Bilder: "))
 
-delay = int(input("Abstand zw. Aufnahmen (s): "))
-dateiname = input("dateiname: ")
-"""
 
 prefix = input("File name prefix? (can also be none) ")
 picam = Picamera2()
@@ -41,25 +36,31 @@ i = 0
 
 while True:
     
-    if input("Enter wenn bereit"): break
-    
+    while True:
+        img = picam.capture_array()
+        cv.namedWindow('Camera Output', cv.WINDOW_NORMAL)
+        cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
+        cv.imshow('Camera Output',img)
+        key = cv.waitKey(1)
+        if key != -1:
+            break 
+        
 
+    
+    cv.destroyAllWindows()
     time.sleep(1)
     img = picam.capture_array()
-    
-    
-    #cv.namedWindow('Camera Output', cv.WINDOW_NORMAL)
-    #cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
-    #cv.imshow('Camera Output',img)
-    
+    print(f"Bild {i} aufgenommen.")
+
     image_path = os.path.join(folder_path, f'{prefix}{i}.png')
     cv.imwrite(image_path, img)
-   
+    
+
+    if input("Enter wenn bereit"): break
+       
     i+=1
     
-    #key = cv.waitKey(1)
-    #if key != -1:
-    #    break  
+ 
 
     
 
