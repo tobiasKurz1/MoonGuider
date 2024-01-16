@@ -219,16 +219,7 @@ while True:
     
     avrg_target_x = buffer.average("target_x")
     avrg_target_y = buffer.average("target_y")
-    
-    if guide.button_is_pressed() and not None in (avrg_target_x, avrg_target_y):
-        (reference_x, reference_y) = (avrg_target_x, avrg_target_y)
-        buffer.clear_position()
-        press_counter += 1
-        if press_counter >= 2:
-            (reference_x, reference_y) = image_center            
-    else:
-        press_counter = 0
-    
+        
     deviation = clc.get_deviation((avrg_target_x, avrg_target_y), (reference_x, reference_y))  
   
     guide.to(deviation)
@@ -248,6 +239,15 @@ while True:
     
     
     cv.imshow('Camera Output',marked)
+    
+    if guide.button_is_pressed() and not None in (avrg_target_x, avrg_target_y):
+        (reference_x, reference_y) = (avrg_target_x, avrg_target_y)
+        buffer.clear_all()
+        press_counter += 1
+        if press_counter >= 3:
+            (reference_x, reference_y) = image_center            
+    else:
+        press_counter = 0
     
     end_frame = time.time()
     
