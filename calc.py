@@ -339,7 +339,7 @@ class buffer:
         return float(sum(temp) / len(temp)) if temp else None
     
     def clear_all(self):    
-        self.values['target_x'] = []
-        self.values['target_y'] = []
-        self.values['target_radius'] = []
+        self.values['target_x'] = [self.average('target_x')]
+        self.values['target_y'] = [self.average('target_x')]
+        self.values['target_radius'] = [self.average('target_x')]
 
