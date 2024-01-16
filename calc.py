@@ -39,8 +39,8 @@ class calculation:
         self.param2 = config.param2
         self.out_scale = config.out_scale
         
-        self.minRadius = 120
-        self.maxRadius = 160
+        self.minRadius = 100
+        self.maxRadius = 200
         
     
     def preprocessing(self, img):
@@ -337,4 +337,9 @@ class buffer:
         temp =  list(filter(lambda x: x is not None, self.values[name]))
         
         return float(sum(temp) / len(temp)) if temp else None
+    
+    def clear_all(self):    
+        self.values['target_x'] = []
+        self.values['target_y'] = []
+        self.values['target_radius'] = []
 

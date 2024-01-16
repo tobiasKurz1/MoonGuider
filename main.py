@@ -222,6 +222,7 @@ while True:
     
     if guide.button_is_pressed() and not None in (avrg_target_x, avrg_target_y):
         (reference_x, reference_y) = (avrg_target_x, avrg_target_y)
+        buffer.clear_all()
         press_counter += 1
         if press_counter >= 2:
             (reference_x, reference_y) = image_center            
