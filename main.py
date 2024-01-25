@@ -122,6 +122,7 @@ def perform_relay_test():
     return
 
 def lock_moon_size():
+    handover_value = "Press any key to skip.\nPress Button to lock current moon size"
 
     while True:
         cv.namedWindow('Camera Output', cv.WINDOW_NORMAL)
@@ -131,7 +132,8 @@ def lock_moon_size():
         processed = clc.preprocessing(org_image)
         
         (target_x, target_y, target_radius) = clc.moonposition(processed)
-                
+        
+        
         marked = clc.targetmarkers(
             target_x,
             target_y,
@@ -140,8 +142,10 @@ def lock_moon_size():
             target_y,
             (0,0),
             org_image,
-            handover_value = "Press any key to skip.\nPress Button to lock current moon size")
-                
+            handover_value
+            )
+            
+        handover_value = "Press any key to skip.\nPress Button to lock current moon size"       
         cv.imshow('Camera Output',marked)
         key = cv.waitKey(1)
         if key != -1:
@@ -156,16 +160,7 @@ def lock_moon_size():
                 cv.destroyAllWindows()
                 break
             
-            marked = clc.targetmarkers(
-                target_x,
-                target_y,
-                target_radius,
-                target_x,
-                target_y,
-                (0,0),
-                org_image,
-                handover_value = "Target not found, try again.")
-          
+            handover_value = "Target not found, try again."
 
     return
 
