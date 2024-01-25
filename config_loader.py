@@ -46,7 +46,7 @@ class configuration:
                                  int(self.config[self.profile]['pin_ra_up']),
                                  int(self.config[self.profile]['pin_dec_down']),
                                  int(self.config[self.profile]['pin_dec_up'])]  
-        self.button_pin       = int(self.config[self.profile]['button_pin']) 
+        self.button_pin       = int(self.config[self.profile]['pin_button']) 
         self.margin           = float(self.config[self.profile]['margin']) 
         self.pulse_multiplier = float(self.config[self.profile]['pulse_multiplier'])
         self.sticky_buffer    = int(self.config[self.profile]['sticky_buffer']) 
