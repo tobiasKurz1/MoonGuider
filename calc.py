@@ -29,9 +29,8 @@ import pandas as pd
 
 class calculation:
     def __init__(self, config):
-        self.grey = config.grey
+        
         self.blur = config.blur
-        self.threshold = config.threshold
         self.overlay = config.overlay
         self.in_scale = config.in_scale
         self.dp = config.dp
@@ -46,14 +45,8 @@ class calculation:
     def preprocessing(self, img):
 
         # Turn image into grey version (1 channel)
-        img = cv.cvtColor(img, cv.COLOR_BGR2GRAY) if self.grey else img
-        
-        # Define Threshold value for brightest object
-        th = self.threshold * np.min(img) if self.threshold else None
-            
-        # Remove unwanted stars or craters with threshold
-        (_, img) = cv.threshold(img, int(th), 255, 0) if self.threshold else (None, img)
-            
+        img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+                   
         # Blur to remove noise
         img = cv.blur(img,(int(self.blur), int(self.blur))) if self.blur else img
         

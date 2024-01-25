@@ -42,10 +42,10 @@ class configuration:
         print(f"Profile '{self.profile}' loaded.")
         
         ### Guider ###
-        self.relay_pins       = [int(self.config[self.profile]['pin_right']),
-                                 int(self.config[self.profile]['pin_left']),
-                                 int(self.config[self.profile]['pin_down']),
-                                 int(self.config[self.profile]['pin_up'])]  
+        self.relay_pins       = [int(self.config[self.profile]['pin_ra_down']),
+                                 int(self.config[self.profile]['pin_ra_up']),
+                                 int(self.config[self.profile]['pin_dec_down']),
+                                 int(self.config[self.profile]['pin_dec_up'])]  
         self.button_pin       = int(self.config[self.profile]['button_pin']) 
         self.margin           = float(self.config[self.profile]['margin']) 
         self.pulse_multiplier = float(self.config[self.profile]['pulse_multiplier'])
@@ -64,8 +64,7 @@ class configuration:
         self.image_buffer     = int(self.config[self.profile]['image_buffer'])
         
         ### Image Processing and Moon Detection ###
-        self.threshold        = int(self.config[self.profile]['threshold'])
-        self.grey             = eval(self.config[self.profile]['grey'])
+        
         self.blur             = int(self.config[self.profile]['blur'])
         self.param1		      = int(self.config[self.profile]['param1'])
         self.param2		      = int(self.config[self.profile]['param2'])

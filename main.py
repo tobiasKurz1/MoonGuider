@@ -22,10 +22,9 @@ available to run this script.
 
 import calc
 import cv2 as cv
-import cam_feed as cam
 from picamera2 import Picamera2
 import time
-import relay_handling_TP as relay
+import relay_handling as relay
 import config_loader as load
 
 
@@ -88,11 +87,11 @@ def perform_relay_test():
             break
     
     
-    for pin, direction in zip(guide.relay_pins, ["right","left","down","up"]):
-        org_image = picam.capture_array()
-        processed = clc.preprocessing(org_image)
-        
-        (target_x, target_y, _) = clc.moonposition(processed)
+ 
+    org_image = picam.capture_array()
+    processed = clc.preprocessing(org_image)
+    
+    (target_x, target_y, _) = clc.moonposition(processed)
 
     
     
@@ -106,7 +105,7 @@ def perform_relay_test():
         
         guide.activate_pin(pin)
         time.sleep(10)
-        guide.activate()
+        guide.deactivate_pin(pin)
         
         org_image = picam.capture_array()
         processed = clc.preprocessing(org_image)
@@ -165,9 +164,42 @@ def lock_moon_size():
 
     return
 
+def setup(picam):
+    
+    config = picam.create_video_configuration()
+    picam.configure(config)
+
+    picam.start()
+    
+    time.sleep(1)
+    
+    print("Set camera in right Position and press any key when ready")
+    
+    
+    testimg = picam.capture_array()
+    shape = testimg.shape
+    
+    print(f'Shape: {shape}')
+
+    
+    while True:
+        cv.namedWindow('Camera Feed', cv.WINDOW_NORMAL)
+        cv.setWindowProperty('Camera Feed',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
+        img = picam.capture_array()
+        
+        cv.imshow('Camera Feed',img)
+        
+        key = cv.waitKey(1)
+        
+        if key != -1 or guide.button_is_pressed():
+            cv.destroyWindow('Camera Feed')
+            picam.stop()
+                        
+            return()
+
 picam = Picamera2()
 
-if config.show_cam_feed: cam.setup(picam)
+if config.show_cam_feed: setup(picam)
 
 #camera_config = picam.create_video_configuration()
 #camera_config = picam.create_still_configuration()
