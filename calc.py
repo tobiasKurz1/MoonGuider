@@ -215,11 +215,10 @@ class calculation:
         if circles is not None:
             circles = np.uint16(np.around(circles))
             nr_circles = len(circles[0])
+            circle = max(circles[0], key=lambda x: x[2]) #Filter out the biggest circle (moon)
             if nr_circles > 1:
-                circle = max(circles[0], key=lambda x: x[2]) #Filter out the biggest circle (moon)
                 print(f"Number of circles detected: {nr_circles}. Used largest.")
-            else:
-                circle = circles
+            
             (center_x, center_y, radius) = (circle[0], circle[1], circle[2])
             
             return(center_x, center_y ,radius)
