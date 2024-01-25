@@ -166,7 +166,7 @@ def lock_moon_size():
                         target_y,
                         (0,0),
                         org_image,
-                        f"Lock radius at {target_radius}? Press Button\n{time_left:.2f}"
+                        f"Lock radius at {target_radius} pixels? Press Button\n{time_left:.2f}"
                         )
                     cv.imshow('Camera Output',marked)
                     key = cv.waitKey(1)
