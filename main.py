@@ -155,6 +155,8 @@ def lock_moon_size():
             if target_radius:
                 start = time.time()
                 while time.time() < start + 5:
+                    cv.namedWindow('Camera Output', cv.WINDOW_NORMAL)
+                    cv.setWindowProperty('Camera Output',cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
                     time_left = start + 5 - time.time()
                     marked = clc.targetmarkers(
                         target_x,
@@ -166,6 +168,10 @@ def lock_moon_size():
                         org_image,
                         f"Lock radius at {target_radius}? Press Button\n{time_left:.2f}"
                         )
+                    cv.imshow('Camera Output',marked)
+                    key = cv.waitKey(1)
+                    if key != -1:
+                        return 
                     if guide.button_is_pressed():
                         clc.minRadius = target_radius - 10
                         clc.maxRadius = target_radius + 10
