@@ -152,6 +152,8 @@ def lock_moon_size():
             if target_radius:
                 clc.minRadius = target_radius - 10
                 clc.maxRadius = target_radius + 10
+                print(f"Radius locked at {target_radius} +- 10 pixels")
+                cv.destroyAllWindows()
                 break
             
             marked = clc.targetmarkers(
@@ -163,8 +165,7 @@ def lock_moon_size():
                 (0,0),
                 org_image,
                 handover_value = "Target not found, try again.")
-            cv.destroyAllWindows()          
-            break
+          
 
     return
 
