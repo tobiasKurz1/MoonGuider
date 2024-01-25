@@ -112,10 +112,13 @@ def perform_relay_test():
         deviations.append(deviation)
         print(f"Detected deviation: {deviation}")
         
-    input("\nPress Enter to continue")
+    print("\nPress Button to continue")
+    while True:
+        if guide.button_is_pressed():
+            break
     
 
-    time.sleep(1)
+    
     return
 
 def lock_moon_size():
