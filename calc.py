@@ -38,7 +38,7 @@ class calculation:
         self.param2 = config.param2
         self.out_scale = config.out_scale
         
-        self.minRadius = 100
+        self.minRadius = 50
         self.maxRadius = 300
         
     
