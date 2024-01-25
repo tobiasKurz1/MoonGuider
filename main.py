@@ -103,9 +103,7 @@ def perform_relay_test():
         
         print(f"Testing pin {pin} ({direction})...")
         
-        guide.activate_pin(pin)
-        time.sleep(10)
-        guide.deactivate_pin(pin)
+        guide.pulse(pin, 5, 2, 0.2)
         
         org_image = picam.capture_array()
         processed = clc.preprocessing(org_image)

@@ -195,12 +195,12 @@ class guide:
     
        
     
-    def pulse(self, pin, count = 1):
+    def pulse(self, pin, count = 1, uptime = 0.1, downtime = 0.1):
         for i in range(count):
             GPIO.output(pin, GPIO.LOW)
-            time.sleep(0.1)
+            time.sleep(uptime)
             GPIO.output(pin, GPIO.HIGH)
-            time.sleep(0.1)
+            time.sleep(downtime)
                         
         return
     
