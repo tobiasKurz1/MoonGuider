@@ -113,7 +113,7 @@ class calculation:
         
         else:   # Both target and deviation are valid
         
-            print(f"Target at unscaled Coordinates: {target_x:.2f}, {target_y:.2f}")
+            #print(f"Target at unscaled Coordinates: {target_x:.2f}, {target_y:.2f}")
                   
             scl_target_x = int(target_x * self.out_scale)
             scl_target_y = int(target_y * self.out_scale)
