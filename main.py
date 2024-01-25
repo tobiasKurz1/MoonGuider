@@ -149,8 +149,11 @@ def lock_moon_size():
         time.sleep(1)
         
         if guide.button_is_pressed():
-            clc.minRadius = target_radius - 10
-            clc.maxRadius = target_radius + 10
+            if target_radius:
+                clc.minRadius = target_radius - 10
+                clc.maxRadius = target_radius + 10
+                break
+            
             marked = clc.targetmarkers(
                 target_x,
                 target_y,
@@ -159,7 +162,7 @@ def lock_moon_size():
                 target_y,
                 (0,0),
                 org_image,
-                handover_value = "Target Radius set to:\n{target_radius}")
+                handover_value = "Target not found, try again.")
             cv.destroyAllWindows()          
             break
 
