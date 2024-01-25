@@ -150,10 +150,25 @@ def lock_moon_size():
         key = cv.waitKey(1)
         if key != -1:
             return      
-        time.sleep(1)
-        
+               
         if guide.button_is_pressed():
             if target_radius:
+                start = time.time()
+                while time.time() < start + 5:
+                    time_left = start + 5 - time.time()
+                    marked = clc.targetmarkers(
+                        target_x,
+                        target_y,
+                        target_radius,
+                        target_x,
+                        target_y,
+                        (0,0),
+                        org_image,
+                        f"Lock {target_radius}? Press Button\n{time_left:.2f}"
+                        )
+                    if guide.button_is_pressed():
+                        break           
+
                 clc.minRadius = target_radius - 10
                 clc.maxRadius = target_radius + 10
                 print(f"Radius locked at {target_radius} +- 10 pixels")
