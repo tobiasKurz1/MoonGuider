@@ -282,7 +282,7 @@ while True:
         reference_y,
         guide.active_deviation,
         org_image,
-        handover_value = f"{1/duration:.2f} FpS, active relays: {guide.showactive()},\nValid Targets: {buffer.get_valid()}, Runtime:{int(time.time()-start_time)}")
+        handover_value = f"{1/duration:.2f} FpS, active relays: {guide.showactive()},\nValid Targets: {buffer.get_valid()}, Runtime: {int(time.time()-start_time)} s")
     
     
     cv.imshow('Camera Output',marked)
