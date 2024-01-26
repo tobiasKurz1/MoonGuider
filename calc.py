@@ -62,7 +62,7 @@ class calculation:
                       img, 
                       handover_value):
         
-                
+               
         if len(img.shape) == 2:
             img = cv.cvtColor(img, cv.COLOR_GRAY2BGR)
     
@@ -80,6 +80,14 @@ class calculation:
         
         # Define the thickness of the lines
         line_thickness = int(8 * self.out_scale) if int(8 * self.out_scale) >= 1 else 1
+        
+        if not None in (ref_x,ref_y):
+            scl_ref_x = int(ref_x * self.out_scale)
+            scl_ref_y = int(ref_y * self.out_scale)
+            # Draw reference Point
+            cv.line(img, (0, scl_ref_y), (width, scl_ref_y), line_color, line_thickness * 2)
+            cv.line(img, (scl_ref_x, 0), (scl_ref_x, height), line_color, line_thickness * 2)
+            
         
         if None in deviation: # No target is tracked
             
@@ -99,10 +107,7 @@ class calculation:
             # or last deviation
             scl_devx = int(deviation[0] * self.out_scale)
             scl_devy = int(deviation[1] * self.out_scale)
-            try:
-                scl_ref_x = int(ref_x * self.out_scale)
-                scl_ref_y = int(ref_y * self.out_scale)
-                
+            try:               
                 # Draw deviation Arrow
                 cv.arrowedLine(img, (scl_ref_x, scl_ref_y), 
                                (scl_ref_x + scl_devx, scl_ref_y + scl_devy), 
@@ -118,13 +123,7 @@ class calculation:
             scl_target_x = int(target_x * self.out_scale)
             scl_target_y = int(target_y * self.out_scale)
             scl_target_radius = int(target_radius * self.out_scale)
-            scl_ref_x = int(ref_x * self.out_scale)
-            scl_ref_y =int(ref_y * self.out_scale)
-            
-            # Draw reference Point
-            cv.line(img, (0, scl_ref_y), (width, scl_ref_y), line_color, line_thickness * 2)
-            cv.line(img, (scl_ref_x, 0), (scl_ref_x, height), line_color, line_thickness * 2)
-            
+
             # Draw deviation Arrow
             cv.arrowedLine(img, 
                            (scl_ref_x, scl_ref_y), 
