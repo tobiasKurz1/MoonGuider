@@ -42,7 +42,7 @@ log.add('Target',["Time", "target_x", "target_y", "target_x_average", "target_y_
 
 
 duration = 1
-press_counter = 0
+start_press = 0
 avrg_target_x = None
 avrg_target_y = None
 
@@ -290,14 +290,22 @@ while True:
     
     cv.imshow('Camera Output',marked)
     
-    if guide.button_is_pressed() and not None in (avrg_target_x, avrg_target_y):
-        (reference_x, reference_y) = (avrg_target_x, avrg_target_y)
-        buffer.clear_all()
-        press_counter += 1
-        if press_counter >= 3:
-            (reference_x, reference_y) = image_center            
+    if guide.button_is_pressed():
+        if not None in (avrg_target_x, avrg_target_y):
+            (reference_x, reference_y) = (avrg_target_x, avrg_target_y)
+            buffer.clear_all()
+        
+        if start_press == 0:
+            start_press = time.time()
+        else:
+            duration_press = time.time()-start_press
+            if duration_press > 3 and duration_press < 5:
+                (reference_x, reference_y) = image_center
+                buffer.clear_all()
+            elif duration_press >= 5:
+                break                     
     else:
-        press_counter = 0
+        start_press = 0
     
     end_frame = time.time()
     
