@@ -13,7 +13,7 @@ import os
 
 
 
-anz = input("Anzahl ")
+anz = int(input("Anzahl "))
 picam = Picamera2()
 
 # Specify the folder path

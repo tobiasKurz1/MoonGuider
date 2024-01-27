@@ -39,7 +39,7 @@ class calculation:
         self.out_scale = config.out_scale
         
         self.minRadius = 50
-        self.maxRadius = 300
+        self.maxRadius = 400
         
     
     def preprocessing(self, img):

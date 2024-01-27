@@ -299,7 +299,7 @@ while True:
             start_press = time.time()
         else:
             duration_press = time.time()-start_press
-            if duration_press > 3 and duration_press < 5:
+            if duration_press > 2 and duration_press < 5:
                 (reference_x, reference_y) = image_center
                 buffer.clear_all()
             elif duration_press >= 5:
