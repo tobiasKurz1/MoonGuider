@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Get the current working directory where the script is located
 script_directory = os.path.dirname(os.path.realpath(__file__))
@@ -27,7 +28,7 @@ file_name = os.path.splitext(os.path.basename(excel_file))[0]
 
 
 """
-namelist = ["log_24-01-13_14-36"]
+namelist = ["log_24-01-28_18-39"]
 
 for file_name in namelist:
 
@@ -164,12 +165,14 @@ for file_name in namelist:
     ax7.grid(axis='y')
 
     # Automatically adjust y-axis limits for both subplots
-    ax1.set_ylim(min(min(y_data1), min(y_data2)), max(max(y_data1), max(y_data2)))
-    ax3.set_ylim(min(min(y_data3), min(y_data4)), max(max(y_data3), max(y_data4)))
-    ax1.set_xlim(min(x_data), max(x_data))
-    ax2.set_xlim(min(x_data), max(x_data))
-    ax3.set_xlim(min(x_data), max(x_data))
-    ax4.set_xlim(min(x_data), max(x_data))
+    ax1.set_ylim(min(np.nanmin(y_data1), np.nanmin(y_data2)),
+                 max(np.nanmax(y_data1), np.nanmax(y_data2)))
+    ax3.set_ylim(min(np.nanmin(y_data3), np.nanmin(y_data4)),
+                 max(np.nanmax(y_data3), np.nanmax(y_data4)))
+    ax1.set_xlim(np.nanmin(x_data), np.nanmax(x_data))
+    ax2.set_xlim(np.nanmin(x_data), np.nanmax(x_data))
+    ax3.set_xlim(np.nanmin(x_data), np.nanmax(x_data))
+    ax4.set_xlim(np.nanmin(x_data), np.nanmax(x_data))
 
     # Set the title for the entire sheet
     fig.suptitle(file_name + ".xlsx", fontsize=16)
