@@ -297,7 +297,7 @@ while True:
     # Join info text for display
     infotext = (
         f"{1/duration:.2f} FpS, Active Relays: {relay_info[0:-1]}, Mode: {relay_info[-1]}\n"
-        f"Buffer: {buffer.get_valid()}, EA: {error_accumulator}/{error_limit},"
+        f"Buffer: {buffer.get_valid()}, EA: {error_accumulator}/{error_limit}, "
         f"Runtime: {int(time.time()-start_time)} s")
 
     # Generate output image with target markings and information

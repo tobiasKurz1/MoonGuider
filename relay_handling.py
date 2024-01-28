@@ -88,6 +88,7 @@ class guide:
         if None in deviation:
             self.active_deviation = self.cloud_handling()
         else:
+            self.mode_info = "Active"
             self.active_deviation = deviation
 
         # Start threads for relay activation for each axis if not already active
@@ -98,13 +99,12 @@ class guide:
             self.activate_thread_dec = threading.Thread(target=self.activate_dec, daemon=True)
             self.activate_thread_dec.start()
 
-        # self.cloud_handling()
-
-        #####
-
         return
 
     def cloud_handling(self):
+        if self.cloud_mode == None:
+            self.mode_info = "Inactive"
+            return (0, 0)
 
         if not None in self.active_deviation:
 
