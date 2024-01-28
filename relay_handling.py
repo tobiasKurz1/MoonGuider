@@ -244,6 +244,7 @@ class guide:
         return
 
     def stop(self):
+        print("Waiting for threads to finish...")
         self.activate_thread_ra.join()
         self.activate_thread_dec.join()
 

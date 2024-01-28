@@ -350,7 +350,7 @@ while True:
 
 cv.destroyAllWindows()
 guide.stop()
-
+print("Guider stopped.")
 
 # Export to Excel
 if config.export_to_excel:
