@@ -270,6 +270,7 @@ while True:
     if None in (target_x, target_y, target_radius):
         error_accumulator += 1
         if error_accumulator >= error_limit:
+            error_accumulator = error_limit
             buffer.clear_all()
     else:
         error_accumulator = 0
