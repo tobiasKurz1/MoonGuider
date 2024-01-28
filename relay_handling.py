@@ -156,6 +156,9 @@ class guide:
                 self.switch_pin_on([right, left, False, False])
                 time.sleep(duration)
                 self.switch_pin_off([right, left, False, False])
+                with self.active_lock:
+                    self.active[0] = 0
+                    self.active[1] = 0
 
     def activate_dec(self):  # up down
         ad = self.active_deviation
@@ -183,6 +186,9 @@ class guide:
                 self.switch_pin_on([False, False, down, up])
                 time.sleep(duration)
                 self.switch_pin_off([False, False, down, up])
+                with self.active_lock:
+                    self.active[2] = 0
+                    self.active[3] = 0
 
     def switch_pin_on(self, directions=['Right', 'Left', 'Down', 'Up']):
         with self.gpio_lock:
