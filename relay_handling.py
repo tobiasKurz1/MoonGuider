@@ -83,8 +83,12 @@ class guide:
 
     def to(self, deviation=(None, None)):
 
-        # Use self.active_deviation as basis for relay activation
-        self.active_deviation = deviation
+        # Check if no target is found, deviation is none, therefore cloud mode will take over
+        # Using self.active_deviation as basis for relay activation
+        if None in deviation:
+            self.active_deviation = self.cloud_handling()
+        else:
+            self.active_deviation = deviation
 
         # Start threads for relay activation for each axis if not already active
         if not self.activate_thread_ra.is_alive():
@@ -97,6 +101,32 @@ class guide:
         # self.cloud_handling()
 
         #####
+
+        return
+
+    def cloud_handling(self):
+
+        if not None in self.active_deviation:
+
+            self.record(self.active_deviation)
+            self.last_deviation = self.active_deviation
+            self.mode_info = "Active Guiding"
+
+            return
+
+        else:
+
+            if self.cloud_mode == "repeat":
+                self.mode_info = f"Repeating last {len(self.deviation_records)} deviations"
+
+                # cycle through list:
+                self.active_deviation = self.deviation_records[0]
+                self.deviation_records.append(self.deviation_records[0])
+                self.deviation_records.pop(0)
+                return
+
+            else:
+                self.mode_info = "Guiding paused"
 
         return
 
@@ -208,32 +238,6 @@ class guide:
         act.append(self.mode_info)
 
         return(act)
-
-    def cloud_handling(self):
-
-        if not None in self.active_deviation:
-
-            self.record(self.active_deviation)
-            self.last_deviation = self.active_deviation
-            self.mode_info = "Active Guiding"
-
-            return
-
-        else:
-
-            if self.cloud_mode == "repeat":
-                self.mode_info = f"Repeating last {len(self.deviation_records)} deviations"
-
-                # cycle through list:
-                self.active_deviation = self.deviation_records[0]
-                self.deviation_records.append(self.deviation_records[0])
-                self.deviation_records.pop(0)
-                return
-
-            else:
-                self.mode_info = "Guiding paused"
-
-        return
 
     def record(self, deviation):
 

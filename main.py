@@ -293,11 +293,11 @@ while True:
 
     # Compute guiding signal from deviation
     guide.to(deviation)
-
+    relay_info = guide.showactive()
     # Join info text for display
     infotext = (
-        f"{1/duration:.2f} FpS, active relays: {guide.showactive()},\n"
-        f"Buffer: {buffer.get_valid()}, EA: {error_accumulator}/{error_limit}, "
+        f"{1/duration:.2f} FpS, Active Relays: {relay_info[0:-1]}, Mode: {relay_info[-1]}\n"
+        f"Buffer: {buffer.get_valid()}, EA: {error_accumulator}/{error_limit},"
         f"Runtime: {int(time.time()-start_time)} s")
 
     # Generate output image with target markings and information
