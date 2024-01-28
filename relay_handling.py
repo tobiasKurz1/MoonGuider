@@ -23,9 +23,7 @@ class guide:
 
         self.active_deviation = (None, None)
         self.active = [False, False, False, False]
-        self.pulsed = [False, False]
         self.mode_info = None
-        self.last_deviation = (None, None)
         self.deviation_records = [(0, 0)]
         self.sbx = []
         self.sby = []
@@ -67,7 +65,7 @@ class guide:
                 raise ValueError("Only camera rotations of 0, 90, 180 or 270 Degree supported.")
 
         # Errorcheck cloudmode
-        if self.cloud_mode not in (None, "repeat"):
+        if self.cloud_mode not in (None, "repeat", "Repeat"):
             raise ValueError("Cloud mode not correctly specified.")
 
         # Initialize Raspberry Pi GPIO
@@ -88,8 +86,13 @@ class guide:
         if None in deviation:
             self.active_deviation = self.cloud_handling()
         else:
+            # Check if contact has been regained after being in repeat mode
+            if self.mode_info == "Repeat":
+                self.deviation_records = []
+
             self.mode_info = "Active"
             self.active_deviation = deviation
+            self.record(deviation)
 
         # Start threads for relay activation for each axis if not already active
         if not self.activate_thread_ra.is_alive():
@@ -102,93 +105,85 @@ class guide:
         return
 
     def cloud_handling(self):
-        if self.cloud_mode == None:
+        # If cloud mode is set to None, set deviation to 0 to turn off relays
+        if self.cloud_mode is None:
             self.mode_info = "Inactive"
             return (0, 0)
-
-        if not None in self.active_deviation:
-
-            self.record(self.active_deviation)
-            self.last_deviation = self.active_deviation
-            self.mode_info = "Active Guiding"
-
-            return
-
+        # Repeat previous signals by cycling through recording
         else:
+            self.mode_info = "Repeat"
+            temp = self.deviation_records[0]
+            self.deviation_records.pop(0)
+            self.deviation_records.append(temp)
+            return temp
 
-            if self.cloud_mode == "repeat":
-                self.mode_info = f"Repeating last {len(self.deviation_records)} deviations"
+        return
 
-                # cycle through list:
-                self.active_deviation = self.deviation_records[0]
-                self.deviation_records.append(self.deviation_records[0])
-                self.deviation_records.pop(0)
-                return
-
-            else:
-                self.mode_info = "Guiding paused"
-
+    def record(self, deviation):
+        self.deviation_records.append(deviation)
+        if len(self.deviation_records) > self.record_buffer:
+            self.deviation_records.pop(0)
         return
 
     def activate_ra(self):  # left right
         ad = self.active_deviation
         margin = self.margin
-        if not None in ad:
-            xdev = ad[0]
-            if abs(xdev) <= margin:
-                pass
-            else:
-                (right, left) = (xdev > margin, xdev < margin * -1)
 
-                # calculate pulse time
-                temp = (abs(xdev)) * self.pulse_multiplier
-                duration = temp if temp < 3 else 3
+        xdev = ad[0]
+        if abs(xdev) <= margin:
+            pass
+        else:
+            (right, left) = (xdev > margin, xdev < margin * -1)
 
-                with self.active_lock:
-                    self.active[0] = right
-                    self.active[1] = left
+            # calculate pulse time
+            temp = (abs(xdev)) * self.pulse_multiplier
+            duration = temp if temp < 3 else 3
 
-                direction = 'right' if right else 'left'
+            with self.active_lock:
+                self.active[0] = right
+                self.active[1] = left
 
-                with self.log_lock:
-                    self.log.add('Activity', [time.time(), duration, direction])
+            direction = 'right' if right else 'left'
 
-                self.switch_pin_on([right, left, False, False])
-                time.sleep(duration)
-                self.switch_pin_off([right, left, False, False])
-                with self.active_lock:
-                    self.active[0] = 0
-                    self.active[1] = 0
+            with self.log_lock:
+                self.log.add('Activity', [time.time(), duration, direction])
+
+            self.switch_pin_on([right, left, False, False])
+            time.sleep(duration)
+            self.switch_pin_off([right, left, False, False])
+            with self.active_lock:
+                self.active[0] = 0
+                self.active[1] = 0
 
     def activate_dec(self):  # up down
         ad = self.active_deviation
         margin = self.margin
-        if not None in ad:
-            ydev = ad[1]
-            if abs(ydev) <= margin:
-                pass
-            else:
-                (down, up) = (ydev > margin, ydev < margin * -1)
 
-                # calculate pulse time
-                temp = (abs(ydev)) * self.pulse_multiplier
-                duration = temp if temp < 3 else 3
+        ydev = ad[1]
+        if abs(ydev) <= margin:
+            pass
+        else:
+            (down, up) = (ydev > margin, ydev < margin * -1)
 
-                with self.active_lock:
-                    self.active[2] = down
-                    self.active[3] = up
+            # calculate pulse time
+            temp = (abs(ydev)) * self.pulse_multiplier
+            duration = temp if temp < 3 else 3
 
-                direction = 'down' if down else 'up'
+            with self.active_lock:
+                self.active[2] = down
+                self.active[3] = up
 
-                with self.log_lock:
-                    self.log.add('Activity', [time.time(), duration, direction])
+            direction = 'down' if down else 'up'
 
-                self.switch_pin_on([False, False, down, up])
-                time.sleep(duration)
-                self.switch_pin_off([False, False, down, up])
-                with self.active_lock:
-                    self.active[2] = 0
-                    self.active[3] = 0
+            with self.log_lock:
+                self.log.add('Activity', [time.time(), duration, direction])
+
+            self.switch_pin_on([False, False, down, up])
+            time.sleep(duration)
+            self.switch_pin_off([False, False, down, up])
+            with self.active_lock:
+                self.active[2] = 0
+                self.active[3] = 0
 
     def switch_pin_on(self, directions=['Right', 'Left', 'Down', 'Up']):
         with self.gpio_lock:
@@ -216,14 +211,6 @@ class guide:
 
         return
 
-    def activate_pin(self, pin):
-        GPIO.output(pin, GPIO.LOW)
-        return
-
-    def deactivate_pin(self, pin):
-        GPIO.output(pin, GPIO.HIGH)
-        return
-
     def showactive(self):
         act = []
 
@@ -236,22 +223,9 @@ class guide:
         if self.active[3]:
             act.append("Up")
 
-        if self.pulsed[0]:
-            act.append("X-Sticky")
-        if self.pulsed[1]:
-            act.append("Y-Sticky")
-
         act.append(self.mode_info)
 
         return(act)
-
-    def record(self, deviation):
-
-        self.deviation_records.append(deviation)
-
-        if len(self.deviation_records) > self.record_buffer:
-            self.deviation_records.pop(0)
-        return
 
     def stop(self):
         print("Waiting for threads to finish...")
