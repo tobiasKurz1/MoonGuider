@@ -41,7 +41,7 @@ log.add('Target', ["Time", "target_x", "target_y", "target_x_average", "target_y
 duration = 1
 start_press = 0
 error_accumulator = 0
-error_limit = 3
+error_limit = 5
 avrg_target_x = None
 avrg_target_y = None
 
@@ -269,7 +269,7 @@ while True:
     # Target is not acquired three times in a row
     if None in (target_x, target_y, target_radius):
         error_accumulator += 1
-        if error_accumulator > error_limit:
+        if error_accumulator >= error_limit:
             buffer.clear_all()
     else:
         error_accumulator = 0
