@@ -215,13 +215,13 @@ class guide:
         act = []
 
         if self.active[0]:
-            act.append("Right")
+            act.append("-RA")
         if self.active[1]:
-            act.append("Left")
+            act.append("+RA")
         if self.active[2]:
-            act.append("Down")
+            act.append("-DEC")
         if self.active[3]:
-            act.append("Up")
+            act.append("+DEC")
 
         act.append(self.mode_info)
 
