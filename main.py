@@ -278,13 +278,12 @@ while True:
     buffer.add(target_y, "target_y")
     buffer.add(target_radius, "target_radius")
 
-    # Save Current average target for 100 pixel deviation check
+    # Save Current average target for 100 pixel deviation check in next iteration
     avrg_target_x = buffer.average("target_x")
     avrg_target_y = buffer.average("target_y")
 
     # Calculate Moon deviation from desired location
-    deviation = clc.get_deviation(
-        (avrg_target_x, avrg_target_y), (reference_x, reference_y))
+    deviation = clc.get_deviation((avrg_target_x, avrg_target_y), (reference_x, reference_y))
 
     # Add telemetry to log for analysis and later export
     log.add("Target", [time.time(), target_x, target_y, avrg_target_x, avrg_target_y,
