@@ -170,9 +170,9 @@ def lock_moon_size():
                     if key != -1:
                         return
                     if guide.button_is_pressed() and time_left < 4:
-                        clc.minRadius = target_radius - 10
-                        clc.maxRadius = target_radius + 10
-                        print(f"Radius locked at {target_radius} +- 10 pixels")
+                        clc.minRadius = target_radius - 5
+                        clc.maxRadius = target_radius + 5
+                        print(f"Radius locked at {target_radius} +- 5 pixels")
                         return
             else:
                 handover_value = "Target not found, try again."
