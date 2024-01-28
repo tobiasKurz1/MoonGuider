@@ -303,7 +303,7 @@ class buffer:
             self.errorcheck(name)
             temp = len([value for value in self.values[name] if value is not None])
 
-        return f"{temp} of {self.buffer_length}"
+        return f"{temp}/{self.buffer_length}"
 
     def add(self, value, name=None):
 

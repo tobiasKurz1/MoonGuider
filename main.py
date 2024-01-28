@@ -41,6 +41,7 @@ log.add('Target', ["Time", "target_x", "target_y", "target_x_average", "target_y
 duration = 1
 start_press = 0
 error_accumulator = 0
+error_limit = 3
 avrg_target_x = None
 avrg_target_y = None
 
@@ -268,7 +269,7 @@ while True:
     # Target is not acquired three times in a row
     if None in (target_x, target_y, target_radius):
         error_accumulator += 1
-        if error_accumulator > 3:
+        if error_accumulator > error_limit:
             buffer.clear_all()
     else:
         error_accumulator = 0
@@ -295,7 +296,8 @@ while True:
     # Join info text for display
     infotext = (
         f"{1/duration:.2f} FpS, active relays: {guide.showactive()},\n"
-        f"Valid Targets: {buffer.get_valid()}, Runtime: {int(time.time()-start_time)} s")
+        f"Buffer: {buffer.get_valid()}, EA: {error_accumulator}/{error_limit}, "
+        f"Runtime: {int(time.time()-start_time)} s")
 
     # Generate output image with target markings and information
     marked = clc.targetmarkers(
