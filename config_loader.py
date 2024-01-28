@@ -49,7 +49,6 @@ class configuration:
         self.button_pin       = int(self.config[self.profile]['pin_button']) 
         self.margin           = float(self.config[self.profile]['margin']) 
         self.pulse_multiplier = float(self.config[self.profile]['pulse_multiplier'])
-        self.sticky_buffer    = int(self.config[self.profile]['sticky_buffer']) 
         if self.config[self.profile]['cloud_mode'] == 'None': self.cloud_mode = None
         else: self.cloud_mode = self.config[self.profile]['cloud_mode']
         self.record_buffer    = int(self.config[self.profile]['record_buffer'])

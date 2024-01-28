@@ -48,9 +48,7 @@ class guide:
         self.pulsed = [False, False]
         self.button_pin = config.button_pin
         self.mode_info = None
-        
-        self.sticky_buffer = config.sticky_buffer
-        
+                
         self.sbx = []
         self.sby = []
         
