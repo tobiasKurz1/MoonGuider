@@ -234,12 +234,18 @@ class calculation:
 
 
 class log:
-    def __init__(self):
+    def __init__(self, configuration):
         self.sheets = {}
 
         self.sheets["Target"] = []
         self.sheets["Activity"] = []
         self.sheets["Configuration"] = []
+
+        # Log Config to excel
+
+        self.add("Configuration", [configuration.profile, ""])
+        for key in configuration.config[configuration.profile]:
+            log.add("Configuration", [key, configuration.config[configuration.profile][key]])
 
     def add(self, sheetname, data):
         if sheetname not in self.sheets:
