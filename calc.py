@@ -245,7 +245,7 @@ class log:
 
         self.add("Configuration", [configuration.profile, ""])
         for key in configuration.config[configuration.profile]:
-            log.add("Configuration", [key, configuration.config[configuration.profile][key]])
+            self.add("Configuration", [key, configuration.config[configuration.profile][key]])
 
     def add(self, sheetname, data):
         if sheetname not in self.sheets:
