@@ -240,7 +240,7 @@ class log:
         self.sheets["Target"] = []
         self.sheets["Activity"] = []
         self.sheets["Configuration"] = []
-
+        self.deactivated = not(configuration.export_to_excel)
         # Log Config to excel
 
         self.add("Configuration", [configuration.profile, ""])
@@ -248,19 +248,17 @@ class log:
             self.add("Configuration", [key, configuration.config[configuration.profile][key]])
 
     def add(self, sheetname, data):
+        if self.deactivated:
+            return
         if sheetname not in self.sheets:
             raise ValueError(f"Sheet {sheetname} does not exist.")
         else:
             self.sheets[sheetname].append(data)
         return
 
-    def get(self, sheetname):
-        if sheetname not in self.sheets:
-            raise ValueError(f"Sheet {sheetname} does not exist.")
-        else:
-            return self.sheets[sheetname]
-
     def export(self):
+        if self.deactivated:
+            return
         filename = "log_" + time.strftime('%y-%m-%d_%H-%M', time.localtime())
 
         print(f"Nr. of Datapoints: {len(self.sheets['Target'])-1}")
