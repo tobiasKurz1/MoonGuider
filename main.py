@@ -29,8 +29,9 @@ import config_loader as load
 
 
 # Initialize outside classes
-log = calc.log()
-config = load.configuration(log)
+
+config = load.configuration()
+log = calc.log(config)
 clc = calc.calculation(config)
 
 # Set header for data logging

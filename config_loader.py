@@ -10,7 +10,7 @@ import sys
 
 
 class configuration:
-    def __init__(self, log):
+    def __init__(self):
 
         self.config = configparser.ConfigParser()
 
@@ -78,15 +78,3 @@ class configuration:
         self.show_cam_feed = eval(self.config[self.profile]['show_cam_feed'])
         self.do_relay_test = eval(self.config[self.profile]['do_relay_test'])
         self.export_to_excel = eval(self.config[self.profile]['export_to_excel'])
-
-        # Log Config to excel
-        log.add("Configuration", [self.profile, ""])
-        for key in self.config[self.profile]:
-            log.add("Configuration", [key, self.config[self.profile][key]])
-
-    def get_config(self):
-        temp = []
-        temp.append([self.profile, ""])
-        for key in self.config[self.profile]:
-            temp.append([key, self.config[self.profile][key]])
-        return temp

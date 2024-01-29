@@ -39,6 +39,7 @@ class guide:
         self.record_buffer = config.record_buffer
         rotate = config.rotate
         self.cloud_mode = config.cloud_mode
+
         # Pin order is RIGHT, LEFT, DOWN, UP ; -RA, +RA, -DEC, +DEC
         relay_pins = config.relay_pins
 
