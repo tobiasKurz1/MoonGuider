@@ -5,22 +5,18 @@ Created on Tue Nov  7 21:08:05 2023
 @author: Tobias Kurz
 
 This Python script offers functions for processing the Images taken by the Pi.
-This includes preprocessing, detection of the moon and calculating deviations 
-from the center. 
+This includes preprocessing, detection of the moon and calculating deviations
+from the center. Handles bufferung, overlay and exporting log file
 
-Functions:
-- preprocessing(img, grey=True, threshold=0, blur=3): Preprocesses images by 
-  converting to grayscale, applying threshold, and blurring.
-- targetmarkers(target, img, shape): Marks moon position and deviation on the 
-  image.
-- moonposition(processed_img, param=1): Detects the largest circle 
-  (e.g., the moon) in the processed image.
-- get_deviation(center, target): Calculates deviation between the center 
-  and target.
+Classes:
+- Calculation
+- Buffer
+- Log
 
-Ensure OpenCV (cv2) and NumPy are installed.
+Ensure OpenCV (cv2), NumPy and pandas are installed.
 
 """
+
 
 import cv2 as cv
 import numpy as np
@@ -30,6 +26,8 @@ import pandas as pd
 
 class calculation:
     def __init__(self, config):
+
+        # Initialize attributes from config to calculation values
 
         self.blur = config.blur
         self.overlay = config.overlay
@@ -50,7 +48,7 @@ class calculation:
         # Blur to remove noise
         img = cv.blur(img, (int(self.blur), int(self.blur))) if self.blur else img
 
-        return(img)
+        return img
 
     def targetmarkers(self,
                       target_x,
@@ -61,7 +59,29 @@ class calculation:
                       deviation,
                       img,
                       handover_value):
+        """
+        Adds all the informational overlays to the camera images and resizes the output if
+        specified. This includes: target markings, reference point markings, deviation arrow,
+        white information bar overlay. Additionally to the target location and deviation, the
+        information bar outputs any text that is specified in the function input as the
+        handover_value. The information bar automatically jumps to the top of the image if it
+        would obstruct the view of the target.
 
+        Parameters
+        ----------
+        target_x; target_y, target_radius : Target Position and radius in frame in pixels
+        ref_x; ref_y : Reference position in frame in pixels
+        deviation :  Deviation from target as tuple
+        img : Image for the overlay
+        handover_value : String to display in information bar
+
+        Returns
+        -------
+        Image with overlay
+
+        """
+
+        # Check shape for error mitigation then turn to greyscale
         if len(img.shape) == 2:
             img = cv.cvtColor(img, cv.COLOR_GRAY2BGR)
 
@@ -75,16 +95,17 @@ class calculation:
             # Keep only the first three channels (RGB)
             img = cv.merge(channels[:3])
 
+        # Set parameters for adjusting markings
         (height, width) = img.shape[0:2]
         line_color = (0, 0, 255)  # Red in BGR format
 
         # Define the thickness of the lines
         line_thickness = int(8 * self.out_scale) if int(8 * self.out_scale) >= 1 else 1
 
+        # Draw reference point in lines
         if not None in (ref_x, ref_y):
             scl_ref_x = int(ref_x * self.out_scale)
             scl_ref_y = int(ref_y * self.out_scale)
-            # Draw reference Point
             cv.line(img, (0, scl_ref_y), (width, scl_ref_y), line_color, line_thickness * 2)
             cv.line(img, (scl_ref_x, 0), (scl_ref_x, height), line_color, line_thickness * 2)
 
@@ -118,8 +139,7 @@ class calculation:
 
         else:   # Both target and deviation are valid
 
-            #print(f"Target at unscaled Coordinates: {target_x:.2f}, {target_y:.2f}")
-
+            # Scale image
             scl_target_x = int(target_x * self.out_scale)
             scl_target_y = int(target_y * self.out_scale)
             scl_target_radius = int(target_radius * self.out_scale)
@@ -154,6 +174,7 @@ class calculation:
                       line_thickness)
 
         if self.overlay:
+            # Put white information bar
 
             if None not in deviation:
                 deviation = (f"{deviation[0]:.2f}", f"{deviation[1]:.2f}")
@@ -162,7 +183,8 @@ class calculation:
                 target_x = f"{target_x:.2f}"
                 target_y = f"{target_y:.2f}"
 
-            bar_text = f"Target at {target_x}, {target_y}; Deviation: {deviation[0]}, {deviation[1]};\n{handover_value}"
+            bar_text = (f"Target at {target_x}, {target_y}; Deviation: {deviation[0]}, "
+                        "{deviation[1]};\n{handover_value}")
 
             # Define the height of the black bar (you can adjust this value)
             bar_height = int(height * 0.2)
@@ -177,6 +199,7 @@ class calculation:
             text_lines = bar_text.split('\n')
             thickness = line_thickness
 
+            # Put info text
             font_scale = 0.5
             text_position = 20
             for line in text_lines:
@@ -193,14 +216,18 @@ class calculation:
             else:
                 img[height-bar_height:height, 0:width] = bar
 
-        return(img)
+        return img
 
     def moonposition(self, processed_img):
+        """
+        Calculates position of the Moon from image
+        Output: target_x, target_y, radius
 
+        """
         circles = cv.HoughCircles(
             processed_img,       # Input image
             cv.HOUGH_GRADIENT,   # Detection method
-            dp=self.dp,                # Inverse ratio of the accumulator resolution to the image resolution
+            dp=self.dp,       # Inverse ratio of the accumulator resolution to the image resolution
             minDist=processed_img.shape[0],          # Minimum distance between detected centers
             param1=self.param1,          # Higher threshold for edge detection
             param2=self.param2,           # Accumulator threshold for circle detection
@@ -223,6 +250,8 @@ class calculation:
             return(None, None, None)
 
     def get_deviation(self, target, ref):
+        # Calculate deviation from two points
+
         if None in ref or None in target:
             return (None, None)
 
@@ -235,19 +264,23 @@ class calculation:
 
 class log:
     def __init__(self, configuration):
+        """
+        Creates a dictionary to store the data logs and fills in the configuration parameters
+        from the configuration-class
+        """
         self.sheets = {}
-
         self.sheets["Target"] = []
         self.sheets["Activity"] = []
         self.sheets["Configuration"] = []
         self.deactivated = not(configuration.export_to_excel)
-        # Log Config to excel
 
+        # Log Config to excel
         self.add("Configuration", [configuration.profile, ""])
         for key in configuration.config[configuration.profile]:
             self.add("Configuration", [key, configuration.config[configuration.profile][key]])
 
     def add(self, sheetname, data):
+        # Add data to existing sheet
         if self.deactivated:
             return
         if sheetname not in self.sheets:
@@ -257,20 +290,25 @@ class log:
         return
 
     def export(self):
+        # Export data to excel file
+
         if self.deactivated:
             return
+        # Generate standard file name
         filename = "log_" + time.strftime('%y-%m-%d_%H-%M', time.localtime())
 
         print(f"Nr. of Datapoints: {len(self.sheets['Target'])-1}")
         print(f"Config Profile: {self.sheets['Configuration'][0][0]}")
         temp = input(
             "Save Logged data as ...? Press Enter for default 'log_Y-M-D_H-M.xlsx', type 'n' or 'no' to skip. ")
+        # Abort if no is name
         if temp:
             if temp in ["N", "n", "No", "NO", "nein", "Nein", "NEIN"]:
                 print("Data has not been saved")
                 return
             filename = temp
 
+        # Input for note
         note = input("Add a Note. Press enter when done.\n")
 
         self.sheets['Configuration'].append([f'{time.ctime()}', ""])
@@ -280,6 +318,7 @@ class log:
         df2 = pd.DataFrame(self.sheets["Activity"])
         df3 = pd.DataFrame(self.sheets["Configuration"])
 
+        # Write Excel file
         with pd.ExcelWriter(f"Logs/{filename}.xlsx", engine='openpyxl') as writer:
             df1.to_excel(writer, sheet_name='Target', index=False, header=False)
             df2.to_excel(writer, sheet_name='Activity', index=False, header=False)
@@ -289,6 +328,7 @@ class log:
 
 class buffer:
     def __init__(self, buffer_length=1):
+        # Initiate dict for buffer values
         self.values = {}
         self.values['target_x'] = []
         self.values['target_y'] = []
@@ -297,10 +337,12 @@ class buffer:
         self.buffer_length = buffer_length
 
     def errorcheck(self, name=None):
+        # Check if name exists in dict
         if name not in self.values:
             raise ValueError(f"Target '{name}' does not exist in the buffer.")
 
     def get_valid(self, name="target_x"):
+        # returns string as information about valid values in buffer
         temp = 0
 
         if name is not None:
@@ -310,6 +352,7 @@ class buffer:
         return f"{temp}/{self.buffer_length}"
 
     def add(self, value, name=None):
+        # Add new value to buffer
 
         self.errorcheck(name)
 
@@ -319,6 +362,7 @@ class buffer:
             self.values[name].pop(0)
 
     def average(self, name):
+        # return average of all values in buffer
 
         self.errorcheck(name)
 
@@ -329,6 +373,7 @@ class buffer:
         return float(sum(temp) / len(temp)) if temp else None
 
     def clear_all(self):
+        # clear buffer values
         self.values['target_x'] = []
         self.values['target_y'] = []
         self.values['target_radius'] = []

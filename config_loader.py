@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Jan  6 15:07:41 2024
+This code utilizes configparser and sys
 
-@author: Tobias Kurz
+Reads in the 'config.ini' from file and checks for profiles
+Prompts the user to choose a profile if multiple profiles are found
+
+If a value is not present in the profile, the default value is chosen.
+All parameters are allocated to the configuration class
+
 """
 
 import configparser
@@ -14,6 +19,7 @@ class configuration:
 
         self.config = configparser.ConfigParser()
 
+        # Read config.ini file
         try:
             self.config.read('config.ini')
         except:
@@ -21,6 +27,7 @@ class configuration:
 
         sections = self.config.sections()
 
+        # Check for multiple profiles
         if len(sections) > 1:
             print("Multiple Configurations Found:")
             for i in range(len(sections)):
@@ -41,7 +48,7 @@ class configuration:
 
         print(f"Profile '{self.profile}' loaded.")
 
-        ### Guider ###
+        # Guider #
         self.relay_pins = [int(self.config[self.profile]['pin_ra_down']),
                            int(self.config[self.profile]['pin_ra_up']),
                            int(self.config[self.profile]['pin_dec_down']),
@@ -56,7 +63,7 @@ class configuration:
         self.record_buffer = int(self.config[self.profile]['record_buffer'])
         self.rotate = int(self.config[self.profile]['rotate'])
 
-        ### Camera ###
+        # Camera #
         self.in_scale = float(self.config[self.profile]['in_scale'])
         self.image_size = (int(int(self.config[self.profile]['image_width'])
                                * self.in_scale),
@@ -64,14 +71,13 @@ class configuration:
                                * self.in_scale))
         self.image_buffer = int(self.config[self.profile]['image_buffer'])
 
-        ### Image Processing and Moon Detection ###
-
+        # Image Processing and Moon Detection #
         self.blur = int(self.config[self.profile]['blur'])
         self.param1 = int(self.config[self.profile]['param1'])
         self.param2 = int(self.config[self.profile]['param2'])
         self.dp = int(self.config[self.profile]['dp'])
 
-        ### General ###
+        # General #
         self.buffer_length = int(self.config[self.profile]['buffer_length'])
         self.overlay = eval(self.config[self.profile]['overlay'])
         self.out_scale = float(self.config[self.profile]['out_scale'])

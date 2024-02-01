@@ -1,25 +1,37 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Jan  9 22:41:42 2024
+Initializes and handles the actuation of the relay board during normal operation as well
+as cloud obstruction, calculates the required signals.
 
-@author: Tobias Kurz
+Threading is used for actuating the relays during image processing time.
+
+classes: guide
+
 """
-
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Nov 20 21:59:14 2023
-
-@author: Tobias Kurz
-"""
-
-
-
 
 import RPi.GPIO as GPIO
 import time
 import threading
+
+
 class guide:
     def __init__(self, log, config):
+        """
+        Initializes attributes from the configuration parameters and creates locks and threads
+        for the relay activation. If a rotation is set in the configuration, the order of the
+        relay pins will be switched accordingly. Initializes the Raspberry Pi GPIO and then
+        pulses every relay once.
+
+        Parameters
+        ----------
+        log : log instance from calc.py
+        config : configuration instance from config_loader.py
+
+        Returns
+        -------
+        None.
+
+        """
 
         self.active_deviation = (None, None)
         self.active = [False, False, False, False]
@@ -84,6 +96,8 @@ class guide:
 
         # Check if no target is found, deviation is none, therefore cloud mode will take over
         # Using self.active_deviation as basis for relay activation
+        # Returns: None
+
         if None in deviation:
             self.active_deviation = self.cloud_handling()
         else:
@@ -107,6 +121,8 @@ class guide:
 
     def cloud_handling(self):
         # If cloud mode is set to None, set deviation to 0 to turn off relays
+        # Returns deviation
+
         if self.cloud_mode is None:
             self.mode_info = "Inactive"
             return (0, 0)
@@ -121,16 +137,27 @@ class guide:
         return
 
     def record(self, deviation):
+        # Appends deviations to list of recordings
+
         self.deviation_records.append(deviation)
         if len(self.deviation_records) > self.record_buffer:
             self.deviation_records.pop(0)
         return
 
     def activate_ra(self):  # left right
+        """
+        Main functions for interpreting the deviation as a correction signal for the
+        respective axes. Checks for deviation within margin and calculates signal
+        length based on the deviation and pulse_multiplier. The functions for switching
+        the pins on and off will be called. Activity is communicated through the active
+        attribute and logged with a time-stamp. Will always be executed as threads.
+        """
+
+        # Set parameters as to not check in shared memory
         ad = self.active_deviation
         margin = self.margin
-
         xdev = ad[0]
+        # Check if deviation is over margin
         if abs(xdev) <= margin:
             pass
         else:
@@ -140,15 +167,18 @@ class guide:
             temp = (abs(xdev)) * self.pulse_multiplier
             duration = temp if temp < 3 else 3
 
+            # Report activated pins to list
             with self.active_lock:
                 self.active[0] = right
                 self.active[1] = left
 
             direction = 'right' if right else 'left'
 
+            # Log activity
             with self.log_lock:
                 self.log.add('Activity', [time.time(), duration, direction])
 
+            # Do the pulsing and set pins to off in info list
             self.switch_pin_on([right, left, False, False])
             time.sleep(duration)
             self.switch_pin_off([right, left, False, False])
@@ -157,10 +187,14 @@ class guide:
                 self.active[1] = 0
 
     def activate_dec(self):  # up down
+        """
+        Same as activate_ra but other axis
+        """
+        # Set parameters as to not check in shared memory
         ad = self.active_deviation
         margin = self.margin
-
         ydev = ad[1]
+        # Check if deviation is over margin
         if abs(ydev) <= margin:
             pass
         else:
@@ -170,15 +204,18 @@ class guide:
             temp = (abs(ydev)) * self.pulse_multiplier
             duration = temp if temp < 3 else 3
 
+            # Report activated pins to list
             with self.active_lock:
                 self.active[2] = down
                 self.active[3] = up
 
             direction = 'down' if down else 'up'
 
+            # Log activity
             with self.log_lock:
                 self.log.add('Activity', [time.time(), duration, direction])
 
+            # Do the pulsing and set pins to off in info list
             self.switch_pin_on([False, False, down, up])
             time.sleep(duration)
             self.switch_pin_off([False, False, down, up])
@@ -186,14 +223,16 @@ class guide:
                 self.active[2] = 0
                 self.active[3] = 0
 
-    def switch_pin_on(self, directions=['Right', 'Left', 'Down', 'Up']):
+    def switch_pin_on(self, directions=['Right', 'Left', 'Down', 'Up']):  # -RA, +RA, -DEC, +DEC
+        # Activate pins based on the order of booleans in the list
         with self.gpio_lock:
             for pin, direction in zip(self.relay_pins, directions):
                 if direction:
                     GPIO.output(pin, GPIO.LOW)
         return
 
-    def switch_pin_off(self, directions=['Right', 'Left', 'Down', 'Up']):
+    def switch_pin_off(self, directions=['Right', 'Left', 'Down', 'Up']):  # -RA, +RA, -DEC, +DEC
+        # Deactivate pins based on the order of booleans in the list
         with self.gpio_lock:
             for pin, direction in zip(self.relay_pins, directions):
                 if direction:
@@ -201,9 +240,11 @@ class guide:
         return
 
     def button_is_pressed(self):
+        # Check for button press and return True
         return GPIO.input(self.button_pin) == GPIO.LOW
 
     def pulse(self, pin, count=1, uptime=0.1, downtime=0.1):
+        # Pulse specified pin number
         for i in range(count):
             GPIO.output(pin, GPIO.LOW)
             time.sleep(uptime)
@@ -213,6 +254,7 @@ class guide:
         return
 
     def showactive(self):
+        # Return list of strings of active pins and mode info
         act = []
 
         if self.active[0]:
@@ -229,6 +271,7 @@ class guide:
         return(act)
 
     def stop(self):
+        # Terminate the guider safely
         print("Waiting for threads to finish...")
         self.activate_thread_ra.join()
         self.activate_thread_dec.join()
